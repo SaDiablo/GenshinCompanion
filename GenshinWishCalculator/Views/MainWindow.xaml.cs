@@ -81,60 +81,6 @@ namespace GenshinWishCalculator
             }
         }
 
-        private async void menuItemOpen_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                using (FileStream openStream = File.OpenRead("characterBanner.json"))
-                {
-                    _mainWindowViewModel.CharacterBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("weaponBanner.json"))
-                {
-                    _mainWindowViewModel.WeaponBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("standardBanner.json"))
-                {
-                    _mainWindowViewModel.StandardBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("noviceBanner.json"))
-                {
-                    _mainWindowViewModel.NoviceBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-
-            //switch (tabControlBanners.SelectedIndex)
-            //{
-            //    case 0:
-            //        bannerDisplay(listViewCharacterBanner, characterBanner);
-            //        break;
-            //    case 1:
-            //        bannerDisplay(listViewWeaponBanner, weaponBanner);
-            //        break;
-            //    case 2:
-            //        bannerDisplay(listViewStandardBanner, standardBanner);
-            //        break;
-            //    case 3:
-            //        bannerDisplay(listViewNoviceBanner, noviceBanner);
-            //        break;
-            //    default:
-            //        break;
-            //}
-        }
-
         private void buttonAddInput_Click(object sender, RoutedEventArgs e)
         {
             switch (tabControlBanners.SelectedIndex)

@@ -53,19 +53,22 @@ namespace GenshinWishCalculator.ViewModels
         private readonly DelegateCommand _saveBannersCommand;
         public ICommand SaveBannersCommand => _saveBannersCommand;
 
+        private readonly DelegateCommand _openBannersCommand;
+        public ICommand OpenBannersCommand => _openBannersCommand;
+
         public MainWindowViewModel() 
         {
             _startCountdownCommand = new DelegateCommand(_StartCountdown, () => !Running);
             _readInputCommand = new DelegateCommand(_ReadInput);
             _updateNumbersCommand = new DelegateCommand(_UpdateNumbers);
             _saveBannersCommand = new DelegateCommand(_SaveBanners);
+            _openBannersCommand = new DelegateCommand(_OpenBanners);
         }
 
         private void _OnRunningChanged(bool obj) => _startCountdownCommand.RaiseCanExecuteChanged();
 
-        private bool _UpdateField<T>(ref T field, T newValue,
-            Action<T> onChangedCallback = null,
-            [CallerMemberName] string propertyName = null)
+        private bool _UpdateField<T>(ref T field, T newValue, Action<T> onChangedCallback = null,
+                                     [CallerMemberName] string propertyName = null)
         {
             if (Equals(field, newValue))
             {
@@ -241,6 +244,42 @@ namespace GenshinWishCalculator.ViewModels
                     file.Write(json);
                 }
             }
+        }
+
+        private async void _OpenBanners()
+        {
+            try
+            {
+                using (FileStream openStream = File.OpenRead("characterBanner.json"))
+                {
+                    CharacterBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
+                }
+            }
+            catch (FileNotFoundException) { }
+            try
+            {
+                using (FileStream openStream = File.OpenRead("weaponBanner.json"))
+                {
+                    WeaponBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
+                }
+            }
+            catch (FileNotFoundException) { }
+            try
+            {
+                using (FileStream openStream = File.OpenRead("standardBanner.json"))
+                {
+                    StandardBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
+                }
+            }
+            catch (FileNotFoundException) { }
+            try
+            {
+                using (FileStream openStream = File.OpenRead("noviceBanner.json"))
+                {
+                    NoviceBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
+                }
+            }
+            catch (FileNotFoundException) { }
         }
     }
 }

@@ -24,7 +24,7 @@
     <Grid>
         <Menu Height="24" VerticalAlignment="Top">
             <MenuItem Header="File" Height="24" Width="Auto" Margin="4,0,0,0">
-                <MenuItem x:Name="menuItemOpen" Header="Open" HorizontalAlignment="Left" Width="140" Click="menuItemOpen_Click"/>
+                <MenuItem x:Name="menuItemOpen" Command="{Binding OpenBannersCommand}" Header="Open" HorizontalAlignment="Left" Width="140" />
                 <MenuItem x:Name="menuItemSave" Command="{Binding SaveBannersCommand}" Header="Save" HorizontalAlignment="Left" Width="140" />
                 <Separator HorizontalAlignment="Left" Height="1" Width="140"/>
                 <MenuItem x:Name="menuItemExit" Header="Exit" HorizontalAlignment="Left" Width="140" />
