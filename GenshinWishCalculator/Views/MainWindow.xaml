@@ -1,0 +1,220 @@
+﻿<Window x:Class="GenshinWishCalculator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:l="clr-namespace:GenshinWishCalculator" 
+        xmlns:Helpers="clr-namespace:GenshinWishCalculator.Helpers"
+        xmlns:viewModels="clr-namespace:GenshinWishCalculator.ViewModels"
+        xmlns:s="clr-namespace:System;assembly=mscorlib" 
+        mc:Ignorable="d"
+        Title="Genshin Wish Calculator" Height="450" Width="800" MinWidth="750" MinHeight="250">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        
+        <Helpers:UtcToLocalConverter x:Key="utcToLocalConverter1"/>
+        <Helpers:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter1"/>
+        <s:TimeSpan x:Key="timeSpanRoundTo1">00:00:01</s:TimeSpan>
+    </Window.Resources>
+
+    <Grid>
+        <Menu Height="24" VerticalAlignment="Top" Margin="4,0">
+            <MenuItem Header="File" Height="24" Width="Auto">
+                <MenuItem x:Name="menuItemOpen" Header="Open" HorizontalAlignment="Left" Width="140" Click="menuItemOpen_Click"/>
+                <MenuItem x:Name="menuItemSave" Header="Save" HorizontalAlignment="Left" Width="140" Click="menuItemSave_Click" />
+                <Separator HorizontalAlignment="Left" Height="1" Width="140"/>
+                <MenuItem x:Name="menuItemExit" Header="Exit" HorizontalAlignment="Left" Width="140" />
+            </MenuItem>
+        </Menu>
+        <Grid Margin="10,29,10,40">
+            <Grid.RowDefinitions>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="430" Width="Auto"/>
+                <ColumnDefinition MinWidth="300" Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TabControl x:Name="tabControlBanners" MaxWidth="450" SelectionChanged="tabControlBanners_SelectionChanged">
+                <TabItem Header="Character">
+                    <ListView x:Name="listViewCharacterBanner" Margin="0" ItemsSource="{Binding CharacterBanner}" HorizontalContentAlignment="Left">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>4</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FF7011CF" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>5</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FFCF9B11" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Item Type" Width="65" DisplayMemberBinding="{Binding DropType}"/>
+                                <GridViewColumn Header="Item Name" Width="180" DisplayMemberBinding="{Binding DropName}" />
+                                <GridViewColumn Header="Item Received" Width="150" DisplayMemberBinding="{Binding DropTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Weapon">
+                    <ListView x:Name="listViewWeaponBanner" Margin="0" ItemsSource="{Binding WeaponBanner}" HorizontalContentAlignment="Left">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>4</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FF7011CF" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>5</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FFCF9B11" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Item Type" Width="65" DisplayMemberBinding="{Binding DropType}"/>
+                                <GridViewColumn Header="Item Name" Width="180" DisplayMemberBinding="{Binding DropName}" />
+                                <GridViewColumn Header="Item Received" Width="150" DisplayMemberBinding="{Binding DropTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Standard">
+                    <ListView x:Name="listViewStandardBanner" Margin="0" ItemsSource="{Binding StandardBanner}" HorizontalContentAlignment="Left">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>4</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FF7011CF" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>5</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FFCF9B11" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Item Type" Width="65" DisplayMemberBinding="{Binding DropType}"/>
+                                <GridViewColumn Header="Item Name" Width="180" DisplayMemberBinding="{Binding DropName}" />
+                                <GridViewColumn Header="Item Received" Width="150" DisplayMemberBinding="{Binding DropTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Novice">
+                    <ListView x:Name="listViewNoviceBanner" Margin="0" ItemsSource="{Binding NoviceBanner}" HorizontalContentAlignment="Left">
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>4</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FF7011CF" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding DropRarity}">
+                                        <DataTrigger.Value>5</DataTrigger.Value>
+                                        <Setter Property="Background" Value="#FFCF9B11" />
+                                        <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Item Type" Width="65" DisplayMemberBinding="{Binding DropType}"/>
+                                <GridViewColumn Header="Item Name" Width="180" DisplayMemberBinding="{Binding DropName}" />
+                                <GridViewColumn Header="Item Received" Width="150" DisplayMemberBinding="{Binding DropTime, StringFormat='yyyy-MM-dd HH:mm:ss'}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+            <Grid Grid.Column="1" Margin="0,24,0,0" MinWidth="290" MaxWidth="300" Width="Auto">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100" MinWidth="100"/>
+                    <ColumnDefinition Width="125" MinWidth="115"/>
+                    <ColumnDefinition Width="75" MinWidth="75"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
+                <Label Content="Wish Count" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1"/>
+                <Label x:Name="labelWishCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1"/>
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center" Click="buttonAddInput_Click"/>
+                <Label Content="Primogems total" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2"/>
+                <Label x:Name="labelPrimogemsCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="2" Grid.Column="1"/>
+                <Label Content="Characters" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="3"/>
+                <Label x:Name="labelCharacterCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="3" Grid.Column="1"/>
+                <Label x:Name="labelCharacterPercentCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="3" Grid.Column="2"/>
+                <Label Content="4-Star drops" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4"/>
+                <Label x:Name="label4StarCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"/>
+                <Label x:Name="label4StarPercentCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="4" Grid.Column="2"/>
+                <Label Content="5-Star drops" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="5"/>
+                <Label x:Name="label5StarCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="5" Grid.Column="1"/>
+                <Label x:Name="label5StarPercentCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="5" Grid.Column="2"/>
+                <Label Content="Wishes till 5*" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6"/>
+                <Label x:Name="labelwishesTillPityCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6" Grid.Column="1"/>
+                <Label x:Name="labelwishesTillPityPrimogemsCount" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="6" Grid.Column="2"/>
+
+                <TextBlock Text="Duration: " Grid.Row="7"/>
+                <TextBox Text="{Binding Duration}" Grid.Row="7" Grid.Column="1"/>
+
+                <TextBlock Text="Start time:" Grid.Row="8"/>
+                <TextBlock Text="{Binding StartTime, Converter={StaticResource utcToLocalConverter1}}" Grid.Row="8" Grid.Column="1"/>
+
+                <TextBlock Text="Remaining time:" Grid.Row="9"/>
+                <TextBlock Text="{Binding RemainingTime,
+      StringFormat=hh\\:mm\\:ss,
+      Converter={StaticResource timeSpanRoundUpConverter1},
+      ConverterParameter={StaticResource timeSpanRoundTo1}}" Grid.Row="9" Grid.Column="1"/>
+
+                <Button Content="Start Countdown" Command="{Binding StartCountdownCommand}" Grid.Row="10" VerticalAlignment="Top"/>
+            </Grid>
+        </Grid>
+        <StatusBar Margin="0,0,0,0" VerticalAlignment="Bottom" Height="28">
+            <!--<StatusBarItem x:Name="statusBarInfo" Content="Resin: "/>-->
+            <StatusBarItem Content="{Binding RemainingTime, 
+                Converter={StaticResource timeSpanRoundUpConverter1}, 
+                ConverterParameter={StaticResource timeSpanRoundTo1}}" ContentStringFormat="Resin {0:hh:mm:ss} Resin" HorizontalAlignment="Right" />
+            <!--<TextBox Text="{Binding Duration}"/>
+            <TextBlock Text="{Binding StartTime, Converter={StaticResource utcToLocalConverter1}}"/>
+            <TextBlock Text="{Binding RemainingTime,
+              StringFormat=hh\\:mm\\:ss,
+              Converter={StaticResource timeSpanRoundUpConverter1},
+              ConverterParameter={StaticResource timeSpanRoundTo1}}"/>
+            <StatusBarItem Content="StatusBarItem" Height="28" VerticalAlignment="Top"/>
+            <Button Content="Start Countdown" Command="{Binding StartCountdownCommand}" VerticalAlignment="Top"/>-->
+        </StatusBar>
+
+    </Grid>
+</Window>
