@@ -102,7 +102,7 @@
     <Compile Include="Helpers\TimeSpanRoundUpConverter.cs" />
     <Compile Include="Helpers\UtcToLocalConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="WishDrop.cs" />
+    <Compile Include="Models\WishDrop.cs" />
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

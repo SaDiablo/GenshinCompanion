@@ -33,18 +33,18 @@ namespace GenshinWishCalculator
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = _mainWindowViewModel;
+            DataContext = _mainWindowViewModel;
         }
 
-        private void bannerDisplay(ListView listView, Banner activeBanner)
-        {
-            if(activeBanner != null)
-            {
-                //listView.ItemsSource = activeBanner.WishList;
-                //listView.UpdateLayout();
-                updateWishNumbers(activeBanner);
-            }
-        }
+        //private void bannerDisplay(ListView listView, Banner activeBanner)
+        //{
+        //    if(activeBanner != null)
+        //    {
+        //        //listView.ItemsSource = activeBanner.WishList;
+        //        //listView.UpdateLayout();
+        //        updateWishNumbers(activeBanner);
+        //    }
+        //}
 
         private void updateWishNumbers(Banner activeBanner)
         {
@@ -133,46 +133,6 @@ namespace GenshinWishCalculator
             //    default:
             //        break;
             //}
-        }
-
-        private void menuItemSave_Click(object sender, RoutedEventArgs e)
-        {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-            if (_mainWindowViewModel.CharacterBanner != null & _mainWindowViewModel.CharacterBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("characterBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(_mainWindowViewModel.CharacterBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (_mainWindowViewModel.WeaponBanner != null & _mainWindowViewModel.WeaponBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("weaponBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(_mainWindowViewModel.WeaponBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (_mainWindowViewModel.StandardBanner != null & _mainWindowViewModel.StandardBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("standardBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(_mainWindowViewModel.StandardBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (_mainWindowViewModel.NoviceBanner != null & _mainWindowViewModel.NoviceBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("noviceBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(_mainWindowViewModel.NoviceBanner, options);
-                    file.Write(json);
-                }
-            }
         }
 
         private void buttonAddInput_Click(object sender, RoutedEventArgs e)

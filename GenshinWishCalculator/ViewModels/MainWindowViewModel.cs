@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -11,94 +13,63 @@ namespace GenshinWishCalculator.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private TimeSpan _duration;
-        public TimeSpan Duration
-        {
-            get { return _duration; }
-            set { _UpdateField(ref _duration, value); }
-        }
+        public TimeSpan Duration { get => _duration; set => _UpdateField(ref _duration, value); }
 
         private DateTime? _startTime;
-        public DateTime? StartTime
-        {
-            get { return _startTime; }
-            private set { _UpdateField(ref _startTime, value); }
-        }
+        public DateTime? StartTime { get => _startTime; set => _UpdateField(ref _startTime, value); }
 
         private TimeSpan _remainingTime;
-        public TimeSpan RemainingTime
-        {
-            get { return _remainingTime; }
-            private set { _UpdateField(ref _remainingTime, value); }
-        }
+        public TimeSpan RemainingTime { get => _remainingTime; set => _UpdateField(ref _remainingTime, value); }
 
         private bool _running;
-        public bool Running
-        {
-            get { return _running; }
-            private set { _UpdateField(ref _running, value, _OnRunningChanged); }
-        }
+        public bool Running { get => _running; set => _UpdateField(ref _running, value, _OnRunningChanged); }
 
-        private Banner _characterBanner = new Banner(Type.Character);
-        public Banner CharacterBanner
-        {
-            get { return _characterBanner; }
-            set { _UpdateField(ref _characterBanner, value); }
-        }
+        private Banner _characterBanner = new Banner(BannerType.Character);
+        public Banner CharacterBanner { get => _characterBanner; set => _UpdateField(ref _characterBanner, value); }
 
-        private Banner _weaponBanner = new Banner(Type.Weapon);
-        public Banner WeaponBanner
-        {
-            get { return _weaponBanner; }
-            set { _UpdateField(ref _weaponBanner, value); }
-        }
+        private Banner _weaponBanner = new Banner(BannerType.Weapon);
+        public Banner WeaponBanner { get => _weaponBanner; set => _UpdateField(ref _weaponBanner, value); }
 
-        private Banner _standardBanner = new Banner(Type.Standard);
-        public Banner StandardBanner
-        {
-            get { return _standardBanner; }
-            set { _UpdateField(ref _standardBanner, value); }
-        }
+        private Banner _standardBanner = new Banner(BannerType.Standard);
+        public Banner StandardBanner { get => _standardBanner; set => _UpdateField(ref _standardBanner, value); }
 
-        private Banner _noviceBanner = new Banner(Type.Novice);
-        public Banner NoviceBanner
-        {
-            get { return _noviceBanner; }
-            set { _UpdateField(ref _noviceBanner, value); }
-        }
+        private Banner _noviceBanner = new Banner(BannerType.Novice);
+        public Banner NoviceBanner { get => _noviceBanner; set => _UpdateField(ref _noviceBanner, value); }
 
         private string _inputString;
-        public string InputString
-        {
-            get { return _inputString; }
-            set { _UpdateField(ref _inputString, value); }
-        }
+        public string InputString { get => _inputString; set => _UpdateField(ref _inputString, value); }
 
         public event PropertyChangedEventHandler PropertyChanged;
         
         private readonly DelegateCommand _startCountdownCommand;
-        public ICommand StartCountdownCommand { get { return _startCountdownCommand; } }
-        
-        private readonly DelegateCommand _readInputCommand;
-        public ICommand ReadInputCommand { get { return _readInputCommand; } }
+        public ICommand StartCountdownCommand => _startCountdownCommand;
 
-        public MainWindowViewModel()
+        private readonly DelegateCommand _readInputCommand;
+        public ICommand ReadInputCommand => _readInputCommand;
+
+        private readonly DelegateCommand _updateNumbersCommand;
+        public ICommand UpdateNumbersCommand => _updateNumbersCommand;
+
+        private readonly DelegateCommand _saveBannersCommand;
+        public ICommand SaveBannersCommand => _saveBannersCommand;
+
+        public MainWindowViewModel() 
         {
             _startCountdownCommand = new DelegateCommand(_StartCountdown, () => !Running);
             _readInputCommand = new DelegateCommand(_ReadInput);
+            _updateNumbersCommand = new DelegateCommand(_UpdateNumbers);
+            _saveBannersCommand = new DelegateCommand(_SaveBanners);
         }
 
-        private void _OnRunningChanged(bool obj)
-        {
-            _startCountdownCommand.RaiseCanExecuteChanged();
-        }
+        private void _OnRunningChanged(bool obj) => _startCountdownCommand.RaiseCanExecuteChanged();
 
-        private void _UpdateField<T>(ref T field, T newValue,
+        private bool _UpdateField<T>(ref T field, T newValue,
             Action<T> onChangedCallback = null,
             [CallerMemberName] string propertyName = null)
         {
-            if (EqualityComparer<T>.Default.Equals(field, newValue))
+            if (Equals(field, newValue))
             {
-                return;
+                return false;
             }
 
             T oldValue = field;
@@ -106,18 +77,7 @@ namespace GenshinWishCalculator.ViewModels
             field = newValue;
             onChangedCallback?.Invoke(oldValue);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!(object.Equals(field, newValue)))
-            {
-                field = (newValue);
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
         private async void _StartCountdown()
@@ -206,6 +166,81 @@ namespace GenshinWishCalculator.ViewModels
             RemainingTime = TimeSpan.Zero;
             StartTime = null;
             Running = false;
+        }
+
+        private void _UpdateNumbers()
+        {
+            //if (activeBanner != null & activeBanner.WishList.Count > 0)
+            //{
+            //    //todo
+            //    int wishCount = activeBanner.WishList.Count;
+            //    int characterCount = activeBanner.WishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
+            //    int fourStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
+            //    int fiveStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
+            //    //check if exists
+            //    //int wishesTill5Star = activeBanner.WishList.FindIndex(s => s.DropRarity.Equals(5)) + 1;
+            //    int wishesTill5Star = activeBanner.WishList.Count;
+            //    try
+            //    {
+            //        wishesTill5Star = activeBanner.WishList.Select((wish, index) => new { wish, index }).Where(s => s != null && s.wish.DropRarity.Equals(5)).First().index + 1;
+            //    }
+            //    catch (InvalidOperationException) { }
+
+            //    double characterPercentCount = (double)characterCount / (double)wishCount;
+            //    double fourStarPercentCount = (double)fourStarCount / (double)wishCount;
+            //    double fiveStarPercentCount = (double)fiveStarCount / (double)wishCount;
+
+            //    labelWishCount.Content = wishCount;
+            //    labelPrimogemsCount.Content = wishCount * 160;
+            //    labelCharacterCount.Content = characterCount;
+            //    labelCharacterPercentCount.Content = characterPercentCount.ToString("P2");
+            //    label4StarCount.Content = fourStarCount;
+            //    label4StarPercentCount.Content = fourStarPercentCount.ToString("P2");
+            //    label5StarCount.Content = fiveStarCount;
+            //    label5StarPercentCount.Content = fiveStarPercentCount.ToString("P2");
+            //    labelwishesTillPityCount.Content = activeBanner.PityLimit - wishesTill5Star;
+            //    labelwishesTillPityPrimogemsCount.Content = (activeBanner.PityLimit - wishesTill5Star) * 160;
+            //}
+        }
+
+        private void _SaveBanners()
+        {
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+            };
+            if (CharacterBanner != null & CharacterBanner.WishList.Count > 0)
+            {
+                using (StreamWriter file = File.CreateText("characterBanner.json"))
+                {
+                    var json = JsonSerializer.Serialize(CharacterBanner, options);
+                    file.Write(json);
+                }
+            }
+            if (WeaponBanner != null & WeaponBanner.WishList.Count > 0)
+            {
+                using (StreamWriter file = File.CreateText("weaponBanner.json"))
+                {
+                    var json = JsonSerializer.Serialize(WeaponBanner, options);
+                    file.Write(json);
+                }
+            }
+            if (StandardBanner != null & StandardBanner.WishList.Count > 0)
+            {
+                using (StreamWriter file = File.CreateText("standardBanner.json"))
+                {
+                    var json = JsonSerializer.Serialize(StandardBanner, options);
+                    file.Write(json);
+                }
+            }
+            if (NoviceBanner != null & NoviceBanner.WishList.Count > 0)
+            {
+                using (StreamWriter file = File.CreateText("noviceBanner.json"))
+                {
+                    var json = JsonSerializer.Serialize(NoviceBanner, options);
+                    file.Write(json);
+                }
+            }
         }
     }
 }

@@ -12,10 +12,6 @@ namespace GenshinWishCalculator.Helpers
         private readonly Action _command;
         private readonly Func<bool> _canExecute;
         public event EventHandler CanExecuteChanged;
-        //{
-        //    add { CommandManager.RequerySuggested += value; }
-        //    remove { CommandManager.RequerySuggested -= value; }
-        //}
 
         public DelegateCommand(Action command, Func<bool> canExecute = null)
         {
@@ -25,22 +21,10 @@ namespace GenshinWishCalculator.Helpers
             _command = command;
         }
 
-        public void Execute(object parameter)
-        {
-            _command();
-        }
+        public void Execute(object parameter) => _command();
 
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute == null || _canExecute();
-        }
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
 
-        public void RaiseCanExecuteChanged()
-        {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
-        }
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }
