@@ -10,7 +10,7 @@ namespace GenshinWishCalculator.Helpers
 {
     class TimeSpanRoundUpConverter : IValueConverter
     {
-        public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (!(value is TimeSpan && parameter is TimeSpan))
             {
@@ -32,7 +32,7 @@ namespace GenshinWishCalculator.Helpers
             return TimeSpan.FromMilliseconds((fraction == 0 ? wholeMultiple : wholeMultiple + 1) * quantization);
         }
 
-        public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

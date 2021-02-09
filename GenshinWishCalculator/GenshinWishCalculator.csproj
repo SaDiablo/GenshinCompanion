@@ -99,8 +99,10 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\NotificationObject.cs" />
+    <Compile Include="Helpers\TimerToResinConverter.cs" />
     <Compile Include="Helpers\TimeSpanRoundUpConverter.cs" />
     <Compile Include="Helpers\UtcToLocalConverter.cs" />
+    <Compile Include="Models\ResinTimer.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Models\WishDrop.cs" />
     <Page Include="Views\MainWindow.xaml">
