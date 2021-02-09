@@ -25,26 +25,12 @@ namespace GenshinWishCalculator
     public partial class MainWindow : Window
     {
         MainWindowViewModel _mainWindowViewModel = new MainWindowViewModel();
-        //public static Banner characterBanner = new Banner(Type.Character);
-        //public static Banner weaponBanner = new Banner(Type.Weapon);
-        //public static Banner standardBanner = new Banner(Type.Standard);
-        //public static Banner noviceBanner = new Banner(Type.Novice);
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = _mainWindowViewModel;
         }
-
-        //private void bannerDisplay(ListView listView, Banner activeBanner)
-        //{
-        //    if(activeBanner != null)
-        //    {
-        //        //listView.ItemsSource = activeBanner.WishList;
-        //        //listView.UpdateLayout();
-        //        updateWishNumbers(activeBanner);
-        //    }
-        //}
 
         private void updateWishNumbers(Banner activeBanner)
         {
@@ -95,23 +81,12 @@ namespace GenshinWishCalculator
 
         private void tabControlBanners_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            switch (tabControlBanners.SelectedIndex)
-            {
-                case 0:
-                    updateWishNumbers(_mainWindowViewModel.CharacterBanner);
-                    break;
-                case 1:
-                    updateWishNumbers(_mainWindowViewModel.WeaponBanner);
-                    break;
-                case 2:
-                    updateWishNumbers(_mainWindowViewModel.StandardBanner);
-                    break;
-                case 3:
-                    updateWishNumbers(_mainWindowViewModel.NoviceBanner);
-                    break;
-                default:
-                    break;
-            }
+            updateWishNumbers(_mainWindowViewModel.ActiveBanner);
+        }
+
+        private void buttonAddInput_Click(object sender, RoutedEventArgs e)
+        {
+            updateWishNumbers(_mainWindowViewModel.ActiveBanner);
         }
     }
 }

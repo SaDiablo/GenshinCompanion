@@ -161,7 +161,7 @@
                 <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text="{Binding InputString}" VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
                 <Label Content="Wish Count" Grid.Row="1"/>
                 <Label x:Name="labelWishCount" Content="0" Grid.Row="1" Grid.Column="1"/>
-                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center"
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center" Click="buttonAddInput_Click"
                         Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}"/>
                 <Label Content="Primogems total" Grid.Row="2"/>
                 <Label x:Name="labelPrimogemsCount" Content="0" Grid.Row="2" Grid.Column="1"/>
