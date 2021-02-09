@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace GenshinWishCalculator.ViewModels
 {
-    public class MainWindowViewModel : INotifyPropertyChanged
+    public class MainWindowViewModel : INotifyPropertyChanged //, IActiveAware
     {
         private TimeSpan _duration;
         public TimeSpan Duration { get => _duration; set => _UpdateField(ref _duration, value); }
@@ -25,27 +25,52 @@ namespace GenshinWishCalculator.ViewModels
         public bool Running { get => _running; set => _UpdateField(ref _running, value, _OnRunningChanged); }
 
         private Banner _characterBanner = new Banner(BannerType.Character);
-        public Banner CharacterBanner { get => _characterBanner; set => _UpdateField(ref _characterBanner, value); }
+        public Banner CharacterBanner { get => _characterBanner; set { _UpdateField(ref _characterBanner, value); _UpdateField(ref _activeBanner, value); } }
 
         private Banner _weaponBanner = new Banner(BannerType.Weapon);
-        public Banner WeaponBanner { get => _weaponBanner; set => _UpdateField(ref _weaponBanner, value); }
+        public Banner WeaponBanner { get => _weaponBanner; set { _UpdateField(ref _weaponBanner, value); _UpdateField(ref _activeBanner, value); } }
 
         private Banner _standardBanner = new Banner(BannerType.Standard);
-        public Banner StandardBanner { get => _standardBanner; set => _UpdateField(ref _standardBanner, value); }
+        public Banner StandardBanner { get => _standardBanner; set { _UpdateField(ref _standardBanner, value); _UpdateField(ref _activeBanner, value); } }
 
         private Banner _noviceBanner = new Banner(BannerType.Novice);
-        public Banner NoviceBanner { get => _noviceBanner; set => _UpdateField(ref _noviceBanner, value); }
+        public Banner NoviceBanner { get => _noviceBanner; set { _UpdateField(ref _noviceBanner, value); _UpdateField(ref _activeBanner, value); }  }
+
+        private Banner _activeBanner;
+        public Banner ActiveBanner 
+        { 
+            get
+            {
+                switch (TabBannersIndex)
+                {
+                    case 0:
+                        return CharacterBanner;
+                    case 1:
+                        return WeaponBanner;
+                    case 2:
+                        return StandardBanner;
+                    case 3:
+                        return NoviceBanner;
+                    default:
+                        break;
+                }
+                return _activeBanner;
+            } 
+        }
 
         private string _inputString;
         public string InputString { get => _inputString; set => _UpdateField(ref _inputString, value); }
+
+        private int _tabBannersIndex;
+        public int TabBannersIndex { get => _tabBannersIndex; set => _UpdateField(ref _tabBannersIndex, value); }
 
         public event PropertyChangedEventHandler PropertyChanged;
         
         private readonly DelegateCommand _startCountdownCommand;
         public ICommand StartCountdownCommand => _startCountdownCommand;
 
-        private readonly DelegateCommand _readInputCommand;
-        public ICommand ReadInputCommand => _readInputCommand;
+        private readonly DelegateCommand _addWishesCommand;
+        public ICommand AddWishesCommand => _addWishesCommand;
 
         private readonly DelegateCommand _updateNumbersCommand;
         public ICommand UpdateNumbersCommand => _updateNumbersCommand;
@@ -59,7 +84,7 @@ namespace GenshinWishCalculator.ViewModels
         public MainWindowViewModel() 
         {
             _startCountdownCommand = new DelegateCommand(_StartCountdown, () => !Running);
-            _readInputCommand = new DelegateCommand(_ReadInput);
+            _addWishesCommand = new DelegateCommand(_AddWishesCommand);
             _updateNumbersCommand = new DelegateCommand(_UpdateNumbers);
             _saveBannersCommand = new DelegateCommand(_SaveBanners);
             _openBannersCommand = new DelegateCommand(_OpenBanners);
@@ -126,49 +151,26 @@ namespace GenshinWishCalculator.ViewModels
             Running = false;
         }
 
-        private async void _ReadInput()
+        private void _AddWishesCommand()
         {
-            Running = true;
-
-            // NOTE: UTC times used internally to ensure proper operation
-            // across Daylight Saving Time changes. An IValueConverter can
-            // be used to present the user a local time.
-
-            // NOTE: RemainingTime is the raw data. It may be desirable to
-            // use an IValueConverter to always round up to the nearest integer
-            // value for whatever is the least-significant component displayed
-            // (e.g. minutes, seconds, milliseconds), so that the displayed
-            // value doesn't reach the zero value until the timer has completed.
-
-            DateTime startTime = DateTime.UtcNow, endTime = startTime + Duration;
-            TimeSpan remainingTime, interval = TimeSpan.FromMilliseconds(100);
-
-            StartTime = startTime;
-            remainingTime = endTime - startTime;
-
-
-
-            while (remainingTime > TimeSpan.Zero)
+            switch (TabBannersIndex)
             {
-                RemainingTime = remainingTime;
-                if (RemainingTime < interval)
-                {
-                    interval = RemainingTime;
-                }
-
-                // NOTE: arbitrary update rate of 100 ms (initialized above). This
-                // should be a value at least somewhat less than the minimum precision
-                // displayed (e.g. here it's 1/10th the displayed precision of one
-                // second), to avoid potentially distracting/annoying "stutters" in
-                // the countdown.
-
-                await Task.Delay(interval);
-                remainingTime = endTime - DateTime.UtcNow;
+                case 0:
+                    CharacterBanner.AddRange(InputString);
+                    break;
+                case 1:
+                    WeaponBanner.AddRange(InputString);
+                    break;
+                case 2:
+                    StandardBanner.AddRange(InputString);
+                    break;
+                case 3:
+                    NoviceBanner.AddRange(InputString);
+                    break;
+                default:
+                    break;
             }
-
-            RemainingTime = TimeSpan.Zero;
-            StartTime = null;
-            Running = false;
+            InputString = String.Empty;
         }
 
         private void _UpdateNumbers()

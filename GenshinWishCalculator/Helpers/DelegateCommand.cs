@@ -27,4 +27,25 @@ namespace GenshinWishCalculator.Helpers
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    public class DelegateCommand<T> : ICommand
+    {
+        private readonly Action<T> _command;
+        private readonly Func<T, bool> _canExecute;
+        public event EventHandler CanExecuteChanged;
+
+        public DelegateCommand(Action<T> command, Func<T, bool> canExecute = null)
+        {
+            if (command == null)
+                throw new ArgumentNullException();
+            _canExecute = canExecute;
+            _command = command;
+        }
+
+        public void Execute(object parameter) => _command((T)parameter);
+
+        public bool CanExecute(object parameter) => _canExecute == null || _canExecute((T)parameter);
+
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
 }

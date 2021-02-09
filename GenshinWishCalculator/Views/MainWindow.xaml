@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="1.3*" MaxWidth="400"/>
                 <ColumnDefinition Width="1*" MaxWidth="375"/>
             </Grid.ColumnDefinitions>
-            <TabControl x:Name="tabControlBanners" SelectionChanged="tabControlBanners_SelectionChanged">
+            <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}" SelectionChanged="tabControlBanners_SelectionChanged">
                 <TabItem Header="Character">
                     <ListView x:Name="listViewCharacterBanner" Margin="0" ItemsSource="{Binding CharacterBanner.WishList, UpdateSourceTrigger=PropertyChanged}" >
                         <ListView.Resources>
@@ -158,20 +158,21 @@
                     <ColumnDefinition MinWidth="75"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
+                <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text="{Binding InputString}" VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
                 <Label Content="Wish Count" Grid.Row="1"/>
                 <Label x:Name="labelWishCount" Content="0" Grid.Row="1" Grid.Column="1"/>
-                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center" Click="buttonAddInput_Click"/>
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center"
+                        Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}"/>
                 <Label Content="Primogems total" Grid.Row="2"/>
                 <Label x:Name="labelPrimogemsCount" Content="0" Grid.Row="2" Grid.Column="1"/>
                 <Label Content="Characters" Grid.Row="3"/>
                 <Label x:Name="labelCharacterCount" Content="0" Grid.Row="3" Grid.Column="1"/>
                 <Label x:Name="labelCharacterPercentCount" Content="0" Grid.Row="3" Grid.Column="2"/>
                 <Label Content="4-Star drops" Grid.Row="4"/>
-                <Label x:Name="label4StarCount" Content="0" Grid.Row="4" Grid.Column="1"/>
+                <Label x:Name="label4StarCount" Content="{Binding CharacterBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
                 <Label x:Name="label4StarPercentCount" Content="0" Grid.Row="4" Grid.Column="2"/>
                 <Label Content="5-Star drops" Grid.Row="5"/>
-                <Label x:Name="label5StarCount" Content="0" Grid.Row="5" Grid.Column="1"/>
+                <Label x:Name="label5StarCount" Content="{Binding CharacterBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
                 <Label x:Name="label5StarPercentCount" Content="0" Grid.Row="5" Grid.Column="2"/>
                 <Label Content="Wishes till 5*" Grid.Row="6"/>
                 <Label x:Name="labelwishesTillPityCount" Content="0" Grid.Row="6" Grid.Column="1"/>

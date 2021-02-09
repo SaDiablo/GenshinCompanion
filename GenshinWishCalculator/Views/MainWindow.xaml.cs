@@ -51,18 +51,17 @@ namespace GenshinWishCalculator
             if (activeBanner != null & activeBanner.WishList.Count > 0)
             {
                 //todo
-                int wishCount = activeBanner.WishList.Count;
-                int characterCount = activeBanner.WishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
-                int fourStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
-                int fiveStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
+                //int characterCount = activeBanner.WishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
+                //int fourStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
+                //int fiveStarCount = activeBanner.WishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
                 //check if exists
                 //int wishesTill5Star = activeBanner.WishList.FindIndex(s => s.DropRarity.Equals(5)) + 1;
-                int wishesTill5Star = activeBanner.WishList.Count;
-                try
-                {
-                    wishesTill5Star = activeBanner.WishList.Select((wish, index) => new { wish, index }).Where(s => s != null && s.wish.DropRarity.Equals(5)).First().index + 1;
-                }
-                catch (InvalidOperationException) { }
+
+                int wishCount = activeBanner.WishList.Count;
+                int characterCount = activeBanner.CharacterCount;
+                int fourStarCount = activeBanner.FourStarCount;
+                int fiveStarCount = activeBanner.FiveStarCount;
+                int wishesTill5Star = activeBanner.WishesTill5Star;
                 
                 double characterPercentCount = (double)characterCount / (double)wishCount;
                 double fourStarPercentCount = (double)fourStarCount / (double)wishCount;
@@ -79,32 +78,19 @@ namespace GenshinWishCalculator
                 labelwishesTillPityCount.Content = activeBanner.PityLimit - wishesTill5Star;
                 labelwishesTillPityPrimogemsCount.Content = (activeBanner.PityLimit - wishesTill5Star) * 160;
             }
-        }
-
-        private void buttonAddInput_Click(object sender, RoutedEventArgs e)
-        {
-            switch (tabControlBanners.SelectedIndex)
+            else if (labelWishCount != null & activeBanner.WishList.Count == 0)
             {
-                case 0:
-                    _mainWindowViewModel.CharacterBanner.AddRange(textBoxBannerInput.Text);
-                    updateWishNumbers(_mainWindowViewModel.CharacterBanner);
-                    break;
-                case 1:
-                    _mainWindowViewModel.WeaponBanner.AddRange(textBoxBannerInput.Text);
-                    updateWishNumbers(_mainWindowViewModel.WeaponBanner);
-                    break;
-                case 2:
-                    _mainWindowViewModel.StandardBanner.AddRange(textBoxBannerInput.Text);
-                    updateWishNumbers(_mainWindowViewModel.StandardBanner);
-                    break;
-                case 3:
-                    _mainWindowViewModel.NoviceBanner.AddRange(textBoxBannerInput.Text);
-                    updateWishNumbers(_mainWindowViewModel.NoviceBanner);
-                    break;
-                default:
-                    break;
+                labelWishCount.Content = 0;
+                labelPrimogemsCount.Content = 0;
+                labelCharacterCount.Content = 0;
+                labelCharacterPercentCount.Content = 0;
+                label4StarCount.Content = 0;
+                label4StarPercentCount.Content = 0;
+                label5StarCount.Content = 0;
+                label5StarPercentCount.Content = 0;
+                labelwishesTillPityCount.Content = 0;
+                labelwishesTillPityPrimogemsCount.Content = 0;
             }
-            textBoxBannerInput.Text = "";
         }
 
         private void tabControlBanners_SelectionChanged(object sender, SelectionChangedEventArgs e)
