@@ -11,13 +11,24 @@ namespace GenshinWishCalculator.Models
     public class ResinTimer : INotifyPropertyChanged
     {
         private TimeSpan _duration;
-        public TimeSpan Duration { get => _duration; set => _UpdateField(ref _duration, value); }
+        public TimeSpan Duration 
+        { 
+            get => _duration; 
+            set 
+            {
+                EndTime = DateTime.UtcNow + value;
+                _UpdateField(ref _duration, value);
+            }
+        }
 
         private DateTime? _startTime;
         public DateTime? StartTime { get => _startTime; set => _UpdateField(ref _startTime, value); }
 
         private TimeSpan _remainingTime;
         public TimeSpan RemainingTime { get => _remainingTime; set => _UpdateField(ref _remainingTime, value); }
+
+        private DateTime? _endTime;
+        public DateTime? EndTime { get => _endTime; set => _UpdateField(ref _endTime, value); }
 
         private bool _running;
         public bool Running { get => _running; set => _running = value; }
@@ -54,11 +65,13 @@ namespace GenshinWishCalculator.Models
             // (e.g. minutes, seconds, milliseconds), so that the displayed
             // value doesn't reach the zero value until the timer has completed.
 
-            DateTime startTime = DateTime.UtcNow, endTime = startTime + Duration;
+            DateTime startTime = DateTime.UtcNow; 
+            //EndTime = startTime + Duration;
             TimeSpan remainingTime, interval = TimeSpan.FromMilliseconds(500);
 
             StartTime = startTime;
-            remainingTime = endTime - startTime;
+
+            remainingTime = (EndTime - startTime) ?? TimeSpan.Zero;
 
             while (remainingTime > TimeSpan.Zero)
             {
@@ -76,7 +89,7 @@ namespace GenshinWishCalculator.Models
                 // the countdown.
                 
                 await Task.Delay(interval);
-                remainingTime = endTime - DateTime.UtcNow;
+                remainingTime = EndTime.Value - DateTime.UtcNow;
             }
 
             RemainingTime = TimeSpan.Zero;

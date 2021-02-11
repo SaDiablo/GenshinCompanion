@@ -76,13 +76,18 @@ namespace GenshinWishCalculator.ViewModels
         private readonly DelegateCommand _openBannersCommand;
         public ICommand OpenBannersCommand => _openBannersCommand;
 
+        private readonly DelegateCommand<string> _editRemainingTimeCommand;
+        public ICommand EditRemainingTimeCommand => _editRemainingTimeCommand;
+
         public MainWindowViewModel() 
         {
             _startCountdownCommand = new DelegateCommand(Timer._StartCountdown, () => !Running);
+            _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
             _addWishesCommand = new DelegateCommand(_AddWishesCommand);
             _updateNumbersCommand = new DelegateCommand(_UpdateNumbers);
             _saveBannersCommand = new DelegateCommand(_SaveBanners);
             _openBannersCommand = new DelegateCommand(_OpenBanners);
+            
         }
 
         private void _OnRunningChanged(bool obj) => _startCountdownCommand.RaiseCanExecuteChanged();
@@ -101,6 +106,22 @@ namespace GenshinWishCalculator.ViewModels
             onChangedCallback?.Invoke(oldValue);
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             return true;
+        }
+
+        private void _EditRemainingTime(string obj)
+        {
+            // Deal with negative numbers/stopping the timer/reseting it
+            switch (obj)
+            {
+                case "-20":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
+                    break;
+                case "+20":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void _AddWishesCommand()

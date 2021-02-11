@@ -178,26 +178,22 @@
                 <Label Content="Wishes till 5*" Grid.Row="6"/>
                 <Label x:Name="labelwishesTillPityCount" Content="0" Grid.Row="6" Grid.Column="1"/>
                 <Label x:Name="labelwishesTillPityPrimogemsCount" Content="0" Grid.Row="6" Grid.Column="2"/>
-
-                <Label Content="Duration: " Grid.Row="7"/>
-                <TextBox Text="{Binding Timer.Duration}" Grid.Row="7" Grid.Column="1"/>
-
-                <Label Content="Start time:" Grid.Row="8"/>
-                <TextBlock Text="{Binding Timer.StartTime, Converter={StaticResource utcToLocalConverter1}}" Grid.Row="8" Grid.Column="1"/>
-
-                <Label Content="Remaining time:" Grid.Row="9"/>
-                <TextBlock Text="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}, StringFormat=hh\\:mm\\:ss}" Grid.Row="9" Grid.Column="1"/>
-
-                <Button Content="Start Countdown" Command="{Binding StartCountdownCommand}" VerticalAlignment="Center" Grid.Column="2" Grid.Row="9" Margin="2,2,2,2"/>
+                
             </Grid>
         </Grid>
         <StatusBar Margin="0,0,0,0" VerticalAlignment="Bottom" Height="28">
             <!--<StatusBarItem x:Name="statusBarInfo" Content="Resin: "/>-->
-            <ToolBarPanel Width="200" Height="28" Orientation="Horizontal">
-                <StatusBarItem Content="Resin: ("/>
-                <StatusBarItem Content="{Binding Timer.RemainingTime, Converter={StaticResource timerToResinConverter1}}"/>
-                <StatusBarItem Content="/ 160 )"/>
-                <StatusBarItem Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}}" ContentStringFormat="Resin: {0:hh:mm:ss}"/>
+            <ToolBarPanel Width="750" Height="28" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StatusBarItem Content="Resin" VerticalAlignment="Top"/>
+                <Button Content="-20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" VerticalAlignment="Top" Margin="2,2,2,2" Width="25"/>
+                <StatusBarItem Content="{Binding Path=Timer.RemainingTime, Converter={StaticResource timerToResinConverter1}}" ContentStringFormat="({0}/160)" VerticalAlignment="Top"/>
+                <Button Content="+20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" VerticalAlignment="Top" Margin="2,2,2,2" Width="25"/>
+                <StatusBarItem Content="    Fully replenished in" VerticalAlignment="Top"/>
+                <StatusBarItem Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}}" ContentStringFormat="Resin: {0:hh:mm:ss}" VerticalAlignment="Top"/>
+
+                <StatusBarItem Content="    Enter time here:" VerticalAlignment="Top"/>
+                <TextBox Text="{Binding Timer.Duration}" Margin="2,2,2,2" VerticalAlignment="Top"/>
+                <Button Content="Start" Command="{Binding StartCountdownCommand}" VerticalAlignment="Top" Margin="2,2,2,2"/>
             </ToolBarPanel>
 
             <!--<TextBox Text="{Binding Duration}"/>
