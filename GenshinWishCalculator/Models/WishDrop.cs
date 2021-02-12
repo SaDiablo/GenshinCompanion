@@ -16,22 +16,12 @@ namespace GenshinWishCalculator
 {
     public class Banner : INotifyPropertyChanged
     {
+        private BindingList<WishDrop> _wishList = new BindingList<WishDrop>();
+        private BannerType _bannerType;
+        private int _pityLimit;
+
         private static DateTime genshinImpactStartTime = new DateTime(2020, 09, 28);
         private TimeSpan daysSince5Star = DateTime.Now - genshinImpactStartTime;
-        private BannerType _bannerType;
-        private BindingList<WishDrop> _wishList = new BindingList<WishDrop>();
-        private int _pityLimit;
-        private int _characterCount;// = wishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
-        // = wishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
-        private int _fiveStarCount;// = wishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
-        private int _wishesTill5Star;// wishList.FindIndex(s => s.DropRarity.Equals(5)) + 1;
-                                     //try
-                                     //{
-                                     //    wishesTill5Star = wishList.Select((wish, index) => new { wish, index }).Where(s => s != null && s.wish.DropRarity.Equals(5)).First().index + 1;
-                                     //}
-                                     //catch (InvalidOperationException) { }
-
-                                     //int wishCount = wishList.Count;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -48,23 +38,6 @@ namespace GenshinWishCalculator
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             return true;
         }
-
-        
-
-        //double characterPercentCount = (double)characterCount / (double)wishCount;
-        //double fourStarPercentCount = (double)fourStarCount / (double)wishCount;
-        //double fiveStarPercentCount = (double)fiveStarCount / (double)wishCount;
-
-        //labelWishCount.Content = wishCount;
-        //labelPrimogemsCount.Content = wishCount * 160;
-        //labelCharacterCount.Content = characterCount;
-        //labelCharacterPercentCount.Content = characterPercentCount.ToString("P2");
-        //label4StarCount.Content = fourStarCount;
-        //label4StarPercentCount.Content = fourStarPercentCount.ToString("P2");
-        //label5StarCount.Content = fiveStarCount;
-        //label5StarPercentCount.Content = fiveStarPercentCount.ToString("P2");
-        //labelwishesTillPityCount.Content = activeBanner.PityLimit - wishesTill5Star;
-        //labelwishesTillPityPrimogemsCount.Content = (activeBanner.PityLimit - wishesTill5Star) * 160;
 
         public BannerType BannerType
         {
@@ -92,23 +65,61 @@ namespace GenshinWishCalculator
             }
         }
         public BindingList<WishDrop> WishList { get => _wishList; set => _wishList = value; }
-        public int PityLimit { get => _pityLimit; }
-        public int CharacterCount { get => _wishList.Count; }
-        public int FourStarCount { get => _wishList.Where(s => s != null && s.DropRarity.Equals(4)).Count(); }
-        public int FiveStarCount { get => _wishList.Where(s => s != null && s.DropRarity.Equals(5)).Count(); }
-        public int WishesTill5Star 
-        { 
+        public int PityLimit => _pityLimit;
+
+        public int TotalCount => _wishList.Count;
+        public int PrimogemCount => TotalCount * 160;
+        public int CharacterCount => _wishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
+        public int FourStarCount => _wishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
+        public int FiveStarCount => _wishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
+        public int WishesTill5Star
+        {
             get
             {
                 int wishesTill5Star = _pityLimit;
                 try
                 {
-                    wishesTill5Star = _wishList.Select((wish, index) => new { wish, index }).Where(s => s != null && s.wish.DropRarity.Equals(5)).First().index + 1;
+                    wishesTill5Star -= _wishList.Select((wish, index) => new { wish, index }).Where(s => s != null && s.wish.DropRarity.Equals(5)).First().index + 1;
                 }
                 catch (InvalidOperationException) { }
                 return wishesTill5Star;
             }
         }
+
+        public string CharacterPercent
+        {
+            get
+            {
+                double _characterPercent = (double)CharacterCount / (double)WishList.Count;
+                if (Double.IsNaN(_characterPercent))
+                    return "0";
+                else
+                    return _characterPercent.ToString("P2");
+            }
+        }
+        public string FourStarPercent
+        {
+            get
+            {
+                double _fourStarPercent = (double)FourStarCount / (double)WishList.Count;
+                if (Double.IsNaN(_fourStarPercent))
+                    return "0";
+                else
+                    return _fourStarPercent.ToString("P2");
+            }
+        }
+        public string FiveStarPercent
+        {
+            get
+            {
+                double _fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
+                if (Double.IsNaN(_fiveStarPercent))
+                    return "0";
+                else
+                    return _fiveStarPercent.ToString("P2");
+            }
+        }
+        public int WishesTill5StarPrimogem => WishesTill5Star * 160;
 
         public Banner() => _wishList = new BindingList<WishDrop>();
         public Banner(BannerType _bannerType) : this() => BannerType = _bannerType;
@@ -147,6 +158,23 @@ namespace GenshinWishCalculator
             {
                 this._wishList.Insert(i, _wishList[i]);
             }
+            RefreshCounts();
+        }
+
+        private void RefreshCounts()
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TotalCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("PrimogemCount"));
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CharacterCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FourStarCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FiveStarCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WishesTill5Star"));
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("CharacterPercentCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FourStarPercentCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("FiveStarPercentCount"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("WishesTill5StarPercent"));
         }
     }
 
