@@ -17,7 +17,7 @@ namespace GenshinWishCalculator.Models
             set 
             {
                 EndTime = DateTime.UtcNow + value;
-                _UpdateField(ref _duration, value);
+                _UpdateField(ref _duration, new TimeSpan(0,0,0));
             }
         }
 

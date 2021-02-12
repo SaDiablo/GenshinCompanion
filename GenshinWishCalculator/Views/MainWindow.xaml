@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:GenshinWishCalculator.ViewModels"
         xmlns:s="clr-namespace:System;assembly=mscorlib" 
         mc:Ignorable="d"
-        Title="Genshin Wish Calculator" Height="450" Width="800" MinWidth="750" MinHeight="250">
+        Title="Genshin Wish Calculator" Height="450" Width="800" MinWidth="700" MinHeight="290">
     
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
@@ -31,12 +31,12 @@
                 <MenuItem x:Name="menuItemExit" Header="Exit" HorizontalAlignment="Left" Width="140" />
             </MenuItem>
         </Menu>
-        <Grid Margin="10,29,10,40">
+        <Grid Margin="4,28,4,32">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.3*" MaxWidth="400"/>
+                <ColumnDefinition Width="1.3*" MinWidth="400" MaxWidth="400"/>
                 <ColumnDefinition Width="1*" MaxWidth="375"/>
             </Grid.ColumnDefinitions>
-            <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}" SelectionChanged="tabControlBanners_SelectionChanged">
+            <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}">
                 <TabItem Header="Character">
                     <ListView x:Name="listViewCharacterBanner" Margin="0" ItemsSource="{Binding CharacterBanner.WishList, UpdateSourceTrigger=PropertyChanged}" >
                         <ListView.Resources>
@@ -138,7 +138,7 @@
                     </ListView>
                 </TabItem>
             </TabControl>
-            <Grid Grid.Column="1" Margin="0,24,0,0">
+            <Grid Grid.Column="1" Margin="0,22,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="24"/>
                     <RowDefinition Height="24"/>
@@ -155,56 +155,242 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MinWidth="100"/>
-                    <ColumnDefinition MinWidth="115"/>
-                    <ColumnDefinition MinWidth="75"/>
+                    <ColumnDefinition MinWidth="100"/>
+                    <ColumnDefinition MinWidth="50"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text="{Binding InputString}" VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
-                <Label Content="Wish Count" Grid.Row="1"/>
-                <Label x:Name="labelWishCount" Content="0" Grid.Row="1" Grid.Column="1"/>
-                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center" Click="buttonAddInput_Click"
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center"
                         Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}"/>
-                <Label Content="Primogems total" Grid.Row="2"/>
-                <Label x:Name="labelPrimogemsCount" Content="0" Grid.Row="2" Grid.Column="1"/>
+
+                <Label Content="Wish Count" Grid.Row="1"/>
+                <Label Content="Primogems total" Grid.Row="2" Padding="5,0" VerticalContentAlignment="Center"/>
+                
                 <Label Content="Characters" Grid.Row="3"/>
-                <Label x:Name="labelCharacterCount" Content="0" Grid.Row="3" Grid.Column="1"/>
-                <Label x:Name="labelCharacterPercentCount" Content="0" Grid.Row="3" Grid.Column="2"/>
                 <Label Content="4-Star drops" Grid.Row="4"/>
-                <Label x:Name="label4StarCount" Content="{Binding CharacterBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" />
-                <Label x:Name="label4StarPercentCount" Content="0" Grid.Row="4" Grid.Column="2"/>
                 <Label Content="5-Star drops" Grid.Row="5"/>
-                <Label x:Name="label5StarCount" Content="{Binding CharacterBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1"/>
-                <Label x:Name="label5StarPercentCount" Content="0" Grid.Row="5" Grid.Column="2"/>
                 <Label Content="Wishes till 5*" Grid.Row="6"/>
-                <Label x:Name="labelwishesTillPityCount" Content="0" Grid.Row="6" Grid.Column="1"/>
-                <Label x:Name="labelwishesTillPityPrimogemsCount" Content="0" Grid.Row="6" Grid.Column="2"/>
+                
+                <Label x:Name="labelWishCount" Grid.Row="1" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="labelPrimogemsCount" Grid.Row="2" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                
+                <Label x:Name="labelCharacterCount" Grid.Row="3" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="label4StarCount" Grid.Row="4" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="label5StarCount" Grid.Row="5" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="labelwishesTill5StarCount" Grid.Row="6" Grid.Column="1">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                
+                <Label x:Name="labelCharacterPercent" Grid.Row="3" Grid.Column="2">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="label4StarPercent" Grid.Row="4" Grid.Column="2">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="label5StarPercent" Grid.Row="5" Grid.Column="2">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="6" Grid.Column="2">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
                 
             </Grid>
         </Grid>
-        <StatusBar Margin="0,0,0,0" VerticalAlignment="Bottom" Height="28">
-            <!--<StatusBarItem x:Name="statusBarInfo" Content="Resin: "/>-->
-            <ToolBarPanel Width="750" Height="28" Orientation="Horizontal" HorizontalAlignment="Right">
-                <StatusBarItem Content="Resin" VerticalAlignment="Top"/>
-                <Button Content="-20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" VerticalAlignment="Top" Margin="2,2,2,2" Width="25"/>
-                <StatusBarItem Content="{Binding Path=Timer.RemainingTime, Converter={StaticResource timerToResinConverter1}}" ContentStringFormat="({0}/160)" VerticalAlignment="Top"/>
-                <Button Content="+20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" VerticalAlignment="Top" Margin="2,2,2,2" Width="25"/>
-                <StatusBarItem Content="    Fully replenished in" VerticalAlignment="Top"/>
-                <StatusBarItem Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}}" ContentStringFormat="Resin: {0:hh:mm:ss}" VerticalAlignment="Top"/>
+        <StatusBar VerticalAlignment="Bottom" Height="28" Padding="4,0">
+            <StatusBarItem Content="Enter time here:"/>
+            <TextBox Text="{Binding Timer.Duration}"/>
+            <Button Content="Start" Command="{Binding StartCountdownCommand}" />
 
-                <StatusBarItem Content="    Enter time here:" VerticalAlignment="Top"/>
-                <TextBox Text="{Binding Timer.Duration}" Margin="2,2,2,2" VerticalAlignment="Top"/>
-                <Button Content="Start" Command="{Binding StartCountdownCommand}" VerticalAlignment="Top" Margin="2,2,2,2"/>
-            </ToolBarPanel>
-
-            <!--<TextBox Text="{Binding Duration}"/>
-            <TextBlock Text="{Binding StartTime, Converter={StaticResource utcToLocalConverter1}}"/>
-            <TextBlock Text="{Binding RemainingTime,
-              StringFormat=hh\\:mm\\:ss,
-              Converter={StaticResource timeSpanRoundUpConverter1},
-              ConverterParameter={StaticResource timeSpanRoundTo1}}"/>
-            <StatusBarItem Content="StatusBarItem" Height="28" VerticalAlignment="Top"/>
-            <Button Content="Start Countdown" Command="{Binding StartCountdownCommand}" VerticalAlignment="Top"/>-->
+            <StatusBarItem HorizontalAlignment="Right">
+                <DockPanel>
+                    <StatusBarItem Content="Resin "/>
+                    <Button Content="-20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}" Width="25"/>
+                    <StatusBarItem Content="{Binding Timer.RemainingTime, Converter={StaticResource timerToResinConverter1}}" ContentStringFormat="({0}/160)"/>
+                    <Button Content="+20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}" Width="25"/>
+                    <StatusBarItem Content="Fully replenished in" Margin="20,0,0,0"/>
+                    <StatusBarItem Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}}" ContentStringFormat="Resin: {0:hh:mm:ss}"/>
+                </DockPanel>
+            </StatusBarItem>
         </StatusBar>
-
     </Grid>
 </Window>

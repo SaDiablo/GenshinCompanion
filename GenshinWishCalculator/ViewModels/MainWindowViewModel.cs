@@ -20,38 +20,16 @@ namespace GenshinWishCalculator.ViewModels
         public ResinTimer Timer { get => _timer; set => _UpdateField(ref _timer, value); }
 
         private Banner _characterBanner = new Banner(BannerType.Character);
-        public Banner CharacterBanner { get => _characterBanner; set { _UpdateField(ref _characterBanner, value); _UpdateField(ref _activeBanner, value); } }
+        public Banner CharacterBanner { get => _characterBanner; set => _UpdateField(ref _characterBanner, value); }
 
         private Banner _weaponBanner = new Banner(BannerType.Weapon);
-        public Banner WeaponBanner { get => _weaponBanner; set { _UpdateField(ref _weaponBanner, value); _UpdateField(ref _activeBanner, value); } }
+        public Banner WeaponBanner { get => _weaponBanner; set => _UpdateField(ref _weaponBanner, value); }
 
         private Banner _standardBanner = new Banner(BannerType.Standard);
-        public Banner StandardBanner { get => _standardBanner; set { _UpdateField(ref _standardBanner, value); _UpdateField(ref _activeBanner, value); } }
+        public Banner StandardBanner { get => _standardBanner; set => _UpdateField(ref _standardBanner, value); }
 
         private Banner _noviceBanner = new Banner(BannerType.Novice);
-        public Banner NoviceBanner { get => _noviceBanner; set { _UpdateField(ref _noviceBanner, value); _UpdateField(ref _activeBanner, value); }  }
-
-        private Banner _activeBanner;
-        public Banner ActiveBanner 
-        { 
-            get
-            {
-                switch (TabBannersIndex)
-                {
-                    case 0:
-                        return CharacterBanner;
-                    case 1:
-                        return WeaponBanner;
-                    case 2:
-                        return StandardBanner;
-                    case 3:
-                        return NoviceBanner;
-                    default:
-                        break;
-                }
-                return _activeBanner;
-            } 
-        }
+        public Banner NoviceBanner { get => _noviceBanner; set => _UpdateField(ref _noviceBanner, value); }
 
         private string _inputString;
         public string InputString { get => _inputString; set => _UpdateField(ref _inputString, value); }
@@ -67,9 +45,6 @@ namespace GenshinWishCalculator.ViewModels
         private readonly DelegateCommand _addWishesCommand;
         public ICommand AddWishesCommand => _addWishesCommand;
 
-        private readonly DelegateCommand _updateNumbersCommand;
-        public ICommand UpdateNumbersCommand => _updateNumbersCommand;
-
         private readonly DelegateCommand _saveBannersCommand;
         public ICommand SaveBannersCommand => _saveBannersCommand;
 
@@ -84,10 +59,8 @@ namespace GenshinWishCalculator.ViewModels
             _startCountdownCommand = new DelegateCommand(Timer._StartCountdown, () => !Running);
             _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
             _addWishesCommand = new DelegateCommand(_AddWishesCommand);
-            _updateNumbersCommand = new DelegateCommand(_UpdateNumbers);
             _saveBannersCommand = new DelegateCommand(_SaveBanners);
             _openBannersCommand = new DelegateCommand(_OpenBanners);
-            
         }
 
         private void _OnRunningChanged(bool obj) => _startCountdownCommand.RaiseCanExecuteChanged();
@@ -144,11 +117,6 @@ namespace GenshinWishCalculator.ViewModels
                     break;
             }
             InputString = String.Empty;
-        }
-
-        private void _UpdateNumbers()
-        {
-            
         }
 
         private void _SaveBanners()
