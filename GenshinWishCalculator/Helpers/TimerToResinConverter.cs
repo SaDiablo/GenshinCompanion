@@ -10,7 +10,7 @@ namespace GenshinWishCalculator.Helpers
 {
     class TimerToResinConverter : IValueConverter
     {
-        public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
@@ -23,7 +23,7 @@ namespace GenshinWishCalculator.Helpers
             return resin;
         }
 
-        public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

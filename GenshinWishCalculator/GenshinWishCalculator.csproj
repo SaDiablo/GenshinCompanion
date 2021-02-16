@@ -41,7 +41,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-	<AllowedReferenceRelatedFileExtensions>-</AllowedReferenceRelatedFileExtensions>
+    <AllowedReferenceRelatedFileExtensions>-</AllowedReferenceRelatedFileExtensions>
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -103,7 +103,10 @@
     <Compile Include="Helpers\TimerToResinConverter.cs" />
     <Compile Include="Helpers\TimeSpanRoundUpConverter.cs" />
     <Compile Include="Helpers\UtcToLocalConverter.cs" />
+    <Compile Include="Models\Banner.cs" />
+    <Compile Include="Models\Options.cs" />
     <Compile Include="Models\ResinTimer.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Models\WishDrop.cs" />
     <Page Include="Views\MainWindow.xaml">

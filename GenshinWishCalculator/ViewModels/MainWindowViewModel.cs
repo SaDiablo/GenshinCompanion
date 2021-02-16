@@ -1,13 +1,10 @@
-﻿using GenshinWishCalculator.Helpers;
-using GenshinWishCalculator.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Input;
+
+using GenshinWishCalculator.Helpers;
+using GenshinWishCalculator.Models;
 
 namespace GenshinWishCalculator.ViewModels
 {
@@ -121,78 +118,18 @@ namespace GenshinWishCalculator.ViewModels
 
         private void _SaveBanners()
         {
-            var options = new JsonSerializerOptions
-            {
-                WriteIndented = true,
-            };
-            if (CharacterBanner != null & CharacterBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("characterBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(CharacterBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (WeaponBanner != null & WeaponBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("weaponBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(WeaponBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (StandardBanner != null & StandardBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("standardBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(StandardBanner, options);
-                    file.Write(json);
-                }
-            }
-            if (NoviceBanner != null & NoviceBanner.WishList.Count > 0)
-            {
-                using (StreamWriter file = File.CreateText("noviceBanner.json"))
-                {
-                    var json = JsonSerializer.Serialize(NoviceBanner, options);
-                    file.Write(json);
-                }
-            }
+            CharacterBanner.Save();
+            WeaponBanner.Save();
+            StandardBanner.Save();
+            NoviceBanner.Save();
         }
 
-        private async void _OpenBanners()
+        private void _OpenBanners()
         {
-            try
-            {
-                using (FileStream openStream = File.OpenRead("characterBanner.json"))
-                {
-                    CharacterBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("weaponBanner.json"))
-                {
-                    WeaponBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("standardBanner.json"))
-                {
-                    StandardBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
-            try
-            {
-                using (FileStream openStream = File.OpenRead("noviceBanner.json"))
-                {
-                    NoviceBanner = await JsonSerializer.DeserializeAsync<Banner>(openStream);
-                }
-            }
-            catch (FileNotFoundException) { }
+            CharacterBanner.Open();
+            WeaponBanner.Open();
+            StandardBanner.Open();
+            NoviceBanner.Open();
         }
     }
 }

@@ -78,7 +78,6 @@ namespace GenshinWishCalculator.Models
                 RemainingTime = remainingTime;
                 if (RemainingTime < interval)
                 {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Resin"));
                     interval = RemainingTime;
                 }
 

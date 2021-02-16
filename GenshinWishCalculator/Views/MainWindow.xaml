@@ -8,19 +8,19 @@
         xmlns:viewModels="clr-namespace:GenshinWishCalculator.ViewModels"
         xmlns:s="clr-namespace:System;assembly=mscorlib" 
         mc:Ignorable="d"
-        Title="Genshin Wish Calculator" Height="450" Width="800" MinWidth="700" MinHeight="290">
-    
+        Title="Genshin Wish Calculator" Height="450" Width="800" MinWidth="670" MinHeight="265">
+
     <Window.DataContext>
         <viewModels:MainWindowViewModel />
     </Window.DataContext>
 
     <Window.Resources>
+
         <Helpers:UtcToLocalConverter x:Key="utcToLocalConverter1"/>
         <Helpers:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter1"/>
         <Helpers:TimerToResinConverter x:Key="timerToResinConverter1"/>
         <s:TimeSpan x:Key="timeSpanRoundTo1">00:00:01</s:TimeSpan>
     </Window.Resources>
-
 
     <Grid>
         <Menu Height="24" VerticalAlignment="Top">
@@ -31,10 +31,10 @@
                 <MenuItem x:Name="menuItemExit" Header="Exit" HorizontalAlignment="Left" Width="140" />
             </MenuItem>
         </Menu>
-        <Grid Margin="4,28,4,32">
+        <Grid Margin="4,28,4,32" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.3*" MinWidth="400" MaxWidth="400"/>
-                <ColumnDefinition Width="1*" MaxWidth="375"/>
+                <ColumnDefinition Width="1*" MaxWidth="350"/>
             </Grid.ColumnDefinitions>
             <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}">
                 <TabItem Header="Character">
@@ -138,15 +138,9 @@
                     </ListView>
                 </TabItem>
             </TabControl>
-            <Grid Grid.Column="1" Margin="0,22,0,0">
+            <Grid Grid.Column="1" Margin="0,22,0,0" VerticalAlignment="Stretch">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
-                    <RowDefinition Height="24"/>
+                    <RowDefinition MinHeight="24" MaxHeight="48"/>
                     <RowDefinition Height="24"/>
                     <RowDefinition Height="24"/>
                     <RowDefinition Height="24"/>
@@ -154,23 +148,23 @@
                     <RowDefinition Height="24"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition MinWidth="100"/>
-                    <ColumnDefinition MinWidth="100"/>
-                    <ColumnDefinition MinWidth="50"/>
+                    <ColumnDefinition Width="80" MinWidth="80"/>
+                    <ColumnDefinition Width="0.75*" MinWidth="50"/>
+                    <ColumnDefinition Width="1*" MinWidth="40"/>
+                    <ColumnDefinition Width="0.75*" MinWidth="70"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox x:Name="textBoxBannerInput" Grid.Column="1" TextWrapping="Wrap" Text="{Binding InputString}" VerticalAlignment="Top" Height="24" Margin="0" AcceptsReturn="True" VerticalContentAlignment="Center"/>
-                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="2" Margin="2,2,2,2" VerticalAlignment="Center"
-                        Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}"/>
+                <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4"/>
+                <TextBox x:Name="textBoxBannerInput" Grid.Column="0" TextWrapping="Wrap" Text="{Binding InputString}" 
+                         VerticalAlignment="Stretch" MinHeight="24" Margin="40,0,0,0" AcceptsReturn="True" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto"/>
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="3" Margin="4,0,0,0" VerticalAlignment="Center"
+                        Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}" />
 
                 <Label Content="Wish Count" Grid.Row="1"/>
-                <Label Content="Primogems total" Grid.Row="2" Padding="5,0" VerticalContentAlignment="Center"/>
-                
-                <Label Content="Characters" Grid.Row="3"/>
-                <Label Content="4-Star drops" Grid.Row="4"/>
-                <Label Content="5-Star drops" Grid.Row="5"/>
-                <Label Content="Wishes till 5*" Grid.Row="6"/>
-                
+                <Label Content="Characters" Grid.Row="2"/>
+                <Label Content="4-Star drops" Grid.Row="3"/>
+                <Label Content="5-Star drops" Grid.Row="4"/>
+                <Label Content="Wishes till 5*" Grid.Row="5"/>
+
                 <Label x:Name="labelWishCount" Grid.Row="1" Grid.Column="1">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
@@ -191,28 +185,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="labelPrimogemsCount" Grid.Row="2" Grid.Column="1">
-                    <Label.Style>
-                        <Style TargetType="{x:Type Label}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
-                                    <Setter Property="Content" Value="{Binding CharacterBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
-                                    <Setter Property="Content" Value="{Binding WeaponBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
-                                    <Setter Property="Content" Value="{Binding StandardBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
-                                    <Setter Property="Content" Value="{Binding NoviceBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
-                </Label>
-                
-                <Label x:Name="labelCharacterCount" Grid.Row="3" Grid.Column="1">
+                <Label x:Name="labelCharacterCount" Grid.Row="2" Grid.Column="1">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -232,7 +205,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="label4StarCount" Grid.Row="4" Grid.Column="1">
+                <Label x:Name="label4StarCount" Grid.Row="3" Grid.Column="1">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -252,7 +225,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="label5StarCount" Grid.Row="5" Grid.Column="1">
+                <Label x:Name="label5StarCount" Grid.Row="4" Grid.Column="1">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -272,7 +245,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="labelwishesTill5StarCount" Grid.Row="6" Grid.Column="1">
+                <Label x:Name="labelwishesTill5StarCount" Grid.Row="5" Grid.Column="1">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -292,8 +265,28 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                
-                <Label x:Name="labelCharacterPercent" Grid.Row="3" Grid.Column="2">
+
+                <Label x:Name="labelPrimogemsCount" Grid.Row="1" Grid.Column="2" Padding="4" Grid.ColumnSpan="2">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                                    <Setter Property="Content" Value="{Binding CharacterBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                                    <Setter Property="Content" Value="{Binding WeaponBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                                    <Setter Property="Content" Value="{Binding StandardBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                                    <Setter Property="Content" Value="{Binding NoviceBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+                <Label x:Name="labelCharacterPercent" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -313,7 +306,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="label4StarPercent" Grid.Row="4" Grid.Column="2">
+                <Label x:Name="label4StarPercent" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -333,7 +326,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="label5StarPercent" Grid.Row="5" Grid.Column="2">
+                <Label x:Name="label5StarPercent" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -353,7 +346,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                <Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="6" Grid.Column="2">
+                <Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="5" Grid.Column="2" Padding="4" Grid.ColumnSpan="2">
                     <Label.Style>
                         <Style TargetType="{x:Type Label}">
                             <Style.Triggers>
@@ -373,7 +366,7 @@
                         </Style>
                     </Label.Style>
                 </Label>
-                
+
             </Grid>
         </Grid>
         <StatusBar VerticalAlignment="Bottom" Height="28" Padding="4,0">
