@@ -16,7 +16,7 @@ Includes:
 
 - Default dark mode (with some artefacts not yet fixed)
 
-- Possibility to add mistakenly added wishes or duplicates by right mouse button press on them
+- Possibility to delete mistakenly added wishes or duplicates by right mouse button press on them
 
 - Calculator that helps to keep track of how much wishes till the "Pity Wish" and more
 
