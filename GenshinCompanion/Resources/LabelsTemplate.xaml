@@ -1,0 +1,250 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Resources/DarkStyle.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="LabelWishCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.TotalCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LabelCharacterCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.CharacterCount, UpdateSourceTrigger=PropertyChanged}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="Label4StarCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.FourStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="Label5StarCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.FiveStarCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelwishesTill5StarCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelPrimogemsCountStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.PrimogemCount, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelCharacterPercentStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.CharacterPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="Label4StarPercentStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.FourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="Label5StarPercentStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelwishesTill5StarPrimogemsStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Setter Property="Padding" Value="4"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LabelNextFourStarRateStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelNextFourStarPercentStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelNextFiveStarRateStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="LabelNextFiveStarPercentStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="{StaticResource LabelForeground}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="0">
+                <Setter Property="Content" Value="{Binding CharacterBanner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="1">
+                <Setter Property="Content" Value="{Binding WeaponBanner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="2">
+                <Setter Property="Content" Value="{Binding StandardBanner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=TabBannersIndex}" Value="3">
+                <Setter Property="Content" Value="{Binding NoviceBanner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged}"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
