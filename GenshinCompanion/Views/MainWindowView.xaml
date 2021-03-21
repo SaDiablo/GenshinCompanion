@@ -1,0 +1,143 @@
+﻿<Window x:Class="GenshinWishCalculator.MainWindowView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:l="clr-namespace:GenshinWishCalculator" 
+        xmlns:Helpers="clr-namespace:GenshinWishCalculator.Helpers"
+        xmlns:viewModels="clr-namespace:GenshinWishCalculator.ViewModels"
+        xmlns:s="clr-namespace:System;assembly=mscorlib" 
+        mc:Ignorable="d"
+        Title="Genshin Companion" Height="450" Width="800" MinWidth="670" MinHeight="289" Background="#FF202020" Foreground="White">
+
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Resources/DarkStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/MenuTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/ListViewTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/GridInfoTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/LabelsTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Resources/TabControlTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Helpers:UtcToLocalConverter x:Key="utcToLocalConverter1"/>
+            <Helpers:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter1"/>
+            <Helpers:TimerToResinConverter x:Key="timerToResinConverter1"/>
+            <s:TimeSpan x:Key="timeSpanRoundTo1">00:00:01</s:TimeSpan>
+            <GridView x:Key="GridViewBase" x:Shared="False" ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                <GridViewColumn Header="Item Type" Width="65" DisplayMemberBinding="{Binding DropType}" />
+                <GridViewColumn Header="Item Name" Width="180" DisplayMemberBinding="{Binding DropName}" />
+                <GridViewColumn Header="Item Received" Width="Auto" DisplayMemberBinding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"/>
+            </GridView>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Menu Height="24" VerticalAlignment="Top" Background="Black" Foreground="{StaticResource LabelForeground}">
+            <MenuItem Header="File" Height="24" Width="Auto" Margin="4,0,0,0" Background="#FF202020" Foreground="{StaticResource LabelForeground}" Style="{DynamicResource MenuItemStyle1}">
+                <MenuItem x:Name="menuItemOpen" Command="{Binding OpenBannersCommand}" Header="Open" HorizontalAlignment="Left" Width="140"  />
+                <MenuItem x:Name="menuItemSave" Command="{Binding SaveBannersCommand}" Header="Save" HorizontalAlignment="Left" Width="140"  />
+                <Separator HorizontalAlignment="Left" Height="1" Width="140"/>
+                <MenuItem x:Name="menuItemExit" Header="Exit" HorizontalAlignment="Left" Width="140" />
+            </MenuItem>
+        </Menu>
+        <Grid Margin="4,28,4,32" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.3*" MinWidth="400" MaxWidth="400"/>
+                <ColumnDefinition Width="1*" MaxWidth="350"/>
+            </Grid.ColumnDefinitions>
+            <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}" ItemContainerStyle="{DynamicResource TabItemContainerStyle}" Style="{DynamicResource TabControlStyle}">
+                <TabItem Header="Character" Style="{DynamicResource TabItemStyle}" >
+                    <ListView x:Name="listViewCharacterBanner" ItemsSource="{Binding CharacterBanner.WishList, UpdateSourceTrigger=PropertyChanged}" 
+                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}">
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove" Command="{Binding RemoveWishCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Weapon" Style="{DynamicResource TabItemStyle}">
+                    <ListView x:Name="listViewWeaponBanner" ItemsSource="{Binding WeaponBanner.WishList, UpdateSourceTrigger=PropertyChanged}" 
+                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}" />
+                </TabItem>
+                <TabItem Header="Standard" Style="{DynamicResource TabItemStyle}">
+                    <ListView x:Name="listViewStandardBanner" ItemsSource="{Binding StandardBanner.WishList, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}"/>
+                </TabItem>
+                <TabItem Header="Novice" Style="{DynamicResource TabItemStyle}">
+                    <ListView x:Name="listViewNoviceBanner" ItemsSource="{Binding NoviceBanner.WishList, UpdateSourceTrigger=PropertyChanged}"
+                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}"/>
+                </TabItem>
+            </TabControl>
+            <Grid Grid.Column="1" Style="{DynamicResource GridInfoStyle}" Margin="0,22,0,0" VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="24" MaxHeight="48"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                    <RowDefinition Height="24"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80" MinWidth="80"/>
+                    <ColumnDefinition Width="0.75*" MinWidth="55"/>
+                    <ColumnDefinition Width="1*" MinWidth="40"/>
+                    <ColumnDefinition Width="0.75*" MinWidth="70"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Foreground="{StaticResource LabelForeground}"/>
+                <TextBox x:Name="textBoxBannerInput" Grid.Column="0" TextWrapping="Wrap" Text="{Binding InputString}" 
+                         VerticalAlignment="Stretch" MinHeight="24" Margin="40,0,0,0" AcceptsReturn="True" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" Foreground="White" Background="#FF191919" BorderBrush="#FF535353"/>
+                <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="3" Margin="4,0,0,0" VerticalAlignment="Center"
+                        Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}" Foreground="{StaticResource LabelForeground}" Background="#FF202020" />
+
+                <Label Content="Wish Count" Grid.Row="1" Foreground="{StaticResource LabelForeground}"/>
+                <Label Content="Characters" Grid.Row="2" Foreground="{StaticResource LabelForeground}"/>
+                <Label Content="4-Star drops" Grid.Row="3" Foreground="{StaticResource LabelForeground}"/>
+                <Label Content="5-Star drops" Grid.Row="4" Foreground="{StaticResource LabelForeground}"/>
+                <Label Content="Wishes till 5*" Grid.Row="5" Foreground="{StaticResource LabelForeground}"/>
+                <!--<Label Content="4* Rate/Percent" Grid.Row="6" Foreground="{StaticResource LabelForeground}"/>-->
+                <Label Content="5* Rate" Grid.Row="6" Foreground="{StaticResource LabelForeground}"/>
+
+                <Label x:Name="labelWishCount" Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelWishCountStyle}"/>
+                <Label x:Name="labelPrimogemsCount" Grid.Row="1" Grid.Column="2" Padding="4" Grid.ColumnSpan="2" Style="{DynamicResource LabelPrimogemsCountStyle}"/>
+                <Label x:Name="labelCharacterCount" Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelCharacterCountStyle}"/>
+                <Label x:Name="labelCharacterPercent" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelCharacterPercentStyle}"/>
+                <Label x:Name="label4StarCount" Grid.Row="3" Grid.Column="1" Style="{DynamicResource Label4StarCountStyle}"/>
+                <Label x:Name="label4StarPercent" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource Label4StarPercentStyle}"/>
+                <Label x:Name="label5StarCount" Grid.Row="4" Grid.Column="1" Style="{DynamicResource Label5StarCountStyle}" />
+                <Label x:Name="label5StarPercent" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource Label5StarPercentStyle}"/>
+                <Label x:Name="labelwishesTill5StarCount" Grid.Row="5" Grid.Column="1" Style="{DynamicResource LabelwishesTill5StarCountStyle}"/>
+                <Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelwishesTill5StarPrimogemsStyle}"/>
+
+                <!--<Label x:Name="labelNextFourStarRate" Grid.Row="6" Grid.Column="1" Style="{DynamicResource LabelNextFourStarRateStyle}"/>
+                <Label x:Name="labelNextFourStarPercent" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelNextFourStarPercentStyle}"/>-->
+                <Label x:Name="labelNextFiveStarRate" Grid.Row="6" Grid.Column="1" Style="{DynamicResource LabelNextFiveStarRateStyle}"/>
+                <Label x:Name="labelNextFiveStarPercent" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelNextFiveStarPercentStyle}"/>
+            </Grid>
+        </Grid>
+        <StatusBar VerticalAlignment="Bottom" Height="28" Padding="4,0" Background="#FF333333" Foreground="#FFDEDEDE">
+            <StatusBarItem Content="Enter time here:"/>
+            <TextBox Text="{Binding Timer.Duration}"/>
+            <Button Content="Start" Command="{Binding StartCountdownCommand}" />
+
+            <StatusBarItem HorizontalAlignment="Right">
+                <DockPanel>
+                    <StatusBarItem Content="Resin "/>
+                    <Button Content="-20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}" Width="25"/>
+                    <StatusBarItem Content="{Binding Timer.RemainingTime, Converter={StaticResource timerToResinConverter1}}" ContentStringFormat="({0}/160)"/>
+                    <Button Content="+20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}" Width="25"/>
+                    <StatusBarItem Content="Fully replenished in" Margin="20,0,0,0"/>
+                    <StatusBarItem Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo1}, Converter={StaticResource timeSpanRoundUpConverter1}}" ContentStringFormat="Resin: {0:hh:mm:ss}"/>
+                </DockPanel>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>

@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Resources/DarkStyle.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Resources/LabelsTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Grid Margin="0,22,0,0" VerticalAlignment="Stretch" x:Key="GridInfo">
+        <Grid.Resources>
+            <Style x:Key="TextLabel">
+                <Setter Property="Grid.Row" Value="0"/>
+                <Setter Property="Label.HorizontalAlignment" Value="Left"/>
+                <Setter Property="Label.VerticalAlignment" Value="Center"/>
+                <Setter Property="Label.Padding" Value="4"/>
+                <Setter Property="Label.Foreground" Value="{StaticResource LabelForeground}"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="24" MaxHeight="48"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="24"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="80" MinWidth="80"/>
+            <ColumnDefinition Width="0.75*" MinWidth="50"/>
+            <ColumnDefinition Width="1*" MinWidth="40"/>
+            <ColumnDefinition Width="0.75*" MinWidth="70"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Content="Input" Style="{StaticResource TextLabel}" />
+        <TextBox x:Name="textBoxBannerInput" Grid.Column="0" TextWrapping="Wrap" Text="{Binding InputString}" 
+                        VerticalAlignment="Stretch" MinHeight="24" Margin="40,0,0,0" AcceptsReturn="True" Grid.ColumnSpan="3" VerticalScrollBarVisibility="Auto" Foreground="White" Background="{StaticResource TextBoxBackground}" BorderBrush="#FF535353"/>
+        <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="3" Margin="4,0,0,0" VerticalAlignment="Center"
+                    Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}" Foreground="{StaticResource LabelForeground}" Background="#FF202020" />
+
+        <Label Content="Wish Count" Grid.Row="1" Style="{StaticResource TextLabel}"/>
+        <Label Content="Characters" Grid.Row="2" Style="{StaticResource TextLabel}"/>
+        <Label Content="4-Star drops" Grid.Row="3" Foreground="{StaticResource LabelForeground}"/>
+        <Label Content="5-Star drops" Grid.Row="4" Foreground="{StaticResource LabelForeground}"/>
+        <Label Content="Wishes till 5*" Grid.Row="5" Foreground="{StaticResource LabelForeground}"/>
+
+        <Label x:Name="labelWishCount" Grid.Row="1" Grid.Column="1" Style="{DynamicResource LabelWishCountStyle}"/>
+        <Label x:Name="labelPrimogemsCount" Grid.Row="1" Grid.Column="2" Padding="4" Grid.ColumnSpan="2" Style="{DynamicResource LabelPrimogemsCountStyle}"/>
+        <Label x:Name="labelCharacterCount" Grid.Row="2" Grid.Column="1" Style="{DynamicResource LabelCharacterCountStyle}"/>
+        <Label x:Name="labelCharacterPercent" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelCharacterPercentStyle}"/>
+        <Label x:Name="label4StarCount" Grid.Row="3" Grid.Column="1" Style="{DynamicResource Label4StarCountStyle}"/>
+        <Label x:Name="label4StarPercent" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource Label4StarPercentStyle}"/>
+        <Label x:Name="label5StarCount" Grid.Row="4" Grid.Column="1" Style="{DynamicResource Label5StarCountStyle}" />
+        <Label x:Name="label5StarPercent" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource Label5StarPercentStyle}"/>
+        <Label x:Name="labelwishesTill5StarCount" Grid.Row="5" Grid.Column="1" Style="{DynamicResource LabelwishesTill5StarCountStyle}"/>
+        <Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelwishesTill5StarPrimogemsStyle}"/>
+
+    </Grid>
+    <Style x:Key="GridInfoStyle" TargetType="{x:Type Grid}">
+        
+    </Style>
+</ResourceDictionary>
