@@ -164,24 +164,24 @@ namespace GenshinWishCalculator.Models
 
         private void RefreshCounts()
         {
-            RaisePropertyChanged("TotalCount");
-            RaisePropertyChanged("TotalCount");
-            RaisePropertyChanged("PrimogemCount");
+            RaisePropertyChanged(nameof(TotalCount));
+            RaisePropertyChanged(nameof(TotalCount));
+            RaisePropertyChanged(nameof(PrimogemCount));
 
-            RaisePropertyChanged("CharacterCount");
-            RaisePropertyChanged("FourStarCount");
-            RaisePropertyChanged("FiveStarCount");
-            RaisePropertyChanged("WishesTill5Star");
+            RaisePropertyChanged(nameof(CharacterCount));
+            RaisePropertyChanged(nameof(FourStarCount));
+            RaisePropertyChanged(nameof(FiveStarCount));
+            RaisePropertyChanged(nameof(WishesTill5Star));
 
-            RaisePropertyChanged("CharacterPercent");
-            RaisePropertyChanged("FourStarPercent");
-            RaisePropertyChanged("FiveStarPercent");
-            RaisePropertyChanged("WishesTill5StarPrimogem");
+            RaisePropertyChanged(nameof(CharacterPercent));
+            RaisePropertyChanged(nameof(FourStarPercent));
+            RaisePropertyChanged(nameof(FiveStarPercent));
+            RaisePropertyChanged(nameof(WishesTill5StarPrimogem));
 
-            RaisePropertyChanged("NextFourStarRate");
-            RaisePropertyChanged("NextFiveStarRate");
-            RaisePropertyChanged("NextFourStarPercent");
-            RaisePropertyChanged("NextFiveStarPercent");
+            RaisePropertyChanged(nameof(NextFourStarRate));
+            RaisePropertyChanged(nameof(NextFiveStarRate));
+            RaisePropertyChanged(nameof(NextFourStarPercent));
+            RaisePropertyChanged(nameof(NextFiveStarPercent));
         }
 
         public void AddRange(string input)
@@ -237,7 +237,7 @@ namespace GenshinWishCalculator.Models
                 {
                     WishList = await JsonSerializer.DeserializeAsync<BindingList<WishDrop>>(openStream);
                 }
-                RaisePropertyChanged("WishList");
+                RaisePropertyChanged(nameof(WishList));
                 RefreshCounts();
             }
         }
