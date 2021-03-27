@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -186,6 +186,8 @@ namespace GenshinWishCalculator.Models
 
         public void AddRange(string input)
         {
+            if (input is null) return;
+
             List<WishDrop> _wishList = new List<WishDrop>();
             using (StringReader reader = new StringReader(input))
             {

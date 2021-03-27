@@ -107,20 +107,23 @@ namespace GenshinWishCalculator.ViewModels
 
         private void _EditRemainingTime(string obj)
         {
+            if (Timer.EndTime is null || Timer.EndTime.Value < DateTime.UtcNow)
+            {
+                Timer.EndTime = DateTime.UtcNow;
+            }
+
             // Deal with negative numbers/stopping the timer/reseting it
             switch (obj)
             {
                 case "-20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
-                    Timer.Save();
                     break;
                 case "+20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
-                    Timer.Save();
-                    break;
-                default:
                     break;
             }
+            if (!Timer.Running) { Timer._StartCountdown(); }
+            Timer.Save();
         }
 
         private void _AddWishesCommand()
@@ -142,7 +145,7 @@ namespace GenshinWishCalculator.ViewModels
                 default:
                     break;
             }
-            InputString = String.Empty;
+            InputString = string.Empty;
         }
 
         private void _SaveBanners()
