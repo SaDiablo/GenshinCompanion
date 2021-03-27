@@ -46,6 +46,11 @@ To use resin timer:
 
 ### Changelog
 
+### 2021-03-27
+
+Genshin Companion 1.0.1 Released!
+Fixed small crashes 
+
 ### 2021-03-21
 
 Genshin Companion 1.0.0 Released!
