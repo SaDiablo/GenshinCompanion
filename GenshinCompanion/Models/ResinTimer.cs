@@ -31,7 +31,13 @@ namespace GenshinWishCalculator.Models
         public TimeSpan RemainingTime { get => _remainingTime; set => _UpdateField(ref _remainingTime, value); }
 
         private DateTime? _endTime;
-        public DateTime? EndTime { get => _endTime; set { _UpdateField(ref _endTime, value); } }
+        public DateTime? EndTime { get => _endTime; 
+            set 
+            {
+                if (value != _endTime) { Save(); }
+                _UpdateField(ref _endTime, value); 
+            } 
+        }
 
         private bool _running;
         public bool Running { get => _running; set => _running = value; }
@@ -88,13 +94,12 @@ namespace GenshinWishCalculator.Models
 
         public async void Open()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                    + "\\GenshinCompanion\\Settings\\";
+            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GenshinCompanion", "Settings");
             string[] files = null;
             if (Directory.Exists(path))
                 files = Directory.GetFiles(path);
 
-            string filePath = path + "Timer.json";
+            string filePath = Path.Combine(path, "Timer.json");
             if (files != null && files.Contains(filePath))
             {
                 using (FileStream openStream = File.OpenRead(filePath))
@@ -111,9 +116,8 @@ namespace GenshinWishCalculator.Models
             if (EndTime != null & EndTime.HasValue)
             {
                 var options = new JsonSerializerOptions { WriteIndented = true };
-                var path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
-                    + "\\GenshinCompanion\\Settings\\";
-                string filePath = path + "Timer.json";
+                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GenshinCompanion", "Settings");
+                string filePath = Path.Combine(path, "Timer.json");
 
                 if (!Directory.Exists(path))
                 {
