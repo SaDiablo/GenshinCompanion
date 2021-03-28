@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using GenshinWishCalculator.ViewModels;
 
 namespace GenshinWishCalculator
@@ -26,35 +25,33 @@ namespace GenshinWishCalculator
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenu contextMenu;
         private System.Windows.Forms.MenuItem menuItem;
-        private System.ComponentModel.IContainer components;
 #endif
         private void InitializeNotifyIcon()
         {
 #if NET472
-            this.components = new System.ComponentModel.Container();
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon();
-            this.contextMenu = new System.Windows.Forms.ContextMenu();
-            this.menuItem = new System.Windows.Forms.MenuItem();
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
+            contextMenu = new System.Windows.Forms.ContextMenu();
+            menuItem = new System.Windows.Forms.MenuItem();
 
             // Initialize menuItem
-            this.menuItem.Index = 0;
-            this.menuItem.Text = "E&xit";
-            this.menuItem.Click += new EventHandler(this.menuItem_Click);
+            menuItem.Index = 0;
+            menuItem.Text = "E&xit";
+            menuItem.Click += new EventHandler(MenuItem_Click);
 
             // Initialize contextMenu
-            this.contextMenu.MenuItems.AddRange(
-                        new System.Windows.Forms.MenuItem[] { this.menuItem });
+            contextMenu.MenuItems.AddRange(
+                        new System.Windows.Forms.MenuItem[] { menuItem });
 
-            notifyIcon.ContextMenu = this.contextMenu;
+            notifyIcon.ContextMenu = contextMenu;
 
             Uri iconUri = new Uri("pack://application:,,,/Assets/Item_Primogem_256.ico", UriKind.Absolute);
             notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(iconUri).Stream);
             notifyIcon.Visible = true;
-            notifyIcon.Click += nIcon_Click;
+            notifyIcon.Click += NotifyIcon_Click;
 #endif
         }
 
-        void nIcon_Click(object sender, EventArgs e)
+        void NotifyIcon_Click(object sender, EventArgs e)
         {
             if (!_visible)
             {
@@ -71,13 +68,11 @@ namespace GenshinWishCalculator
             }
         }
 
-        private void menuItem_Click(object Sender, EventArgs e)
-        {
-            // Close the form, which closes the application.
-            this.Close();
-        }
-        
-#endregion
+        /// <summary>
+        /// Close the form, which closes the application.
+        /// </summary>
+        private void MenuItem_Click(object Sender, EventArgs e) => Close();
 
+        #endregion
     }
 }
