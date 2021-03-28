@@ -10,13 +10,13 @@ jobs:
   build:
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
+        configuration: [Debug, Release]
 
     runs-on: windows-latest 
 
     env:
       Solution_Name: GenshinCompanion.sln
-      Test_Project_Path: GenshinCompanion\GenshinCompanion.csproj
+      Project_Path: GenshinCompanion\GenshinCompanion.csproj
 
     steps:
     - name: Checkout
@@ -36,7 +36,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile=win-x86
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
@@ -46,13 +46,13 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     - name: Publish the application
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile=win-x86
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile="win-x86.pubxml"
       env:
         Configuration: ${{ matrix.configuration }}
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Published 
-        path: bin/Release/net472/win7-x86/
+        name: Published win-x86 
+        path: GenshinCompanion\bin\Release\net472\win7-x86\
         retention-days: 30
