@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -21,8 +21,8 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="5.0.1" />
   </ItemGroup>
-
-  <ItemGroup>
+    
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PresentationFramework.Aero2" />
   </ItemGroup>
