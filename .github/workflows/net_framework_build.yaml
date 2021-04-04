@@ -2,9 +2,9 @@ name: .NET Framework Build
 
 on:
   push:
-    branches: [ dev, workflow-integration ]
+    branches: [ main, dev ]
   pull_request:
-    branches: [ dev ]
+    branches: [ main, dev ]
 
 jobs:
   build:
