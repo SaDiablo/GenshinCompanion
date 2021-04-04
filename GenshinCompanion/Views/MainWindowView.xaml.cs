@@ -15,20 +15,21 @@ namespace GenshinWishCalculator
         {
             InitializeComponent();
             DataContext = _mainWindowViewModel;
-
+#if NET472
             InitializeNotifyIcon(); //NotMVVMCompliant
+#endif
         }
 
         #region NotMVVMCompliant
-        private bool _visible = true;
 #if NET472
+        private bool _visible = true;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenu contextMenu;
         private System.Windows.Forms.MenuItem menuItem;
-#endif
+
         private void InitializeNotifyIcon()
         {
-#if NET472
+
             notifyIcon = new System.Windows.Forms.NotifyIcon();
             contextMenu = new System.Windows.Forms.ContextMenu();
             menuItem = new System.Windows.Forms.MenuItem();
@@ -48,7 +49,7 @@ namespace GenshinWishCalculator
             notifyIcon.Icon = new System.Drawing.Icon(Application.GetResourceStream(iconUri).Stream);
             notifyIcon.Visible = true;
             notifyIcon.Click += NotifyIcon_Click;
-#endif
+
         }
 
         void NotifyIcon_Click(object sender, EventArgs e)
@@ -72,7 +73,7 @@ namespace GenshinWishCalculator
         /// Close the form, which closes the application.
         /// </summary>
         private void MenuItem_Click(object Sender, EventArgs e) => Close();
-
-        #endregion
+#endif
+#endregion
     }
 }

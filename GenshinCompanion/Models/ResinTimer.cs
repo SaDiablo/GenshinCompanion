@@ -42,10 +42,7 @@ namespace GenshinWishCalculator.Models
         private bool _running;
         public bool Running { get => _running; set => _running = value; }
 
-        public ResinTimer()
-        {
-            Open();
-        }
+        public ResinTimer() => Open();
 
         internal async void _StartCountdown()
         {
@@ -106,7 +103,7 @@ namespace GenshinWishCalculator.Models
                 {
                     EndTime = await JsonSerializer.DeserializeAsync<DateTime>(openStream);
                 }
-                RaisePropertyChanged("EndTime");
+                RaisePropertyChanged(nameof(EndTime));
                 _StartCountdown();
             }
         }
