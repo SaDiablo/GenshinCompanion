@@ -50,7 +50,7 @@
         <Setter Property="FontSize" Value="12" />
     </Style>
 
-    <Style x:Key="ListViewStyle1" TargetType="{x:Type ListView}">
+    <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
         <!--<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>-->
         <Setter Property="Background" Value="{StaticResource ListBackground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource TabControl.Border}"/>

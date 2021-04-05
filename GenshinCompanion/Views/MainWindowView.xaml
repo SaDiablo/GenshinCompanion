@@ -53,7 +53,7 @@
             <TabControl x:Name="tabControlBanners" SelectedIndex="{Binding TabBannersIndex}" ItemContainerStyle="{DynamicResource TabItemContainerStyle}" Style="{DynamicResource TabControlStyle}">
                 <TabItem Header="Character" Style="{DynamicResource TabItemStyle}" >
                     <ListView x:Name="listViewCharacterBanner" ItemsSource="{Binding CharacterBanner.WishList, UpdateSourceTrigger=PropertyChanged}" 
-                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}">
+                              Style="{DynamicResource ListViewStyle}" View="{DynamicResource GridViewBase}">
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Remove" Command="{Binding RemoveWishCommand}"
@@ -64,15 +64,15 @@
                 </TabItem>
                 <TabItem Header="Weapon" Style="{DynamicResource TabItemStyle}">
                     <ListView x:Name="listViewWeaponBanner" ItemsSource="{Binding WeaponBanner.WishList, UpdateSourceTrigger=PropertyChanged}" 
-                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}" />
+                              Style="{DynamicResource ListViewStyle}" View="{DynamicResource GridViewBase}" />
                 </TabItem>
                 <TabItem Header="Standard" Style="{DynamicResource TabItemStyle}">
                     <ListView x:Name="listViewStandardBanner" ItemsSource="{Binding StandardBanner.WishList, UpdateSourceTrigger=PropertyChanged}"
-                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}"/>
+                              Style="{DynamicResource ListViewStyle}" View="{DynamicResource GridViewBase}"/>
                 </TabItem>
                 <TabItem Header="Novice" Style="{DynamicResource TabItemStyle}">
                     <ListView x:Name="listViewNoviceBanner" ItemsSource="{Binding NoviceBanner.WishList, UpdateSourceTrigger=PropertyChanged}"
-                              Style="{DynamicResource ListViewStyle1}" View="{DynamicResource GridViewBase}"/>
+                              Style="{DynamicResource ListViewStyle}" View="{DynamicResource GridViewBase}"/>
                 </TabItem>
             </TabControl>
             <Grid Grid.Column="1" Style="{DynamicResource GridInfoStyle}" Margin="0,22,0,0" VerticalAlignment="Stretch">

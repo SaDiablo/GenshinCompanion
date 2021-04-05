@@ -1,0 +1,158 @@
+<FluentWindow xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:GenshinCompanionAvalonia.ViewModels"
+        xmlns:m="using:GenshinCompanionAvalonia.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        ExtendClientAreaToDecorationsHint="False"
+        mc:Ignorable="d"
+        d:DesignWidth="800" d:DesignHeight="450"
+        Height="450" Width="800"
+        MinWidth="750" MinHeight="289"
+        x:Class="GenshinCompanionAvalonia.Views.MainWindow"
+        Icon="/Assets/Item_Primogem_256.ico"
+        Title=""
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent">
+
+    <FluentWindow.Styles>
+        <Style Selector="TitleBar:fullscreen">
+            <Setter Property="Background" Value="#7f000000" />
+        </Style>
+    </FluentWindow.Styles>
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Panel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel HorizontalAlignment="Stretch" Grid.Row="0">
+                <ExperimentalAcrylicBorder DockPanel.Dock="Left" Width="240">
+                    <ExperimentalAcrylicBorder.Material>
+                        <ExperimentalAcrylicMaterial TintColor="Black" MaterialOpacity="0.85" TintOpacity="1" />
+                    </ExperimentalAcrylicBorder.Material>
+                    <AutoCompleteBox HorizontalAlignment="Stretch" Margin="20 40 20 0" Watermark="Search" Items="{Binding SearchItems}" />
+                </ExperimentalAcrylicBorder>
+                <ExperimentalAcrylicBorder>
+                    <ExperimentalAcrylicBorder.Material>
+                        <ExperimentalAcrylicMaterial TintColor="#222222" MaterialOpacity="0.85" TintOpacity="1" />
+                    </ExperimentalAcrylicBorder.Material>
+                    <Panel VerticalAlignment="Top">
+                        <TabControl x:Name="TabControlWishes">
+                            <TabItem Header="Character">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="65*" MaxWidth="130"/>
+                                        <ColumnDefinition Width="180*" MaxWidth="360"/>
+                                        <ColumnDefinition Width="auto" MaxWidth="300"/>
+                                        <ColumnDefinition Width="100*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label Content="Input" />-->
+                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="0">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="4" Orientation="Vertical"/>
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="m:WishDrop">
+                                                <TextBlock Text="{CompiledBinding DropType}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="1">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="4" Orientation="Vertical"/>
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="m:WishDrop">
+                                                <TextBlock Text="{CompiledBinding DropName}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="2">
+                                        <ItemsRepeater.Layout>
+                                            <StackLayout Spacing="4" Orientation="Vertical"/>
+                                        </ItemsRepeater.Layout>
+                                        <ItemsRepeater.ItemTemplate>
+                                            <DataTemplate x:DataType="m:WishDrop">
+                                                <TextBlock Text="{CompiledBinding DropTime}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                            </DataTemplate>
+                                        </ItemsRepeater.ItemTemplate>
+                                    </ItemsRepeater>
+                                    <!--<ListView.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Remove" Command="{Binding RemoveWishCommand}"
+                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>-->
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Weapon"/>
+                            <TabItem Header="Standard"/>
+                            <TabItem Header="Novice"/>
+                        </TabControl>
+                    </Panel>
+                    <!--<TextBlock Text="{Binding #TabControl.SelectedItem.Header}" Margin="40 20" FontSize="32" FontWeight="Light" />-->
+                </ExperimentalAcrylicBorder>
+            </DockPanel>
+
+            <ExperimentalAcrylicBorder Grid.Row="1">
+                <ExperimentalAcrylicBorder.Material>
+                    <ExperimentalAcrylicMaterial TintColor="Black" MaterialOpacity="0.85" TintOpacity="1" />
+                </ExperimentalAcrylicBorder.Material>
+                <DockPanel>
+                    <!--<Label Content="Enter time here:" VerticalContentAlignment="Center"/>
+                    <TimePicker ClockIdentifier="24HourClock" VerticalAlignment="Center"/>-->
+                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Label Content="Resin " VerticalContentAlignment="Center"/>
+                        <Button Content="-20" VerticalAlignment="Center"/>
+                        <Label Content="RemainingTime" VerticalContentAlignment="Center"/>
+                        <Button Content="+20" VerticalAlignment="Center"/>
+                        <Label Content="Fully replenished in" Margin="20,0,0,0" VerticalContentAlignment="Center"/>
+                        <Label Content="RemainingTime" VerticalContentAlignment="Center"/>
+                    </DockPanel>
+                </DockPanel>
+            </ExperimentalAcrylicBorder>
+
+
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+            <Menu VerticalAlignment="Top" Grid.Row="0">
+                <MenuItem Header="File">
+                    <MenuItem Header="Open"/>
+                    <MenuItem Header="Save"/>
+                    <Separator Height="1"/>
+                    <MenuItem Header="Exit"/>
+                </MenuItem>
+                <MenuItem Header="Edit"/>
+                <MenuItem Header="Settings"/>
+                <MenuItem Header="Help"/>
+            </Menu>
+
+
+            <!--<DockPanel Grid.Row="2">
+                <Label Content="Resin "/>
+                <Button Content="-20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"/>
+                <Label Content="{Binding Timer.RemainingTime}"/>
+                <Button Content="+20" Command="{Binding EditRemainingTimeCommand}" CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"/>
+                <Label Content="Fully replenished in" Margin="20,0,0,0"/>
+                <Label Content="{Binding Timer.RemainingTime}"/>
+            </DockPanel>-->
+        </Grid>
+        <TabControl TabStripPlacement="Left" x:Name="TabControlSidebar" Classes="sidebar" Margin="0 40 0 20" >
+            <TabItem Header="Wishes"/>
+            <TabItem Header="Calculator"/>
+        </TabControl>
+
+    </Panel>
+</FluentWindow>
