@@ -1,0 +1,58 @@
+name: AvaloniaUI dev build
+
+on:
+  push:
+    branches: [ dev, New-UI ]
+  pull_request:
+    branches: [ dev ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        configuration: [Release]
+
+    runs-on: windows-latest 
+
+    env:
+      Solution_Name: GenshinCompanionAvalonia.sln
+      Project_Path: GenshinCompanionAvalonia\GenshinCompanionAvalonia.csproj
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
+    - name: Setup MSBuild.exe
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v1
+
+    - name: Restore NuGet Packages
+      run: nuget restore $env:Solution_Name
+
+    # Restore the application to populate the obj folder with RuntimeIdentifiers
+    - name: Restore the application
+      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+
+    - name: Build the application
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+      env:
+        Configuration: ${{ matrix.configuration }}
+
+    - name: Publish the application
+      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile="win-x86-single.pubxml"
+      env:
+        Configuration: ${{ matrix.configuration }}
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Published win-x86-single
+        path: GenshinCompanionAvalonia\bin\Release\net5.0\publish\
+        retention-days: 30
