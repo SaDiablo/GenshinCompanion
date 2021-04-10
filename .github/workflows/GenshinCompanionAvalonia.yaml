@@ -43,7 +43,10 @@ jobs:
       run: dotnet restore $env:Solution_Name
 
     - name: Build
-      run: dotnet build --no-restore $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile="win-x86-single.pubxml"
+      run: dotnet build --no-restore $env:Solution_Name /p:DeployOnBuild=true /p:PublishProfile="win-x86-single.pubxml"
+
+    - name: Publish
+      run: dotnet publish $env:Solution_Name /p:PublishProfile="win-x86-single.pubxml" -f net5.0
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
