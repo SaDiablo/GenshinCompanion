@@ -1,7 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>
+		net5.0
+	</TargetFrameworks>
+	<RuntimeIdentifiers>
+		win-x86;
+		win-x64;
+		win-arm;
+		osx-x64;
+		linux-x64;
+		linux-arm;
+	</RuntimeIdentifiers>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
