@@ -56,7 +56,7 @@ namespace GenshinCompanionAvalonia.Models
         public int PityLimit => _pityLimit;
 
         public int TotalCount => _wishList.Count;
-        public string PrimogemCount => (TotalCount * 160).ToString() + " Primogems";
+        public string PrimogemCount => (TotalCount * 160).ToString(); //+ " Primogems"
         public int CharacterCount => _wishList.Where(s => s != null && s.DropType.Equals(DropType.Character)).Count();
         public int FourStarCount => _wishList.Where(s => s != null && s.DropRarity.Equals(4)).Count();
         public int FiveStarCount => _wishList.Where(s => s != null && s.DropRarity.Equals(5)).Count();
@@ -107,7 +107,7 @@ namespace GenshinCompanionAvalonia.Models
                     return _fiveStarPercent.ToString("P2");
             }
         }
-        public string WishesTill5StarPrimogem => (WishesTill5Star * 160).ToString() + " Primogems";
+        public string WishesTill5StarPrimogem => (WishesTill5Star * 160).ToString(); //+ " Primogems"
 
         public string NextFourStarRate
         {
