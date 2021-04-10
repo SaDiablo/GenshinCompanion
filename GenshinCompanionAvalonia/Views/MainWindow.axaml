@@ -7,8 +7,8 @@
         ExtendClientAreaToDecorationsHint="False"
         mc:Ignorable="d"
         d:DesignWidth="800" d:DesignHeight="450"
-        Height="450" Width="800"
-        MinWidth="750" MinHeight="289"
+        Width="1000" Height="450"
+        MinWidth="1000" MinHeight="275"
         x:Class="GenshinCompanionAvalonia.Views.MainWindow"
         Icon="/Assets/Item_Primogem_256.ico"
         Title=""
@@ -48,48 +48,100 @@
                             <TabItem Header="Character">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="65*" MaxWidth="130"/>
-                                        <ColumnDefinition Width="180*" MaxWidth="360"/>
-                                        <ColumnDefinition Width="auto" MaxWidth="300"/>
-                                        <ColumnDefinition Width="100*"/>
+                                        <ColumnDefinition Width="1.5*" />
+                                        <ColumnDefinition Width="1*"/>
                                     </Grid.ColumnDefinitions>
-                                    <!--<Label Content="Input" />-->
-                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="0">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Spacing="4" Orientation="Vertical"/>
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate x:DataType="m:WishDrop">
-                                                <TextBlock Text="{CompiledBinding DropType}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
-                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="1">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Spacing="4" Orientation="Vertical"/>
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate x:DataType="m:WishDrop">
-                                                <TextBlock Text="{CompiledBinding DropName}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
-                                    <ItemsRepeater Items="{Binding CharacterBanner.WishList}" Grid.Column="2">
-                                        <ItemsRepeater.Layout>
-                                            <StackLayout Spacing="4" Orientation="Vertical"/>
-                                        </ItemsRepeater.Layout>
-                                        <ItemsRepeater.ItemTemplate>
-                                            <DataTemplate x:DataType="m:WishDrop">
-                                                <TextBlock Text="{CompiledBinding DropTime}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                            </DataTemplate>
-                                        </ItemsRepeater.ItemTemplate>
-                                    </ItemsRepeater>
-                                    <!--<ListView.ContextMenu>
+                                    <ScrollViewer Name="scroller"
+                                            HorizontalScrollBarVisibility="Auto"
+                                            VerticalScrollBarVisibility="Auto" Grid.Column="0">
+                                        <ItemsRepeater Items="{Binding CharacterBanner.WishList}" >
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Spacing="4" Orientation="Vertical"/>
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="70*" MinWidth="80" MaxWidth="130"/>
+                                                            <ColumnDefinition Width="180*" MaxWidth="380"/>
+                                                            <ColumnDefinition Width="auto" MaxWidth="320"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem Header="Remove" Command="{Binding RemoveWishCommand}"
+                                                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                                            </ContextMenu>
+                                                        </Grid.ContextMenu>
+                                                        <TextBlock Text="{Binding DropType}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" />
+                                                        <TextBlock Text="{Binding DropName}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="1" />
+                                                        <TextBlock Text="{Binding DropTime}" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                        <!--<ListView.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Remove" Command="{Binding RemoveWishCommand}"
                                                 CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                                             </ContextMenu>
                                         </ListView.ContextMenu>-->
+                                    </ScrollViewer>
+                                    <Grid Grid.Column="1" Margin="8" VerticalAlignment="Stretch" >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition MinHeight="24" MaxHeight="48"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                            <RowDefinition Height="24"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.5*" MinWidth="90"/>
+                                            <ColumnDefinition Width="0.75*" MinWidth="65"/>
+                                            <ColumnDefinition Width="1*" MinWidth="50"/>
+                                            <ColumnDefinition Width="0.75*" MinWidth="80"/>
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Label Content="Input" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4"/>
+                                        <TextBox x:Name="textBoxBannerInput" Grid.Column="0" TextWrapping="Wrap" Text="{Binding InputString}"
+                                                 VerticalAlignment="Stretch" MinHeight="24" Margin="40,0,0,0" AcceptsReturn="True" Grid.ColumnSpan="3" Foreground="White" Background="#FF191919" BorderBrush="#FF535353"/>
+                                        <Button x:Name="buttonAddInput" Content="Add" Grid.Row="0" Grid.Column="3" Margin="4,0,0,0" VerticalAlignment="Center"
+                                                Command="{Binding AddWishesCommand}" CommandParameter="{Binding Text, ElementName=textBoxBannerInput}" Background="#FF202020" />
+
+                                        <Label Content="Wish Count" Grid.Row="1"/>
+                                        <Label Content="Characters" Grid.Row="2"/>
+                                        <Label Content="4-Star drops" Grid.Row="3"/>
+                                        <Label Content="5-Star drops" Grid.Row="4"/>
+                                        <Label Content="Wishes till 5*" Grid.Row="5"/>
+                                        <!--<Label Content="4* Rate/Percent" Grid.Row="6"/>-->
+                                        <Label Content="5* Rate" Grid.Row="6"/>
+
+                                        <Label x:Name="labelWishCount" Grid.Row="1" Grid.Column="1" Content="{Binding CharacterBanner.TotalCount}"/>
+                                        <StackPanel x:Name="labelPrimogemsCount" Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                                            <Label Content="{Binding CharacterBanner.PrimogemCount}" Padding="4" />
+                                            <Image Source="/Assets/Item_Primogem_256.ico" Margin="0,4" ToolTip.Tip="Primogems"/>
+                                        </StackPanel>
+                                        <!--<Label x:Name="labelPrimogemsCount" Grid.Row="1" Grid.Column="2" Padding="4" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.PrimogemCount}"/>-->
+                                        <Label x:Name="labelCharacterCount" Grid.Row="2" Grid.Column="1" Content="{Binding CharacterBanner.CharacterCount}"/>
+                                        <Label x:Name="labelCharacterPercent" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.CharacterPercent}"/>
+                                        <Label x:Name="label4StarCount" Grid.Row="3" Grid.Column="1" Content="{Binding CharacterBanner.FourStarCount}"/>
+                                        <Label x:Name="label4StarPercent" Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.FourStarPercent}"/>
+                                        <Label x:Name="label5StarCount" Grid.Row="4" Grid.Column="1" Content="{Binding CharacterBanner.FiveStarCount}"/>
+                                        <Label x:Name="label5StarPercent" Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.FiveStarPercent}"/>
+                                        <Label x:Name="labelwishesTill5StarCount" Grid.Row="5" Grid.Column="1" Content="{Binding CharacterBanner.WishesTill5Star}"/>
+                                        <!--<Label x:Name="labelwishesTill5StarPrimogems" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.WishesTill5StarPrimogem}"/>-->
+                                        <StackPanel x:Name="labelwishesTill5StarPrimogems" Orientation="Horizontal" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2">
+                                            <Label Content="{Binding CharacterBanner.WishesTill5StarPrimogem}" Padding="4" />
+                                            <Image Source="/Assets/Item_Primogem_256.ico" Margin="0,4" ToolTip.Tip="Primogems"/>
+                                        </StackPanel>
+
+                                        <!--<Label x:Name="labelNextFourStarRate" Grid.Row="6" Grid.Column="1" Style="{DynamicResource LabelNextFourStarRateStyle}"/>
+                <Label x:Name="labelNextFourStarPercent" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Style="{DynamicResource LabelNextFourStarPercentStyle}"/>-->
+                                        <Label x:Name="labelNextFiveStarRate" Grid.Row="6" Grid.Column="1" Content="{Binding CharacterBanner.NextFiveStarRate}"/>
+                                        <Label x:Name="labelNextFiveStarPercent" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" Content="{Binding CharacterBanner.NextFiveStarPercent}"/>
+                                    </Grid>
                                 </Grid>
                             </TabItem>
                             <TabItem Header="Weapon"/>
@@ -121,7 +173,7 @@
 
 
         </Grid>
-        <Grid>
+        <Grid MaxWidth="240" HorizontalAlignment="Left">
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="auto"/>
@@ -149,7 +201,7 @@
                 <Label Content="{Binding Timer.RemainingTime}"/>
             </DockPanel>-->
         </Grid>
-        <TabControl TabStripPlacement="Left" x:Name="TabControlSidebar" Classes="sidebar" Margin="0 40 0 20" >
+        <TabControl TabStripPlacement="Left" x:Name="TabControlSidebar" Classes="sidebar" Margin="0 40 0 20" MaxWidth="240" HorizontalAlignment="Left" >
             <TabItem Header="Wishes"/>
             <TabItem Header="Calculator"/>
         </TabControl>
