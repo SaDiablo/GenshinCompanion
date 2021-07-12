@@ -62,3 +62,5 @@ jobs:
         name: GenshinCompanion-${{steps.get-version.outputs.version}}-${{env.Configuration}}
         path: GenshinCompanion\bin\${{env.Configuration}}\net472\win7-x86\
         retention-days: 30
+      env:
+        Configuration: ${{ matrix.configuration }}
