@@ -28,7 +28,7 @@ jobs:
       uses: naminodarie/get-net-sdk-project-versions-action@v1.1.1
       id: get-version
       with:
-        proj-path: GenshinCompanion\GenshinCompanion.csproj
+        proj-path: ${{env.Project_Path}}
 
     # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
@@ -61,5 +61,5 @@ jobs:
       
       with:
         name: GenshinCompanion-${{steps.get-version.outputs.version}}-$env:Configuration
-        path: GenshinCompanion\bin\$env:Configuration\net472\win7-x86\
+        path: GenshinCompanion\bin\${{env.Project_Path}}\net472\win7-x86\
         retention-days: 30
