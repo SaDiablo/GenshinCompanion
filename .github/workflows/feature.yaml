@@ -24,10 +24,11 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: get-net-sdk-project-versions-action
+    - name: Get Project Version
       uses: naminodarie/get-net-sdk-project-versions-action@v1.1.1
+      id: get-version
       with:
-        proj-path: $env:Project_Path
+        proj-path: ${{env:Project_Path}}
 
     # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
