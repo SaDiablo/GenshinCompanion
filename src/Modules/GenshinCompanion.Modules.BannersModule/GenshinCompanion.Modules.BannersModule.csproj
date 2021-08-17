@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GenshinCompanion.Core\GenshinCompanion.Core.csproj" />

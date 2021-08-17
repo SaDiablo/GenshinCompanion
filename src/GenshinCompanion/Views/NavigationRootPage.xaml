@@ -28,6 +28,7 @@
             </ui:NavigationView.MenuItems>
             <ui:SimpleStackPanel
                 Margin="24,32,24,0"
+                Orientation="Horizontal"
                 Spacing="24">
                 <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
             </ui:SimpleStackPanel>

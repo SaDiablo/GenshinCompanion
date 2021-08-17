@@ -58,12 +58,12 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <!-- ItemsSource="{Binding Source={StaticResource cvs}}" -->
         <DataGrid
             x:Name="dataGrid"
             AutoGenerateColumns="False"
             GridLinesVisibility="Horizontal"
             HeadersVisibility="Column"
+            ItemsSource="{Binding CharacterBanner.WishList}"
             RowDetailsTemplate="{StaticResource RowDetailsTemplate}"
             RowDetailsVisibilityMode="Collapsed"
             VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -71,15 +71,15 @@
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Width="105"
-                    Binding="{Binding ItemType}"
+                    Binding="{Binding DropType}"
                     Header="Item Type" />
                 <DataGridTextColumn
                     Width="135"
-                    Binding="{Binding ItemName}"
+                    Binding="{Binding DropName}"
                     Header="Item Name" />
                 <DataGridTextColumn
                     Width="260"
-                    Binding="{Binding ItemReceived}"
+                    Binding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"
                     Header="Item Received" />
             </DataGrid.Columns>
         </DataGrid>
