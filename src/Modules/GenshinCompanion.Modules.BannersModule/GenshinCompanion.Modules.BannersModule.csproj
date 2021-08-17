@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>GenshinCompanion.Modules.BannersModule</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GenshinCompanion.Core\GenshinCompanion.Core.csproj" />
+    <ProjectReference Include="..\..\Services\GenshinCompanion.Services.Interfaces\GenshinCompanion.Services.Interfaces.csproj" />
+  </ItemGroup>
+</Project>
