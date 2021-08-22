@@ -4,6 +4,10 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>GenshinCompanion.Modules.BannersModule</AssemblyName>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
