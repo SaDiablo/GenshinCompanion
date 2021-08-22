@@ -4,35 +4,56 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:GenshinCompanion.Core;assembly=GenshinCompanion.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:GenshinCompanion.Views"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodels="clr-namespace:GenshinCompanion.ViewModels"
     Title="NavigationRootPage"
+    d:DataContext="{d:DesignInstance Type=viewmodels:NavigationRootPageViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
 
     <Grid>
         <ui:NavigationView
             x:Name="NavView"
             Margin="0,1,0,0"
+            CompactModeThresholdWidth="620"
+            ExpandedModeThresholdWidth="1092"
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
-            IsPaneOpen="True">
+            IsPaneOpen="True"
+            OpenPaneLength="200">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ItemInvoked">
+                    <i:InvokeCommandAction
+                        Command="{Binding NavigationViewItemInvokedCommand}"
+                        PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
-                    Content="Banners"
-                    Icon="Home" />
-                <ui:NavigationViewItem />
+                    Content="Character Banners"
+                    Icon="Home"
+                    Tag="CharacterBannerTag" />
+                <ui:NavigationViewItem
+                    Content="Weapon Banners"
+                    Icon="Home"
+                    Tag="WeaponBannerTag" />
+                <ui:NavigationViewItem
+                    Content="Standard Banners"
+                    Icon="Home"
+                    Tag="StandardBannerTag" />
+                <ui:NavigationViewItem
+                    Content="Novice Banners"
+                    Icon="Home"
+                    Tag="NoviceBannerTag" />
             </ui:NavigationView.MenuItems>
-            <ui:SimpleStackPanel
-                Margin="24,32,24,0"
-                Orientation="Horizontal"
-                Spacing="24">
-                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
-            </ui:SimpleStackPanel>
-
+            <Grid>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.BannersRegion}" />
+            </Grid>
         </ui:NavigationView>
     </Grid>
 </Page>

@@ -1,5 +1,4 @@
-﻿
-namespace GenshinCompanion.Services.Interfaces
+﻿namespace GenshinCompanion.Services.Interfaces
 {
     public interface IMessageService
     {

@@ -10,6 +10,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
     public class ResinTimer : BindableBase
     {
         private TimeSpan _duration;
+
         public TimeSpan Duration
         {
             get => _duration;
@@ -28,6 +29,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         public TimeSpan RemainingTime { get => _remainingTime; set => SetProperty(ref _remainingTime, value); }
 
         private DateTime? _endTime;
+
         public DateTime? EndTime
         {
             get => _endTime;

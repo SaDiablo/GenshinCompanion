@@ -1,30 +1,24 @@
 using GenshinCompanion.Core.Mvvm;
-using GenshinCompanion.Services.Interfaces;
-using Prism.Regions;
-using Prism.Commands;
 using GenshinCompanion.Modules.BannersModule.Models;
+using GenshinCompanion.Services.Interfaces;
+using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Windows.Input;
 
 namespace GenshinCompanion.Modules.BannersModule.ViewModels
 {
-    public class ViewAViewModel : RegionViewModelBase
+    public class BannersViewModel : RegionViewModelBase
     {
-        private string _message;
-        public string Message
-        {
-            get => _message;
-            set => SetProperty(ref _message, value);
-        }
 
-        public ViewAViewModel(IRegionManager regionManager, IMessageService messageService) :
+        public BannersViewModel(IRegionManager regionManager, IMessageService messageService) :
             base(regionManager)
         {
             try
             {
                 _startCountdownCommand = new DelegateCommand(Timer._StartCountdown);
                 _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
-                _addWishesCommand = new DelegateCommand(_AddWishesCommand);
+                _addWishesCommand = new DelegateCommand<string>(_AddWishesCommand);
                 _saveBannersCommand = new DelegateCommand(_SaveBanners);
                 _openBannersCommand = new DelegateCommand(_OpenBanners);
                 _minimizeWindowCommand = new DelegateCommand(_MinimizeWindow);
@@ -39,9 +33,8 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //do something
-        }
 
+        }
 
         private bool _isVisible;
         public bool IsVisible { get => _isVisible; set => SetProperty(ref _isVisible, value); }
@@ -70,7 +63,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         private readonly DelegateCommand _startCountdownCommand;
         public ICommand StartCountdownCommand => _startCountdownCommand;
 
-        private readonly DelegateCommand _addWishesCommand;
+        private readonly DelegateCommand<string> _addWishesCommand;
         public ICommand AddWishesCommand => _addWishesCommand;
 
         private readonly DelegateCommand _saveBannersCommand;
@@ -90,9 +83,9 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 
         private void _MinimizeWindow()
         {
-
         }
 
+        //TODO: Rework removing wishes from DataGrid
         private void _RemoveWish(WishDrop wish)
         {
             switch (TabBannersIndex)
@@ -100,15 +93,19 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 case 0:
                     CharacterBanner.RemoveItem(wish);
                     break;
+
                 case 1:
                     WeaponBanner.RemoveItem(wish);
                     break;
+
                 case 2:
                     StandardBanner.RemoveItem(wish);
                     break;
+
                 case 3:
                     NoviceBanner.RemoveItem(wish);
                     break;
+
                 default:
                     break;
             }
@@ -127,36 +124,47 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 case "-20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
                     break;
+
                 case "+20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
                     break;
             }
-            if (!Timer.Running) { Timer._StartCountdown(); }
+
+            if (!Timer.Running)
+            {
+                Timer._StartCountdown();
+            }
+
             Timer.Save();
         }
 
-        private void _AddWishesCommand()
+        private void _AddWishesCommand(string bannerType)
         {
-            switch (TabBannersIndex)
+            switch (bannerType)
             {
-                case 0:
+                case "Character":
                     CharacterBanner.AddRange(InputString);
                     break;
-                case 1:
+
+                case "Weapon":
                     WeaponBanner.AddRange(InputString);
                     break;
-                case 2:
+
+                case "Standard":
                     StandardBanner.AddRange(InputString);
                     break;
-                case 3:
+
+                case "Novice":
                     NoviceBanner.AddRange(InputString);
                     break;
+
                 default:
                     break;
             }
             InputString = string.Empty;
         }
 
+        //TODO: Wire saving to adding wishes
         private void _SaveBanners()
         {
             CharacterBanner.TrySaveJson();

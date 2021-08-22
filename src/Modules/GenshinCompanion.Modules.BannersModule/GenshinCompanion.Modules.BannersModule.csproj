@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
@@ -12,5 +12,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\GenshinCompanion.Core\GenshinCompanion.Core.csproj" />
     <ProjectReference Include="..\..\Services\GenshinCompanion.Services.Interfaces\GenshinCompanion.Services.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\BannerControlProperty.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

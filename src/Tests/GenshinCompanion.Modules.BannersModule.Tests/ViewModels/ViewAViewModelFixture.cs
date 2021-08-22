@@ -6,13 +6,13 @@ using Xunit;
 
 namespace GenshinCompanion.Modules.BannersModule.Tests.ViewModels
 {
-    public class ViewAViewModelFixture
+    public class CharacterBannerViewModelFixture
     {
-        Mock<IMessageService> _messageServiceMock;
-        Mock<IRegionManager> _regionManagerMock;
-        const string MessageServiceDefaultMessage = "Some Value";
+        private Mock<IMessageService> _messageServiceMock;
+        private Mock<IRegionManager> _regionManagerMock;
+        private const string MessageServiceDefaultMessage = "Some Value";
 
-        public ViewAViewModelFixture()
+        public CharacterBannerViewModelFixture()
         {
             var messageService = new Mock<IMessageService>();
             messageService.Setup(x => x.GetMessage()).Returns(MessageServiceDefaultMessage);
@@ -24,7 +24,7 @@ namespace GenshinCompanion.Modules.BannersModule.Tests.ViewModels
         [Fact]
         public void MessagePropertyValueUpdated()
         {
-            var vm = new ViewAViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
+            var vm = new BannersViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
 
             _messageServiceMock.Verify(x => x.GetMessage(), Times.Once);
 
@@ -34,7 +34,7 @@ namespace GenshinCompanion.Modules.BannersModule.Tests.ViewModels
         [Fact]
         public void MessageINotifyPropertyChangedCalled()
         {
-            var vm = new ViewAViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
+            var vm = new BannersViewModel(_regionManagerMock.Object, _messageServiceMock.Object);
             Assert.PropertyChanged(vm, nameof(vm.Message), () => vm.Message = "Changed");
         }
     }
