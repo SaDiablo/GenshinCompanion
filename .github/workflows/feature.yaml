@@ -52,7 +52,9 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     - name: Publish the application
-      run: dotnet publish $env:Solution_Name /p:PublishProfile="win-x86" -f netcoreapp3.1
+      run: dotnet publish $env:Solution_Name /p:Configuration=$env:Configuration /p:PublishProfile="win-x86"
+      env:
+        Configuration: ${{ matrix.configuration }}
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
