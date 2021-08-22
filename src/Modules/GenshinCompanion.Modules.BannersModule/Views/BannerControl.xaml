@@ -74,13 +74,13 @@
         <s:TimeSpan x:Key="timeSpanRoundTo">00:00:01</s:TimeSpan>
     </UserControl.Resources>
     <Grid>
-        <Label
+        <!--<Label
             Margin="24,12"
             VerticalAlignment="Top"
             Content="{Binding Banner.BannerType, Converter={StaticResource enumToStringConverter}, ElementName=BannerUserControl}"
-            FontSize="20" />
+            FontSize="20" />-->
         <ui:SimpleStackPanel
-            Margin="24,42"
+            Margin="24,12,24,42"
             Orientation="Horizontal"
             Spacing="24">
 
@@ -96,6 +96,9 @@
                 VirtualizingPanel.VirtualizationMode="Recycling">
                 <DataGrid.Columns>
                     <DataGridTextColumn
+                        Width="40"
+                        Binding="{Binding DropIndex}" />
+                    <DataGridTextColumn
                         Width="105"
                         Binding="{Binding DropType}"
                         Header="Item Type" />
@@ -108,6 +111,66 @@
                         Binding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"
                         Header="Item Received" />
                 </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                        </Style.Resources>
+                        <Setter Property="Background" Value="Transparent" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DropRarity}" Value="4">
+                                <Setter Property="Background" Value="#FF7011CF" />
+                                <Setter Property="Foreground" Value="#FFCFCFCF" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding DropRarity}" Value="5">
+                                <Setter Property="Background" Value="#FFCF9B11" />
+                                <Setter Property="Foreground" Value="#FF303030" />
+                            </DataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                    <Condition Binding="{Binding DropRarity}" Value="5" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="#FFCF9B11" />
+                                <Setter Property="Foreground" Value="#FF303030" />
+                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                    <Condition Binding="{Binding DropRarity}" Value="4" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="#FF7011CF" />
+                                <Setter Property="Foreground" Value="#FFCFCFCF" />
+                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                    <Condition Binding="{Binding DropRarity}" Value="3" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                    <Condition Binding="{Binding DropRarity}" Value="3" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
             </DataGrid>
             <Grid
                 Grid.Column="1"
@@ -280,7 +343,14 @@
                     <StatusBarItem
                         Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo}, Converter={StaticResource timeSpanRoundUpConverter}}"
                         ContentStringFormat="Resin: {0:hh:mm:ss}"
-                        FontSize="14" />
+                        FontSize="14">
+                        <StatusBarItem.ToolTip>
+                            <ToolTip
+                                Content="{Binding Timer.EndTime, Converter={StaticResource utcToLocalConverter}}"
+                                ContentStringFormat="{}{0:HH:mm dd/MM/yyyy}" />
+                        </StatusBarItem.ToolTip>
+                    </StatusBarItem>
+
                 </DockPanel>
             </StatusBarItem>
         </StatusBar>

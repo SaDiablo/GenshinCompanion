@@ -10,7 +10,6 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 {
     public class BannersViewModel : RegionViewModelBase
     {
-
         public BannersViewModel(IRegionManager regionManager, IMessageService messageService) :
             base(regionManager)
         {
@@ -33,7 +32,6 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-
         }
 
         private bool _isVisible;

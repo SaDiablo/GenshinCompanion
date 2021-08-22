@@ -24,12 +24,10 @@ namespace GenshinCompanion.Core.Mvvm
 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
-
         }
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-
         }
     }
 }

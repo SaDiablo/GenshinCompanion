@@ -6,13 +6,12 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     Title="{Binding Title}"
-    Width="925"
+    Width="960"
     Height="500"
     MinWidth="600"
     MinHeight="286"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ui:ControlHelper.CornerRadius="4"
-    ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:WindowHelper.UseModernWindowStyle="True">
     <local:NavigationRootPage x:Name="RootPage" />
 </Window>

@@ -11,11 +11,13 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private DropType _dropType;
         private DateTime _dropTime;
         private int _dropRarity;
+        private int _dropIndex;
 
         public string DropName { get => _dropName; set => _dropName = value; }
         public DropType DropType { get => _dropType; set => _dropType = value; }
         public DateTime DropTime { get => _dropTime; set => _dropTime = value; }
         public int DropRarity { get => _dropRarity; set => _dropRarity = value; }
+        public int DropIndex { get => _dropIndex; set => _dropIndex = value; }
 
         public WishDrop(DropType dropType, string dropName, DateTime dropTime)
         {

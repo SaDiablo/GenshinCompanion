@@ -73,14 +73,52 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             get
             {
-                int wishesTill5Star = _pityLimit;
-                try
-                {
-                    wishesTill5Star -= _wishList.Select((wish, index) => new { wish, index }).First(s => s != null && s.wish.DropRarity.Equals(5)).index;
-                }
-                catch (InvalidOperationException) { wishesTill5Star = _pityLimit - _wishList.Count; }
+                return _pityLimit - Get5StarIndex(0);
+            }
+        }
 
-                return wishesTill5Star;
+        private List<int> fiveStarIndex = new List<int>();
+
+        public List<int> FiveStarIndex
+        {
+            get
+            {
+                if (fiveStarIndex.Count == 0)
+                {
+                    var indexes = _wishList
+                    .Select((wish, index) => new { wish, index })
+                    .Where(s => s != null && s.wish.DropRarity.Equals(5));
+                    foreach (var item in indexes)
+                    {
+                        fiveStarIndex.Add(item.index);
+                    }
+                }
+                return fiveStarIndex;
+            }
+
+            set => fiveStarIndex = value;
+        }
+
+        private int Get5StarIndex(int indexToCheckFrom)
+        {
+            int wishesTill5Star = _pityLimit;
+            try
+            {
+                wishesTill5Star = FiveStarIndex
+                    .Where(s => s > indexToCheckFrom)
+                    .First() - indexToCheckFrom ;
+            }
+            catch (InvalidOperationException) { wishesTill5Star = _wishList.Count - indexToCheckFrom; }
+
+            return wishesTill5Star;
+        }
+
+
+        private void SetIndexes()
+        {
+            for (int i = 0; i < TotalCount; i++)
+            {
+                _wishList[i].DropIndex = Get5StarIndex(i);
             }
         }
 
@@ -148,6 +186,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 return !double.IsNaN(_nextFiveStarPercent) ? _nextFiveStarPercent.ToString("P4") + " Chance" : "0";
             }
         }
+
+        
 
         public Banner() => _wishList = new BindingList<WishDrop>();
 
@@ -241,7 +281,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 {
                     WishList = await JsonSerializer.DeserializeAsync<BindingList<WishDrop>>(openStream);
                 }
-
+                SetIndexes();
                 RaisePropertyChanged(nameof(WishList));
                 RefreshCounts();
             }

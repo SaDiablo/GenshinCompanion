@@ -15,8 +15,8 @@ jobs:
     runs-on: windows-latest 
 
     env:
-      Solution_Name: GenshinCompanion.sln
-      Project_Path: GenshinCompanion\GenshinCompanion.csproj
+      Solution_Name: src\GenshinCompanion.sln
+      Project_Path: src\GenshinCompanion\GenshinCompanion.csproj
 
     steps:
     - name: Checkout

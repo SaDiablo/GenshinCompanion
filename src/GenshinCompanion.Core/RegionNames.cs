@@ -1,5 +1,4 @@
-﻿
-namespace GenshinCompanion.Core
+﻿namespace GenshinCompanion.Core
 {
     public static class RegionNames
     {

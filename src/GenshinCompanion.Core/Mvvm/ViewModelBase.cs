@@ -7,12 +7,10 @@ namespace GenshinCompanion.Core.Mvvm
     {
         protected ViewModelBase()
         {
-
         }
 
         public virtual void Destroy()
         {
-
         }
     }
 }

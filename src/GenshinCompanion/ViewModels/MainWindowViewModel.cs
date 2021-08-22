@@ -5,6 +5,7 @@ namespace GenshinCompanion.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Genshin Companion";
+
         public string Title
         {
             get => _title;
@@ -13,7 +14,6 @@ namespace GenshinCompanion.ViewModels
 
         public MainWindowViewModel()
         {
-
         }
     }
 }
