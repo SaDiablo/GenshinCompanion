@@ -23,6 +23,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
 
     - name: Get Project Version
       uses: naminodarie/get-net-sdk-project-versions-action@v1.1.1
@@ -30,31 +35,24 @@ jobs:
       with:
         proj-path: ${{env.Project_Path}}
 
-    # Add MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1
-
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
 
     - name: Restore NuGet Packages
       run: nuget restore $env:Solution_Name
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    - name: Restore dependencies
+      run: dotnet restore $env:Solution_Name /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
     - name: Build the application
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration
+      run: dotnet build --no-restore $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile="win-x86.pubxml"
       env:
         Configuration: ${{ matrix.configuration }}
 
     - name: Publish the application
-      run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:DeployOnBuild=true /p:PublishProfile="win-x86.pubxml"
-      env:
-        Configuration: ${{ matrix.configuration }}
+      run: dotnet publish $env:Solution_Name /p:PublishProfile="win-x86" -f netcoreapp3.1
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
