@@ -343,7 +343,21 @@
                         Command="{Binding EditRemainingTimeCommand}"
                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
                         Content="-20"
-                        FontSize="14" />
+                        FontSize="14">
+                        <Button.ContextMenu>
+                            <ContextMenu Width="50">
+                                <MenuItem Header="-10">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction
+                                                Command="{Binding EditRemainingTimeCommand}"
+                                                CommandParameter="-10" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <StatusBarItem
                         Content="{Binding Timer.RemainingTime, Converter={StaticResource timerToResinConverter}}"
                         ContentStringFormat="({0}/160)"
@@ -354,7 +368,21 @@
                         Command="{Binding EditRemainingTimeCommand}"
                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
                         Content="+20"
-                        FontSize="14" />
+                        FontSize="14">
+                        <Button.ContextMenu>
+                            <ContextMenu Width="50">
+                                <MenuItem Header="+10">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction
+                                                Command="{Binding EditRemainingTimeCommand}"
+                                                CommandParameter="+10" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <StatusBarItem
                         Margin="20,0,0,0"
                         Content="Fully replenished in"

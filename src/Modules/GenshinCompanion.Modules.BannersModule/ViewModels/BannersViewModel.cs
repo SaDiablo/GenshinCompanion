@@ -105,9 +105,14 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 case "-20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
                     break;
-
                 case "+20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
+                    break;
+                case "-10":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(80);
+                    break;
+                case "+10":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-80);
                     break;
             }
 
