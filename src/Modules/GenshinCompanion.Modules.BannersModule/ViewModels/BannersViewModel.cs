@@ -83,30 +83,13 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         {
         }
 
-        //TODO: Rework removing wishes from DataGrid
         private void _RemoveWish(WishDrop wish)
         {
-            switch (TabBannersIndex)
-            {
-                case 0:
-                    CharacterBanner.RemoveItem(wish);
-                    break;
-
-                case 1:
-                    WeaponBanner.RemoveItem(wish);
-                    break;
-
-                case 2:
-                    StandardBanner.RemoveItem(wish);
-                    break;
-
-                case 3:
-                    NoviceBanner.RemoveItem(wish);
-                    break;
-
-                default:
-                    break;
-            }
+            CharacterBanner.WishList.Remove(wish);
+            WeaponBanner.WishList.Remove(wish);
+            StandardBanner.WishList.Remove(wish);
+            NoviceBanner.WishList.Remove(wish);
+            _SaveBanners();
         }
 
         private void _EditRemainingTime(string obj)
@@ -160,6 +143,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                     break;
             }
             InputString = string.Empty;
+            _SaveBanners();
         }
 
         //TODO: Wire saving to adding wishes

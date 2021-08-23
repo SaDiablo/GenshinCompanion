@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:GenshinCompanion.Modules.BannersModule.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui="http://schemas.modernwpf.com/2019"
@@ -89,9 +90,12 @@
                 AutoGenerateColumns="False"
                 GridLinesVisibility="Horizontal"
                 HeadersVisibility="Column"
+                IsReadOnly="True"
                 ItemsSource="{Binding Banner.WishList, ElementName=BannerUserControl}"
                 RowDetailsTemplate="{StaticResource RowDetailsTemplate}"
                 RowDetailsVisibilityMode="VisibleWhenSelected"
+                SelectionMode="Single"
+                SelectionUnit="FullRow"
                 VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                 VirtualizingPanel.VirtualizationMode="Recycling">
                 <DataGrid.Columns>
@@ -111,6 +115,21 @@
                         Binding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"
                         Header="Item Received" />
                 </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem
+                            x:Name="buttonRemoveWish"
+                            Header="Remove">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding RemoveWishCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">
                         <Style.Resources>
