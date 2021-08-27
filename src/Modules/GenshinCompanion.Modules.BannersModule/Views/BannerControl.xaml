@@ -217,12 +217,11 @@
                     Margin="44,0,0,0"
                     VerticalAlignment="Stretch"
                     AcceptsReturn="True"
-                    Background="#FF191919"
-                    BorderBrush="#FF535353"
-                    Foreground="White"
+                    Background="{StaticResource SystemControlBackgroundChromeMediumBrush}"
                     Text="{Binding InputString}"
                     TextWrapping="Wrap"
                     VerticalScrollBarVisibility="Auto" />
+                <!-- BorderBrush="#FF535353" -->
                 <Button
                     x:Name="buttonAddInput"
                     Grid.Row="0"
