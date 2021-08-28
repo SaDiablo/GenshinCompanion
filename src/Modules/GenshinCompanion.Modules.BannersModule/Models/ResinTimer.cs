@@ -19,6 +19,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 EndTime = DateTime.UtcNow + value;
                 Save();
                 SetProperty(ref _duration, new TimeSpan(0, 0, 0));
+                if (!_running) _StartCountdown();
             }
         }
 
@@ -41,14 +42,14 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         }
 
         private bool _running;
-        public bool Running { get => _running; set => _running = value; }
+        public bool Running { get => _running; set => SetProperty(ref _running, value); }
 
         public ResinTimer()
         {
             Open();
         }
 
-        internal async void _StartCountdown()
+        public async void _StartCountdown()
         {
             Running = true;
 
