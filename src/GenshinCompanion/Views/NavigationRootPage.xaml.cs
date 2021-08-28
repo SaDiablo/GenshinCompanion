@@ -10,6 +10,7 @@ namespace GenshinCompanion.Views
         public NavigationRootPage()
         {
             InitializeComponent();
+            NavView.SelectedItem = NavView.MenuItems[0];
         }
     }
 }
