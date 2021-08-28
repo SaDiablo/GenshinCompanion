@@ -1,0 +1,12 @@
+﻿<UserControl
+    x:Class="GenshinCompanion.Modules.BannersModule.Views.CharacterBannerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GenshinCompanion.Modules.BannersModule.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+        <local:BannerControl Banner="{Binding CharacterBanner}" />
+    </Grid>
+</UserControl>
