@@ -25,6 +25,7 @@
             IsBackButtonVisible="Collapsed"
             IsBackEnabled="False"
             IsPaneOpen="True"
+            IsSettingsVisible="False"
             OpenPaneLength="200"
             PaneDisplayMode="Top">
             <i:Interaction.Triggers>
