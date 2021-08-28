@@ -326,7 +326,7 @@
                 FontSize="14"
                 Text="{Binding Timer.Duration}" />
             <Button
-                Padding="6,2"
+                Padding="12,2"
                 Command="{Binding StartCountdownCommand}"
                 Content="Start"
                 FontSize="14" />
@@ -337,14 +337,17 @@
                         Content="Resin "
                         FontSize="14" />
                     <Button
-                        Width="40"
+                        Width="46"
                         Padding="6,2"
                         Command="{Binding EditRemainingTimeCommand}"
                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
                         Content="-20"
                         FontSize="14">
                         <Button.ContextMenu>
-                            <ContextMenu Width="50">
+                            <ContextMenu
+                                Width="46"
+                                Height="32"
+                                Padding="0">
                                 <MenuItem Header="-10">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
@@ -362,14 +365,17 @@
                         ContentStringFormat="({0}/160)"
                         FontSize="14" />
                     <Button
-                        Width="40"
+                        Width="46"
                         Padding="6,2"
                         Command="{Binding EditRemainingTimeCommand}"
                         CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
                         Content="+20"
                         FontSize="14">
                         <Button.ContextMenu>
-                            <ContextMenu Width="50">
+                            <ContextMenu
+                                Width="46"
+                                Height="32"
+                                Padding="0">
                                 <MenuItem Header="+10">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
