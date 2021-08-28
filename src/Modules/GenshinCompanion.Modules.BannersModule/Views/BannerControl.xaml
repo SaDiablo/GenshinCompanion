@@ -217,7 +217,7 @@
                     Margin="44,0,0,0"
                     VerticalAlignment="Stretch"
                     AcceptsReturn="True"
-                    Background="{StaticResource SystemControlBackgroundChromeMediumBrush}"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
                     Text="{Binding InputString}"
                     TextWrapping="Wrap"
                     VerticalScrollBarVisibility="Auto" />
