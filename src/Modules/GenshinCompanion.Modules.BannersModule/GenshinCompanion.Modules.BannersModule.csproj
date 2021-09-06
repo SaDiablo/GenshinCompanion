@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\GenshinCompanion.Core\GenshinCompanion.Core.csproj" />
     <ProjectReference Include="..\..\Services\GenshinCompanion.Services.Interfaces\GenshinCompanion.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\Services\GenshinCompanion.Services\GenshinCompanion.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\BannerControlProperty.xaml.cs">

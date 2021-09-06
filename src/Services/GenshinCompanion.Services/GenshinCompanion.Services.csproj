@@ -8,6 +8,10 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\GenshinCompanion.CoreStandard\GenshinCompanion.CoreStandard.csproj" />
     <ProjectReference Include="..\GenshinCompanion.Services.Interfaces\GenshinCompanion.Services.Interfaces.csproj" />
   </ItemGroup>
 

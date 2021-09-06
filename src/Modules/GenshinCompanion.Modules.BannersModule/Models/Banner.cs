@@ -1,4 +1,6 @@
-﻿using Prism.Mvvm;
+﻿using GenshinCompanion.CoreStandard;
+using GenshinCompanion.Services;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,28 +11,28 @@ using System.Text.Json.Serialization;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
-    public class Banner : BindableBase
+    public class Banner : BindableBase, IPersistData
     {
         #region Public Fields
 
-        public static double[] _fiveStarPercent = new double[]
+        public static double[] fiveStarPercent = new double[]
         { 0.00600, 0.01196, 0.01788, 0.02379, 0.02965, 0.03547, 0.04126, 0.04701, 0.05272, 0.05840, 0.06405, 0.06966, 0.07524, 0.08078, 0.08630, 0.09179, 0.09724, 0.10265, 0.10804, 0.11340, 0.11871, 0.12399, 0.12924, 0.13447, 0.13966, 0.14483, 0.14996, 0.15507, 0.16014, 0.16517, 0.17018, 0.17516, 0.18011, 0.18502, 0.18991, 0.19477, 0.19960, 0.20440, 0.20917, 0.21392, 0.21863, 0.22332, 0.22799, 0.23263, 0.23724, 0.24181, 0.24637, 0.25090, 0.25538, 0.25985, 0.26430, 0.26872, 0.27311, 0.27748, 0.28182, 0.28612, 0.29040, 0.29466, 0.29889, 0.30309, 0.30727, 0.31143, 0.31556, 0.31966, 0.32374, 0.32780, 0.33184, 0.33585, 0.33984, 0.34380, 0.34773, 0.35165, 0.35553, 0.35940, 0.36324, 0.56951, 0.70897, 0.80146, 0.86521, 0.90827, 0.93741, 0.95711, 0.97043, 0.97944, 0.98552, 0.98963, 0.99241, 0.99428, 0.99554, 0.99819 };
 
-        public static double[] _fiveStarRate = new double[]
+        public static double[] fiveStarRate = new double[]
         {0.00600, 0.00596, 0.00592, 0.00591, 0.00586, 0.00582, 0.00579, 0.00575, 0.00571, 0.00568, 0.00565, 0.00561, 0.00558, 0.00554, 0.00552, 0.00549, 0.00545, 0.00541, 0.00539, 0.00536, 0.00531, 0.00528, 0.00525, 0.00523, 0.00519, 0.00517, 0.00513, 0.00511, 0.00507, 0.00503, 0.00501, 0.00498, 0.00495, 0.00491, 0.00489, 0.00486, 0.00483, 0.00480, 0.00477, 0.00475, 0.00471, 0.00469, 0.00467, 0.00464, 0.00461, 0.00457, 0.00456, 0.00453, 0.00448, 0.00447, 0.00445, 0.00442, 0.00439, 0.00437, 0.00434, 0.00430, 0.00428, 0.00426, 0.00423, 0.00420, 0.00418, 0.00416, 0.00413, 0.00410, 0.00408, 0.00406, 0.00404, 0.00401, 0.00399, 0.00396, 0.00393, 0.00392, 0.00388, 0.00387, 0.00384, 0.20627, 0.13946, 0.09249, 0.06375, 0.04306, 0.02914, 0.01970, 0.01332, 0.00901, 0.00608, 0.00411, 0.00278, 0.00187, 0.00126, 0.00265 };
 
-        public static string[] _fourStarPercent = new string[]
+        public static string[] fourStarPercent = new string[]
         { "0", "1", "2" };
 
-        public static string[] _fourStarRate = new string[]
+        public static string[] fourStarRate = new string[]
         { "0", "1", "2" };
         #endregion Public Fields
 
         #region Private Fields
 
-        private BannerType _bannerType;
-        private int _pityLimit;
-        private BindingList<WishDrop> _wishList = new BindingList<WishDrop>();
+        private BannerType bannerType;
+        private int pityLimit;
+        private BindingList<WishDrop> wishList = new BindingList<WishDrop>();
         private List<int> fiveStarIndex = new List<int>();
         private DateTime genshinImpactStartTime = new DateTime(2020, 09, 28);
         //private TimeSpan daysSince5Star = DateTime.Now - genshinImpactStartTime;
@@ -39,11 +41,11 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         #region Public Constructors
 
-        public Banner() => _wishList = new BindingList<WishDrop>();
+        public Banner() => wishList = new BindingList<WishDrop>();
 
-        public Banner(BannerType _bannerType) : this() => BannerType = _bannerType;
+        public Banner(BannerType bannerType) : this() => BannerType = bannerType;
 
-        public Banner(BannerType _bannerType, string _genshinInput) : this(_bannerType) => AddRange(_genshinInput);
+        public Banner(BannerType bannerType, string genshinInput) : this(bannerType) => AddRange(genshinInput);
 
         [JsonConstructor]
         public Banner(BannerType bannerType, BindingList<WishDrop> wishList) =>
@@ -55,26 +57,26 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public BannerType BannerType
         {
-            get => _bannerType;
+            get => bannerType;
             set
             {
-                _bannerType = value;
+                bannerType = value;
                 switch (BannerType)
                 {
                     case BannerType.Character:
-                        _pityLimit = 90;
+                        pityLimit = 90;
                         break;
 
                     case BannerType.Weapon:
-                        _pityLimit = 80;
+                        pityLimit = 80;
                         break;
 
                     case BannerType.Standard:
-                        _pityLimit = 90;
+                        pityLimit = 90;
                         break;
 
                     case BannerType.Novice:
-                        _pityLimit = 20;
+                        pityLimit = 20;
                         break;
 
                     default:
@@ -83,7 +85,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             }
         }
 
-        public int CharacterCount => _wishList.Count(s => s != null && s.DropType.Equals(DropType.Character));
+        public int CharacterCount => wishList.Count(s => s != null && s.DropType.Equals(DropType.Character));
         public string CharacterPercent
         {
             get
@@ -93,7 +95,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             }
         }
 
-        public int FiveStarCount => _wishList.Count(s => s != null && s.DropRarity.Equals(5));
+        public int FiveStarCount => wishList.Count(s => s != null && s.DropRarity.Equals(5));
         public List<int> FiveStarIndex
         {
             get
@@ -110,33 +112,33 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         private List<int> RecountFiveStarIndexes()
         {
-            List<int> _fiveStarIndex = new List<int>();
-            var indexes = _wishList
+            List<int> fiveStarIndex = new List<int>();
+            var indexes = wishList
                 .Select((wish, index) => new { wish, index })
                 .Where(s => s != null && s.wish.DropRarity.Equals(5));
             foreach (var item in indexes)
             {
-                _fiveStarIndex.Add(item.index);
+                fiveStarIndex.Add(item.index);
             }
-            return _fiveStarIndex;
+            return fiveStarIndex;
         }
 
         public string FiveStarPercent
         {
             get
             {
-                double _fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
-                return !double.IsNaN(_fiveStarPercent) ? _fiveStarPercent.ToString("P2") : "0";
+                double fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
+                return !double.IsNaN(fiveStarPercent) ? fiveStarPercent.ToString("P2") : "0";
             }
         }
 
-        public int FourStarCount => _wishList.Count(s => s != null && s.DropRarity.Equals(4));
+        public int FourStarCount => wishList.Count(s => s != null && s.DropRarity.Equals(4));
         public string FourStarPercent
         {
             get
             {
-                double _fourStarPercent = (double)FourStarCount / (double)WishList.Count;
-                return !double.IsNaN(_fourStarPercent) ? _fourStarPercent.ToString("P2") : "0";
+                double fourStarPercent = (double)FourStarCount / (double)WishList.Count;
+                return !double.IsNaN(fourStarPercent) ? fourStarPercent.ToString("P2") : "0";
             }
         }
 
@@ -144,8 +146,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             get
             {
-                double _nextFiveStarPercent = _fiveStarPercent[_pityLimit - WishesTill5Star];
-                return !double.IsNaN(_nextFiveStarPercent) ? _nextFiveStarPercent.ToString("P4") + " Chance" : "0";
+                double nextFiveStarPercent = fiveStarPercent[pityLimit - WishesTill5Star];
+                return !double.IsNaN(nextFiveStarPercent) ? nextFiveStarPercent.ToString("P4") + " Chance" : "0";
             }
         }
 
@@ -153,8 +155,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             get
             {
-                double _nextFiveStarRate = _fiveStarRate[_pityLimit - WishesTill5Star];
-                return !double.IsNaN(_nextFiveStarRate) ? _nextFiveStarRate.ToString("P4") : "0";
+                double nextFiveStarRate = fiveStarRate[pityLimit - WishesTill5Star];
+                return !double.IsNaN(nextFiveStarRate) ? nextFiveStarRate.ToString("P4") : "0";
             }
         }
 
@@ -162,8 +164,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             get
             {
-                double _fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
-                return !double.IsNaN(_fiveStarPercent) ? _fiveStarPercent.ToString("P2") : "0";
+                double fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
+                return !double.IsNaN(fiveStarPercent) ? fiveStarPercent.ToString("P2") : "0";
             }
         }
 
@@ -171,24 +173,24 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             get
             {
-                double _fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
-                return !double.IsNaN(_fiveStarPercent) ? _fiveStarPercent.ToString("P2") : "0";
+                double fiveStarPercent = (double)FiveStarCount / (double)WishList.Count;
+                return !double.IsNaN(fiveStarPercent) ? fiveStarPercent.ToString("P2") : "0";
             }
         }
 
-        public int PityLimit => _pityLimit;
+        public int PityLimit => pityLimit;
         public string PrimogemCount => $"{TotalCount * 160} Primogems";
-        public int TotalCount => _wishList.Count;
+        public int TotalCount => wishList.Count;
         public int WishesTill5Star
         {
             get
             {
-                return _pityLimit - Get5StarIndex(0);
+                return pityLimit - Get5StarIndex(0);
             }
         }
 
         public string WishesTill5StarPrimogem => $"{WishesTill5Star * 160} Primogems";
-        public BindingList<WishDrop> WishList { get => _wishList; set => _wishList = value; }
+        public BindingList<WishDrop> WishList { get => wishList; set => wishList = value; }
 
         #endregion Public Properties
 
@@ -222,117 +224,25 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
             for (int i = 0; i < _wishList.Count; i++)
             {
-                this._wishList.Insert(i, _wishList[i]);
+                wishList.Insert(i, _wishList[i]);
             }
 
             FiveStarIndex = RecountFiveStarIndexes();
 
             for (int i = 0; i < _wishList.Count; i++)
             {
-                this._wishList[i].DropIndex = Get5StarIndex(i);
+                wishList[i].DropIndex = Get5StarIndex(i);
             }
 
             RefreshCounts();
-        }
-
-        public async void Open()
-        {
-            var path = Path.Combine(Environment.GetFolderPath(
-                Environment.SpecialFolder.LocalApplicationData),
-                "GenshinCompanion",
-                "Banners");
-            string[] files = null;
-            if (Directory.Exists(path))
-            {
-                files = Directory.GetFiles(path);
-            }
-
-            //to check if bannerType has been initialized
-            string filePath = Path.Combine(path, _bannerType.ToString().ToLower() + "Banner.json");
-            if (files != null && files.Contains(filePath))
-            {
-                using (FileStream openStream = File.OpenRead(filePath))
-                {
-                    WishList = await JsonSerializer.DeserializeAsync<BindingList<WishDrop>>(openStream);
-                }
-                SetIndexes();
-                RaisePropertyChanged(nameof(WishList));
-                RefreshCounts();
-            }
         }
 
         public void RemoveItem(WishDrop wish)
         {
-            WishList.Remove(wish);
-            RefreshCounts();
-        }
-
-        /// <summary>
-        /// Pretty printed json in AppData/Local/GenshinCompaion/Banners folder
-        /// </summary>
-        /// <returns>If saving was successful</returns>
-        public bool TrySaveJson()
-        {
-            //TODO:
-            //Don't hardcode path, check earlier for availability to save in folder
-            //To make it nondestructive to older saves
-            //Keep backups and check differences and then save
-            //Do it asynchronously
-            //make it format agnostic
-            //make it platform agnostic
-            //make the format a enum to choose from
-            if (WishList != null & WishList.Any())
+            if (WishList.Remove(wish))
             {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var path = Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.LocalApplicationData),
-                    "GenshinCompanion",
-                    "Banners");
-                string filePath = Path.Combine(path, _bannerType.ToString().ToLower() + "Banner.json");
-
-                if (!Directory.Exists(path))
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(path);
-                }
-
-                using (StreamWriter file = File.CreateText(filePath))
-                {
-                    file.Write(JsonSerializer.Serialize(_wishList, options));
-                }
-                return true;
+                RefreshCounts();
             }
-            return false;
-        }
-
-        /// <summary>
-        /// Save banner in the same format as would be from copying wish history from game
-        /// </summary>
-        /// <param name="_outputPath">Path where to save .txt</param>
-        /// <returns>If saving was successful</returns>
-        public bool TrySaveTxt(string _outputPath)
-        {
-            //Do it asynchronously
-            if (WishList != null & WishList.Count > 0)
-            {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var path = Path.Combine(Environment.GetFolderPath(
-                    Environment.SpecialFolder.LocalApplicationData),
-                    "GenshinCompanion",
-                    "Banners");
-                string filePath = Path.Combine(path, _bannerType.ToString().ToLower() + "Banner.json");
-
-                if (!Directory.Exists(path))
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(path);
-                }
-
-                using (StreamWriter file = File.CreateText(filePath))
-                {
-                    file.Write(JsonSerializer.Serialize(_wishList, options));
-                }
-                return true;
-            }
-            return false;
         }
 
         #endregion Public Methods
@@ -341,14 +251,14 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         private int Get5StarIndex(int indexToCheckFrom)
         {
-            int wishesTill5Star = _pityLimit;
+            int wishesTill5Star = pityLimit;
             try
             {
                 wishesTill5Star = FiveStarIndex
                     .Where(s => s > indexToCheckFrom)
                     .First() - indexToCheckFrom;
             }
-            catch (InvalidOperationException) { wishesTill5Star = _wishList.Count - indexToCheckFrom; }
+            catch (InvalidOperationException) { wishesTill5Star = wishList.Count - indexToCheckFrom; }
 
             return wishesTill5Star;
         }
@@ -380,10 +290,33 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             for (int i = 0; i < TotalCount; i++)
             {
-                _wishList[i].DropIndex = Get5StarIndex(i);
+                wishList[i].DropIndex = Get5StarIndex(i);
             }
         }
 
+        /// <summary>
+        /// Pretty printed json in AppData/Local/GenshinCompaion/Banners folder
+        /// </summary>
+        public async void Save()
+        {
+            if (WishList != null & WishList.Any())
+            {
+                await DataProvider.Save(WishList, $"{BannerType}{nameof(Banner)}");
+            }
+        }
+
+        public async void Open()
+        {
+            BindingList<WishDrop> deserializedData = await DataProvider.Open<BindingList<WishDrop>>($"{BannerType}{nameof(Banner)}");
+
+            if (deserializedData != null || deserializedData != default)
+            {
+                WishList = deserializedData;
+                SetIndexes();
+                RaisePropertyChanged(nameof(WishList));
+                RefreshCounts();
+            }
+        }
         #endregion Private Methods
     }
 }

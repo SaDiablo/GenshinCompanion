@@ -1,48 +1,54 @@
-﻿using Prism.Mvvm;
+﻿using GenshinCompanion.CoreStandard;
+using GenshinCompanion.Services;
+using Prism.Mvvm;
 using System;
+using System.Configuration;
 using System.IO;
-using System.Linq;
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
-    public class ResinTimer : BindableBase
+    public class ResinTimer : BindableBase, IPersistData
     {
-        private TimeSpan _duration;
+        private TimeSpan duration;
 
         public TimeSpan Duration
         {
-            get => _duration;
+            get => duration;
             set
             {
                 EndTime = DateTime.UtcNow + value;
                 Save();
-                SetProperty(ref _duration, new TimeSpan(0, 0, 0));
-                if (!_running) _StartCountdown();
+                SetProperty(ref duration, new TimeSpan(0, 0, 0));
+                if (!running) _StartCountdown();
             }
         }
 
-        private DateTime? _startTime;
-        public DateTime? StartTime { get => _startTime; set => SetProperty(ref _startTime, value); }
+        private DateTime? startTime;
+        public DateTime? StartTime { get => startTime; set => SetProperty(ref startTime, value); }
 
-        private TimeSpan _remainingTime;
-        public TimeSpan RemainingTime { get => _remainingTime; set => SetProperty(ref _remainingTime, value); }
+        private TimeSpan remainingTime;
+        public TimeSpan RemainingTime { get => remainingTime; set => SetProperty(ref remainingTime, value); }
 
-        private DateTime? _endTime;
+        private DateTime? endTime;
 
         public DateTime? EndTime
         {
-            get => _endTime;
+            get => endTime;
             set
             {
-                if (value != _endTime) { Save(); }
-                SetProperty(ref _endTime, value);
+                if (SetProperty(ref endTime, value))
+                {
+                    Save();
+                }
             }
         }
 
-        private bool _running;
-        public bool Running { get => _running; set => SetProperty(ref _running, value); }
+        private bool running;
+
+        public bool Running { get => running; set => SetProperty(ref running, value); }
 
         public ResinTimer()
         {
@@ -96,40 +102,21 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public async void Open()
         {
-            var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GenshinCompanion", "Settings");
-            string[] files = null;
-            if (Directory.Exists(path))
-                files = Directory.GetFiles(path);
+            object deserializedData = await DataProvider.Open<DateTime?>(nameof(ResinTimer), DataFolder.Settings);
 
-            string filePath = Path.Combine(path, "Timer.json");
-            if (files != null && files.Contains(filePath))
+            if (deserializedData != null)
             {
-                using (FileStream openStream = File.OpenRead(filePath))
-                {
-                    EndTime = await JsonSerializer.DeserializeAsync<DateTime>(openStream);
-                }
+                EndTime = (DateTime?)deserializedData;
                 RaisePropertyChanged("EndTime");
                 _StartCountdown();
             }
         }
 
-        public void Save()
+        public async void Save()
         {
             if (EndTime != null & EndTime.HasValue)
             {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                var path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GenshinCompanion", "Settings");
-                string filePath = Path.Combine(path, "Timer.json");
-
-                if (!Directory.Exists(path))
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(path);
-                }
-
-                using (StreamWriter file = File.CreateText(filePath))
-                {
-                    file.Write(JsonSerializer.Serialize(EndTime, options));
-                }
+                await DataProvider.Save(EndTime, nameof(ResinTimer), DataFolder.Settings);
             }
         }
     }

@@ -151,13 +151,12 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             _SaveBanners();
         }
 
-        //TODO: Wire saving to adding wishes
         private void _SaveBanners()
         {
-            CharacterBanner.TrySaveJson();
-            WeaponBanner.TrySaveJson();
-            StandardBanner.TrySaveJson();
-            NoviceBanner.TrySaveJson();
+            CharacterBanner.Save();
+            WeaponBanner.Save();
+            StandardBanner.Save();
+            NoviceBanner.Save();
         }
 
         private void _OpenBanners()
