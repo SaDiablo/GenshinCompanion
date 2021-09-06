@@ -29,6 +29,7 @@ namespace GenshinCompanion.Modules.BannersModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<BannersViewModel>();
             containerRegistry.RegisterForNavigation<CharacterBannerView>();
             containerRegistry.RegisterForNavigation<WeaponBannerView>();
             containerRegistry.RegisterForNavigation<StandardBannerView>();
