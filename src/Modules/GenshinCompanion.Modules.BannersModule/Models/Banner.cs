@@ -251,16 +251,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         private int Get5StarIndex(int indexToCheckFrom)
         {
-            int wishesTill5Star = pityLimit;
-            try
-            {
-                wishesTill5Star = FiveStarIndex
-                    .Where(s => s > indexToCheckFrom)
-                    .First() - indexToCheckFrom;
-            }
-            catch (InvalidOperationException) { wishesTill5Star = wishList.Count - indexToCheckFrom; }
-
-            return wishesTill5Star;
+            int index = FiveStarIndex.FirstOrDefault(s => s > indexToCheckFrom);
+            return index == default ? wishList.Count - indexToCheckFrom : index - indexToCheckFrom;
         }
 
         private void RefreshCounts()
