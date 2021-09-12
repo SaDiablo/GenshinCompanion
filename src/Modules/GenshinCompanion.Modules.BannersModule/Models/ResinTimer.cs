@@ -1,4 +1,4 @@
-﻿using GenshinCompanion.CoreStandard;
+using GenshinCompanion.CoreStandard;
 using GenshinCompanion.Services;
 using Prism.Mvvm;
 using System;
@@ -112,11 +112,11 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             }
         }
 
-        public async void Save()
+        public void Save()
         {
             if (EndTime != null & EndTime.HasValue)
             {
-                await DataProvider.Save(EndTime, nameof(ResinTimer), DataFolder.Settings);
+                DataProvider.Save(EndTime, nameof(ResinTimer), DataFolder.Settings);
             }
         }
     }
