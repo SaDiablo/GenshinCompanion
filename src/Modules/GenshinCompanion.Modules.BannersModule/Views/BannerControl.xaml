@@ -392,17 +392,23 @@
                         Margin="20,0,0,0"
                         Content="Fully replenished in"
                         FontSize="14" />
-                    <StatusBarItem
-                        Content="{Binding Timer.RemainingTime, ConverterParameter={StaticResource timeSpanRoundTo}, Converter={StaticResource timeSpanRoundUpConverter}}"
-                        ContentStringFormat="Resin: {0:hh:mm:ss}"
-                        FontSize="14">
+                    <StatusBarItem>
+                        <TextBlock FontSize="14" Text="{Binding Timer.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
                         <StatusBarItem.ToolTip>
-                            <ToolTip
-                                Content="{Binding Timer.EndTime, Converter={StaticResource utcToLocalConverter}}"
-                                ContentStringFormat="{}{0:HH:mm dd/MM/yyyy}" />
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}160 Resin: {0:HH:mm dd/MM/yyyy}&#x0a;120 Resin: {1:HH:mm dd/MM/yyyy}&#x0a;  80 Resin: {2:HH:mm dd/MM/yyyy}&#x0a;  40 Resin: {3:HH:mm dd/MM/yyyy}&#x0a;  20 Resin: {4:HH:mm dd/MM/yyyy}">
+                                        <!--&#x0a;-->
+                                        <Binding Path="Timer.EndTime" Converter="{StaticResource utcToLocalConverter}"/>
+                                        <Binding Path="Timer.EndTime120" Converter="{StaticResource utcToLocalConverter}"/>
+                                        <Binding Path="Timer.EndTime80" Converter="{StaticResource utcToLocalConverter}"/>
+                                        <Binding Path="Timer.EndTime40" Converter="{StaticResource utcToLocalConverter}"/>
+                                        <Binding Path="Timer.EndTime20" Converter="{StaticResource utcToLocalConverter}"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </StatusBarItem.ToolTip>
                     </StatusBarItem>
-
                 </DockPanel>
             </StatusBarItem>
         </StatusBar>
