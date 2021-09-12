@@ -1,4 +1,4 @@
-﻿using GenshinCompanion.CoreStandard;
+using GenshinCompanion.CoreStandard;
 using GenshinCompanion.Services;
 using Prism.Mvvm;
 using System;
@@ -297,11 +297,11 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         /// <summary>
         /// Pretty printed json in AppData/Local/GenshinCompaion/Banners folder
         /// </summary>
-        public async void Save()
+        public void Save()
         {
             if (WishList != null & WishList.Any())
             {
-                await DataProvider.Save(WishList, $"{BannerType}{nameof(Banner)}");
+                DataProvider.Save(WishList, $"{BannerType}{nameof(Banner)}");
             }
         }
 

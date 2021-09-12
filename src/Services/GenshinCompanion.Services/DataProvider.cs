@@ -58,9 +58,10 @@ namespace GenshinCompanion.Services
                     Directory.CreateDirectory(folderPath);
                 }
 
-                using (FileStream file = File.Create(filePath))
+                using (FileStream fileStream = File.Create(filePath))
                 {
-                    await JsonSerializer.SerializeAsync(file, objectToSave, options);
+                    await JsonSerializer.SerializeAsync(fileStream, objectToSave, options);
+                    await fileStream.DisposeAsync();
                 }
 
                 return true;
