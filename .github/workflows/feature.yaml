@@ -38,9 +38,6 @@ jobs:
     - name: Setup NuGet
       uses: nuget/setup-nuget@v1
 
-    - name: Restore NuGet Packages
-      run: nuget restore $env:Solution_Name
-
     - name: Restore dependencies
       run: dotnet restore $env:Solution_Name /p:Configuration=$env:Configuration
       env:
