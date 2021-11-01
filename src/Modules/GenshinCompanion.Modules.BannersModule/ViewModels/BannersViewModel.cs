@@ -15,7 +15,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         {
             try
             {
-                _startCountdownCommand = new DelegateCommand(Timer._StartCountdown);
+                _startCountdownCommand = new DelegateCommand(Timer.StartCountdown);
                 _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
                 _addWishesCommand = new DelegateCommand<string>(_AddWishesCommand);
                 _saveBannersCommand = new DelegateCommand(_SaveBanners);
@@ -118,7 +118,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 
             if (!Timer.Running)
             {
-                Timer._StartCountdown();
+                Timer.StartCountdown();
             }
 
             Timer.Save();
