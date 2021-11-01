@@ -361,7 +361,7 @@
                         </Button.ContextMenu>
                     </Button>
                     <StatusBarItem
-                        Content="{Binding Timer.RemainingTime, Converter={StaticResource timerToResinConverter}}"
+                        Content="{Binding Timer.TimerService.RemainingTime, Converter={StaticResource timerToResinConverter}}"
                         ContentStringFormat="({0}/160)"
                         FontSize="14" />
                     <Button
@@ -393,7 +393,7 @@
                         Content="Fully replenished in"
                         FontSize="14" />
                     <StatusBarItem>
-                        <TextBlock FontSize="14" Text="{Binding Timer.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
+                        <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
                         <StatusBarItem.ToolTip>
                             <TextBlock>
                                 <TextBlock.Text>
