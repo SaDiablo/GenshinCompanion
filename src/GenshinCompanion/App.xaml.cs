@@ -2,6 +2,9 @@
 using GenshinCompanion.Services;
 using GenshinCompanion.Services.Interfaces;
 using GenshinCompanion.Views;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter;
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
@@ -13,6 +16,11 @@ namespace GenshinCompanion
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+            AppCenter.Start("34c17fce-3c24-41cb-a48a-a570c781ea25", typeof(Analytics), typeof(Crashes));
+        }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
