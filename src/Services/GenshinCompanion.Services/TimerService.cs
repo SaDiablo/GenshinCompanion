@@ -30,6 +30,7 @@ namespace GenshinCompanion.Services
             if (RemainingTime <= TimeSpan.Zero)
             {
                 timer.Enabled = false;
+                RemainingTime = TimeSpan.Zero;
             }
         }
 
