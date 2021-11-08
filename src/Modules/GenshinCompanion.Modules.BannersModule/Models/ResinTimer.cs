@@ -29,7 +29,6 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private DateTime? startTime;
         public DateTime? StartTime { get => startTime; set => SetProperty(ref startTime, value); }
 
-        private TimeSpan remainingTime;
         public TimeSpan RemainingTime => TimerService != null ? TimerService.RemainingTime : TimeSpan.Zero;
 
         private DateTime? endTime;
