@@ -8,6 +8,7 @@ using Microsoft.AppCenter;
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
+using System.Globalization;
 
 namespace GenshinCompanion
 {
@@ -18,7 +19,14 @@ namespace GenshinCompanion
     {
         public App()
         {
-            AppCenter.Start("34c17fce-3c24-41cb-a48a-a570c781ea25", typeof(Analytics), typeof(Crashes));
+            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+            AppCenter.SetCountryCode(countryCode);
+            AppCenter.Configure("34c17fce-3c24-41cb-a48a-a570c781ea25");
+            if (AppCenter.Configured)
+            {
+                AppCenter.Start(typeof(Analytics));
+                AppCenter.Start(typeof(Crashes));
+            }
         }
 
         protected override Window CreateShell()

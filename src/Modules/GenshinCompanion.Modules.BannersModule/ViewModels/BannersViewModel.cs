@@ -1,9 +1,11 @@
 using GenshinCompanion.Core.Mvvm;
 using GenshinCompanion.Modules.BannersModule.Models;
 using GenshinCompanion.Services.Interfaces;
+using Microsoft.AppCenter.Analytics;
 using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace GenshinCompanion.Modules.BannersModule.ViewModels
@@ -15,7 +17,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         {
             try
             {
-                _startCountdownCommand = new DelegateCommand(Timer.StartCountdown);
+                _startCountdownCommand = new DelegateCommand(StartCountdown);
                 _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
                 _addWishesCommand = new DelegateCommand<string>(_AddWishesCommand);
                 _saveBannersCommand = new DelegateCommand(_SaveBanners);
@@ -85,10 +87,13 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 
         private void _RemoveWish(WishDrop wish)
         {
-            CharacterBanner.WishList.Remove(wish);
-            WeaponBanner.WishList.Remove(wish);
-            StandardBanner.WishList.Remove(wish);
-            NoviceBanner.WishList.Remove(wish);
+            string bannerType = "Default";
+            if (CharacterBanner.WishList.Remove(wish)) bannerType = "Character";
+            if (WeaponBanner.WishList.Remove(wish)) bannerType = "Weapon";
+            if (StandardBanner.WishList.Remove(wish)) bannerType = "Standard";
+            if (NoviceBanner.WishList.Remove(wish)) bannerType = "Novice";
+
+            Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Removed" }, { "Category", bannerType } });
             _SaveBanners();
         }
 
@@ -116,12 +121,20 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                     break;
             }
 
+            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
+
             if (!Timer.Running)
             {
                 Timer.StartCountdown();
             }
 
             Timer.Save();
+        }
+
+        private void StartCountdown()
+        {
+            Timer.StartCountdown();
+            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Started" } });
         }
 
         private void _AddWishesCommand(string bannerType)
@@ -147,6 +160,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 default:
                     break;
             }
+            Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Added" }, { "Category", bannerType } });
             InputString = string.Empty;
             _SaveBanners();
         }
