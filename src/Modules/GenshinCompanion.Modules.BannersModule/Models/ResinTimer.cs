@@ -19,7 +19,10 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 TimerService.EndTime = DateTime.UtcNow + value;
                 Save();
                 SetProperty(ref duration, new TimeSpan(0, 0, 0));
-                if (!Running) StartCountdown();
+                if (!Running)
+                {
+                    StartCountdown();
+                }
             }
         }
 
@@ -41,10 +44,6 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     {
                         TimerService.EndTime = value;
                     }
-                    EndTime120 = value.Value.AddMinutes(-320);
-                    EndTime80 = value.Value.AddMinutes(-640);
-                    EndTime40 = value.Value.AddMinutes(-960);
-                    EndTime20 = value.Value.AddMinutes(-1120);
                     Save();
                 }
             }
@@ -52,44 +51,19 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public TimerService TimerService { get => timerService; set => SetProperty(ref timerService, value); }
 
-        private DateTime? endTime120;
+        public DateTime? EndTime120 => TimerService.EndTime.Value.AddMinutes(-320);
 
-        public DateTime? EndTime120
-        {
-            get => endTime120;
-            set => SetProperty(ref endTime120, value);
-        }
-        private DateTime? endTime80;
+        public DateTime? EndTime80 => TimerService.EndTime.Value.AddMinutes(-640);
 
-        public DateTime? EndTime80
-        {
-            get => endTime80;
-            set => SetProperty(ref endTime80, value);
-        }
-        private DateTime? endTime40;
+        public DateTime? EndTime40 => TimerService.EndTime.Value.AddMinutes(-960);
 
-        public DateTime? EndTime40
-        {
-            get => endTime40;
-            set => SetProperty(ref endTime40, value);
-        }
-        private DateTime? endTime20;
+        public DateTime? EndTime20 => TimerService.EndTime.Value.AddMinutes(-1120);
 
-        public DateTime? EndTime20
-        {
-            get => endTime20;
-            set => SetProperty(ref endTime20, value);
-        }
+        public bool Running => TimerService.GetRunning();
 
-        private bool running;
         private TimerService timerService;
 
-        public bool Running { get => TimerService.GetRunning(); }
-
-        public ResinTimer()
-        {
-            Open();
-        }
+        public ResinTimer() => Open();
 
         public void StartCountdown()
         {
@@ -104,7 +78,6 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             if (deserializedData != null)
             {
                 EndTime = (DateTime?)deserializedData;
-                RaisePropertyChanged(nameof(EndTime));
                 TimerService = new TimerService(EndTime);
             }
         }
