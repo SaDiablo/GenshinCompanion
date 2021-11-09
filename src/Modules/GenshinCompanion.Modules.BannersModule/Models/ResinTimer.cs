@@ -1,12 +1,9 @@
 using GenshinCompanion.CoreStandard;
 using GenshinCompanion.Services;
+using Microsoft.AppCenter.Analytics;
 using Prism.Mvvm;
 using System;
-using System.Configuration;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -22,7 +19,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 TimerService.EndTime = DateTime.UtcNow + value;
                 Save();
                 SetProperty(ref duration, new TimeSpan(0, 0, 0));
-                if (!running) StartCountdown();
+                if (!Running) StartCountdown();
             }
         }
 
@@ -87,14 +84,18 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private bool running;
         private TimerService timerService;
 
-        public bool Running { get => running; set => SetProperty(ref running, value); }
+        public bool Running { get => TimerService.GetRunning(); }
 
         public ResinTimer()
         {
             Open();
         }
 
-        public void StartCountdown() => TimerService.SetRunning(true);
+        public void StartCountdown()
+        {
+            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Started" } });
+            TimerService.SetRunning(true);
+        }
 
         public async void Open()
         {
@@ -110,9 +111,9 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public void Save()
         {
-            if (EndTime != null & EndTime.HasValue)
+            if (TimerService != null && TimerService.EndTime != null && TimerService.EndTime.HasValue)
             {
-                DataProvider.Save(EndTime, nameof(ResinTimer), DataFolder.Settings);
+                DataProvider.Save(TimerService.EndTime, nameof(ResinTimer), DataFolder.Settings);
             }
         }
     }

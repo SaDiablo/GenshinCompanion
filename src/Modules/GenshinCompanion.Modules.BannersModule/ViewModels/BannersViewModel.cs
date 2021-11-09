@@ -131,11 +131,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             Timer.Save();
         }
 
-        private void StartCountdown()
-        {
-            Timer.StartCountdown();
-            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Started" } });
-        }
+        private void StartCountdown() => Timer.StartCountdown();
 
         private void _AddWishesCommand(string bannerType)
         {
