@@ -52,9 +52,18 @@
                     Content="Novice Banners"
                     Icon="Home"
                     Tag="NoviceBannerTag" />
+                <ui:NavigationViewItem
+                    Content="Timers"
+                    Icon="Home"
+                    Tag="TimersTag" />
             </ui:NavigationView.MenuItems>
             <Grid>
-                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.BannersRegion}" />
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.BannersRegion}" Grid.Row="0" />
+                <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.StatusBarRegion}" Grid.Row="1"/>
             </Grid>
         </ui:NavigationView>
     </Grid>

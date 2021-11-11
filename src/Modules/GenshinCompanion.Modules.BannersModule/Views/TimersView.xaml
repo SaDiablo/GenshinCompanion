@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="GenshinCompanion.Modules.BannersModule.Views.TimersView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GenshinCompanion.Modules.BannersModule.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:converters="clr-namespace:GenshinCompanion.Modules.BannersModule.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:UtcToLocalConverter x:Key="utcToLocalConverter" />
+        <converters:TimeSpanRoundUpConverter x:Key="timeSpanRoundUpConverter" />
+        <converters:TimerToResinConverter x:Key="timerToResinConverter" />
+        <converters:EnumToStringConverter x:Key="enumToStringConverter" />
+        <!--<s:TimeSpan x:Key="timeSpanRoundTo">00:00:01</s:TimeSpan>-->
+    </UserControl.Resources>
+    <Grid>
+        <ui:SimpleStackPanel Margin="12" Orientation="Horizontal" Spacing="12" VerticalAlignment="Top">
+            <Label Content="Parametric Timer:" FontSize="14" VerticalAlignment="Center"/>
+            <TextBox Height="24" MinHeight="24" Padding="12,2" FontSize="14" Text="{Binding Timer.Duration}"/>
+            <Button Padding="12,2" Command="{Binding StartCountdownCommand}" Content="Start" FontSize="14" />
+            <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:dd}:{0:hh}:{0:mm}}"/>
+        </ui:SimpleStackPanel>
+    </Grid>
+</UserControl>

@@ -20,24 +20,34 @@ namespace GenshinCompanion.Modules.BannersModule
         public void OnInitialized(IContainerProvider containerProvider)
         {
             _regionManager
-                .RegisterViewWithRegion(RegionNames.BannersRegion, "CharacterBannerView")
-                .RegisterViewWithRegion(RegionNames.BannersRegion, "WeaponBannerView")
-                .RegisterViewWithRegion(RegionNames.BannersRegion, "StandardBannerView")
-                .RegisterViewWithRegion(RegionNames.BannersRegion, "NoviceBannerView");
-            _regionManager.RequestNavigate(RegionNames.BannersRegion, "CharacterBannerView");
+                .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(CharacterBannerView))
+                .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(WeaponBannerView))
+                .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(StandardBannerView))
+                .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(NoviceBannerView))
+                .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(TimersView));
+            _regionManager.RequestNavigate(RegionNames.BannersRegion, nameof(CharacterBannerView));
+
+            _regionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, nameof(StatusBarView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<BannersViewModel>();
+            containerRegistry.RegisterSingleton<StatusBarViewModel>();
+
             containerRegistry.RegisterForNavigation<CharacterBannerView>();
             containerRegistry.RegisterForNavigation<WeaponBannerView>();
             containerRegistry.RegisterForNavigation<StandardBannerView>();
             containerRegistry.RegisterForNavigation<NoviceBannerView>();
+            containerRegistry.RegisterForNavigation<TimersView>();
+            containerRegistry.RegisterForNavigation<StatusBarView>();
+
             ViewModelLocationProvider.Register<CharacterBannerView, BannersViewModel>();
             ViewModelLocationProvider.Register<WeaponBannerView, BannersViewModel>();
             ViewModelLocationProvider.Register<StandardBannerView, BannersViewModel>();
             ViewModelLocationProvider.Register<NoviceBannerView, BannersViewModel>();
+            ViewModelLocationProvider.Register<TimersView, TimersViewModel>();
+            ViewModelLocationProvider.Register<StatusBarView, StatusBarViewModel>();
         }
     }
 }
