@@ -14,12 +14,11 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public TimeSpan Duration
         {
-            get => duration;
+            get => new TimeSpan(7, 0, 0, 0);
             set
             {
                 TimerService.EndTime = DateTime.UtcNow + value;
                 Save();
-                SetProperty(ref duration, new TimeSpan(0, 0, 0));
                 if (!Running) { StartCountdown(); }
             }
         }
@@ -40,7 +39,6 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         public TimeSpan RemainingTime => TimerService != null ? TimerService.RemainingTime : TimeSpan.Zero;
         public bool Running => TimerService.GetRunning();
         public TimerService TimerService { get => timerService; set => SetProperty(ref timerService, value); }
-        private TimeSpan duration;
         private DateTime? endTime;
         private TimerService timerService;
 

@@ -9,6 +9,7 @@ namespace GenshinCompanion.Services
         public TimerService(DateTime? endTime, double interval = 500)
         {
             EndTime = endTime;
+            CalculateRemainingTime();
             timer = new Timer
             {
                 Interval = interval,
@@ -24,14 +25,18 @@ namespace GenshinCompanion.Services
 
         private void OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //startTime = DateTime.UtcNow;
-            startTime = e.SignalTime.ToUniversalTime();
-            RemainingTime = (EndTime - startTime) ?? TimeSpan.Zero;
+            CalculateRemainingTime();
             if (RemainingTime <= TimeSpan.Zero)
             {
                 timer.Enabled = false;
                 RemainingTime = TimeSpan.Zero;
             }
+        }
+
+        private void CalculateRemainingTime()
+        {
+            startTime = DateTime.UtcNow;
+            RemainingTime = (EndTime - startTime) ?? TimeSpan.Zero;
         }
 
         private readonly Timer timer;
