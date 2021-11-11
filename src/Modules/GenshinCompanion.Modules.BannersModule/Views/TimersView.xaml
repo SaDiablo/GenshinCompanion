@@ -27,7 +27,7 @@
             <Label Content="Parametric Timer:" FontSize="14" VerticalAlignment="Center"/>
             <TextBox Height="24" MinHeight="24" Padding="12,2" FontSize="14" Text="{Binding Timer.Duration}"/>
             <Button Padding="12,2" Command="{Binding StartCountdownCommand}" Content="Start" FontSize="14" />
-            <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:dd}:{0:hh}:{0:mm}}"/>
+            <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:dd}.{0:hh}:{0:mm}}"/>
         </ui:SimpleStackPanel>
     </Grid>
 </UserControl>

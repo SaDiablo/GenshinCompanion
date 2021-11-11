@@ -46,23 +46,6 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 Timer.EndTime = DateTime.UtcNow;
             }
 
-            // Deal with negative numbers/stopping the timer/reseting it
-            switch (obj)
-            {
-                case "-20":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
-                    break;
-                case "+20":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
-                    break;
-                case "-10":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(80);
-                    break;
-                case "+10":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-80);
-                    break;
-            }
-
             Analytics.TrackEvent("ParametricTimer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
 
             if (!Timer.Running)
