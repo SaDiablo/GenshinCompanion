@@ -13,5 +13,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     ui:ControlHelper.CornerRadius="4"
     ui:WindowHelper.UseModernWindowStyle="True">
+
     <local:NavigationRootPage x:Name="RootPage" />
+
 </Window>

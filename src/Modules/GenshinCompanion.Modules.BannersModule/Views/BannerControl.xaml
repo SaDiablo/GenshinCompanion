@@ -74,343 +74,233 @@
         <converters:EnumToStringConverter x:Key="enumToStringConverter" />
         <s:TimeSpan x:Key="timeSpanRoundTo">00:00:01</s:TimeSpan>
     </UserControl.Resources>
-    <Grid>
-        <!--<Label
-            Margin="24,12"
-            VerticalAlignment="Top"
-            Content="{Binding Banner.BannerType, Converter={StaticResource enumToStringConverter}, ElementName=BannerUserControl}"
-            FontSize="20" />-->
-        <ui:SimpleStackPanel
-            Margin="24,12,24,42"
-            Orientation="Horizontal"
-            Spacing="24">
+    <ui:SimpleStackPanel
+        Margin="12"
+        Orientation="Horizontal"
+        Spacing="24">
 
-            <DataGrid
-                x:Name="dataGrid"
-                AutoGenerateColumns="False"
-                GridLinesVisibility="Horizontal"
-                HeadersVisibility="Column"
-                IsReadOnly="True"
-                ItemsSource="{Binding Banner.WishList, ElementName=BannerUserControl}"
-                RowDetailsTemplate="{StaticResource RowDetailsTemplate}"
-                RowDetailsVisibilityMode="VisibleWhenSelected"
-                SelectionMode="Single"
-                SelectionUnit="FullRow"
-                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                VirtualizingPanel.VirtualizationMode="Recycling">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="40"
-                        Binding="{Binding DropIndex}" />
-                    <DataGridTextColumn
-                        Width="105"
-                        Binding="{Binding DropType}"
-                        Header="Item Type" />
-                    <DataGridTextColumn
-                        Width="260"
-                        Binding="{Binding DropName}"
-                        Header="Item Name" />
-                    <DataGridTextColumn
-                        Width="150"
-                        Binding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"
-                        Header="Item Received" />
-                </DataGrid.Columns>
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem
-                            x:Name="buttonRemoveWish"
-                            Header="Remove">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="Click">
-                                    <i:InvokeCommandAction
-                                        Command="{Binding RemoveWishCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </MenuItem>
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Style.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
-                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
-                        </Style.Resources>
-                        <Setter Property="Background" Value="Transparent" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding DropRarity}" Value="4">
-                                <Setter Property="Background" Value="#FF7011CF" />
-                                <Setter Property="Foreground" Value="#FFCFCFCF" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding DropRarity}" Value="5">
-                                <Setter Property="Background" Value="#FFCF9B11" />
-                                <Setter Property="Foreground" Value="#FF303030" />
-                            </DataTrigger>
+        <DataGrid
+            x:Name="dataGrid"
+            AutoGenerateColumns="False"
+            GridLinesVisibility="Horizontal"
+            HeadersVisibility="Column"
+            IsReadOnly="True"
+            ItemsSource="{Binding Banner.WishList, ElementName=BannerUserControl}"
+            RowDetailsTemplate="{StaticResource RowDetailsTemplate}"
+            RowDetailsVisibilityMode="VisibleWhenSelected"
+            SelectionMode="Single"
+            SelectionUnit="FullRow"
+            VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+            VirtualizingPanel.VirtualizationMode="Recycling">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="40"
+                    Binding="{Binding DropIndex}" />
+                <DataGridTextColumn
+                    Width="105"
+                    Binding="{Binding DropType}"
+                    Header="Item Type" />
+                <DataGridTextColumn
+                    Width="260"
+                    Binding="{Binding DropName}"
+                    Header="Item Name" />
+                <DataGridTextColumn
+                    Width="150"
+                    Binding="{Binding DropTime, StringFormat=yyyy-MM-dd HH:mm:ss}"
+                    Header="Item Received" />
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        x:Name="buttonRemoveWish"
+                        Header="Remove">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction
+                                    Command="{Binding RemoveWishCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent" />
+                    </Style.Resources>
+                    <Setter Property="Background" Value="Transparent" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DropRarity}" Value="4">
+                            <Setter Property="Background" Value="#FF7011CF" />
+                            <Setter Property="Foreground" Value="#FFCFCFCF" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DropRarity}" Value="5">
+                            <Setter Property="Background" Value="#FFCF9B11" />
+                            <Setter Property="Foreground" Value="#FF303030" />
+                        </DataTrigger>
 
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
-                                    <Condition Binding="{Binding DropRarity}" Value="5" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="#FFCF9B11" />
-                                <Setter Property="Foreground" Value="#FF303030" />
-                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
-                            </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="5" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="#FFCF9B11" />
+                            <Setter Property="Foreground" Value="#FF303030" />
+                            <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                        </MultiDataTrigger>
 
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
-                                    <Condition Binding="{Binding DropRarity}" Value="4" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="#FF7011CF" />
-                                <Setter Property="Foreground" Value="#FFCFCFCF" />
-                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
-                            </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="4" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="#FF7011CF" />
+                            <Setter Property="Foreground" Value="#FFCFCFCF" />
+                            <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                        </MultiDataTrigger>
 
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
-                                    <Condition Binding="{Binding DropRarity}" Value="3" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
-                            </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Selector.IsSelectionActive)}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="3" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                        </MultiDataTrigger>
 
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
-                                    <Condition Binding="{Binding DropRarity}" Value="3" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="BorderBrush" Value="#FFCFCFCF" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
-            </DataGrid>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="3" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="BorderBrush" Value="#FFCFCFCF" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+        <Grid
+            Grid.Column="1"
+            VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="32" MaxHeight="68" />
+                <RowDefinition MinHeight="196" MaxHeight="256" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80" MinWidth="80" />
+                <ColumnDefinition Width="0.75*" MinWidth="65" />
+                <ColumnDefinition Width="1*" MinWidth="50" />
+                <ColumnDefinition Width="0.75*" MinWidth="50" />
+            </Grid.ColumnDefinitions>
+            <Label
+                Padding="4"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="Input" />
+            <TextBox
+                x:Name="textBoxBannerInput"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                MinHeight="24"
+                Margin="44,0,0,0"
+                VerticalAlignment="Stretch"
+                AcceptsReturn="True"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
+                Text="{Binding InputString}"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto" />
+            <!-- BorderBrush="#FF535353" -->
+            <Button
+                x:Name="buttonAddInput"
+                Grid.Row="0"
+                Grid.Column="3"
+                Width="50"
+                Margin="4,0,0,0"
+                VerticalAlignment="Center"
+                Command="{Binding AddWishesCommand}"
+                CommandParameter="{Binding Banner.BannerType, ElementName=BannerUserControl, Converter={StaticResource enumToStringConverter}}"
+                Content="Add" />
             <Grid
-                Grid.Column="1"
-                VerticalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition MinHeight="32" MaxHeight="68" />
-                    <RowDefinition MinHeight="196" MaxHeight="256" />
-                </Grid.RowDefinitions>
+                Grid.Row="1"
+                Grid.ColumnSpan="4"
+                Margin="4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="80" MinWidth="80" />
+                    <ColumnDefinition Width="90" MinWidth="80" />
                     <ColumnDefinition Width="0.75*" MinWidth="65" />
                     <ColumnDefinition Width="1*" MinWidth="50" />
                     <ColumnDefinition Width="0.75*" MinWidth="50" />
                 </Grid.ColumnDefinitions>
-                <Label
-                    Padding="4"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="Input" />
-                <TextBox
-                    x:Name="textBoxBannerInput"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
-                    MinHeight="24"
-                    Margin="44,0,0,0"
-                    VerticalAlignment="Stretch"
-                    AcceptsReturn="True"
-                    Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}"
-                    Text="{Binding InputString}"
-                    TextWrapping="Wrap"
-                    VerticalScrollBarVisibility="Auto" />
-                <!-- BorderBrush="#FF535353" -->
-                <Button
-                    x:Name="buttonAddInput"
-                    Grid.Row="0"
-                    Grid.Column="3"
-                    Width="50"
-                    Margin="4,0,0,0"
-                    VerticalAlignment="Center"
-                    Command="{Binding AddWishesCommand}"
-                    CommandParameter="{Binding Banner.BannerType, ElementName=BannerUserControl, Converter={StaticResource enumToStringConverter}}"
-                    Content="Add" />
-                <Grid
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="4"
-                    Margin="4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90" MinWidth="80" />
-                        <ColumnDefinition Width="0.75*" MinWidth="65" />
-                        <ColumnDefinition Width="1*" MinWidth="50" />
-                        <ColumnDefinition Width="0.75*" MinWidth="50" />
-                    </Grid.ColumnDefinitions>
-                    <ui:SimpleStackPanel
-                        Grid.Row="1"
-                        Spacing="12">
-                        <Label Content="Wish Count" />
-                        <Label Content="Characters" />
-                        <Label Content="4-Star drops" />
-                        <Label Content="5-Star drops" />
-                        <Label Content="Wishes till 5*" />
-                        <!--<Label Content="4* Rate" />-->
-                        <Label Content="5* Rate" />
-                    </ui:SimpleStackPanel>
-                    <ui:SimpleStackPanel
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Spacing="12">
-                        <Label
-                            x:Name="labelWishCount"
-                            Content="{Binding Banner.TotalCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="labelCharacterCount"
-                            Content="{Binding Banner.CharacterCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="label4StarCount"
-                            Content="{Binding Banner.FourStarCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="label5StarCount"
-                            Content="{Binding Banner.FiveStarCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="labelwishesTill5StarCount"
-                            Content="{Binding Banner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <!--<Label
-                            x:Name="labelNextFourStarRate"
-                            Content="{Binding Banner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
-                        <Label
-                            x:Name="labelNextFiveStarRate"
-                            Content="{Binding Banner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                    </ui:SimpleStackPanel>
-                    <ui:SimpleStackPanel
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Grid.ColumnSpan="2"
-                        Spacing="12">
-                        <Label
-                            x:Name="labelPrimogemsCount"
-                            Content="{Binding Banner.PrimogemCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="labelCharacterPercent"
-                            Content="{Binding Banner.CharacterPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="label4StarPercent"
-                            Content="{Binding Banner.FourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="label5StarPercent"
-                            Content="{Binding Banner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <Label
-                            x:Name="labelwishesTill5StarPrimogems"
-                            Content="{Binding Banner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                        <!--<Label
-                            x:Name="labelNextFourStarPercent"
-                            Content="{Binding Banner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
-                        <Label
-                            x:Name="labelNextFiveStarPercent"
-                            Content="{Binding Banner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
-                    </ui:SimpleStackPanel>
-                </Grid>
+                    Spacing="12">
+                    <Label Content="Wish Count" />
+                    <Label Content="Characters" />
+                    <Label Content="4-Star drops" />
+                    <Label Content="5-Star drops" />
+                    <Label Content="Wishes till 5*" />
+                    <!--<Label Content="4* Rate" />-->
+                    <Label Content="5* Rate" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Spacing="12">
+                    <Label
+                        x:Name="labelWishCount"
+                        Content="{Binding Banner.TotalCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="labelCharacterCount"
+                        Content="{Binding Banner.CharacterCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="label4StarCount"
+                        Content="{Binding Banner.FourStarCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="label5StarCount"
+                        Content="{Binding Banner.FiveStarCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="labelwishesTill5StarCount"
+                        Content="{Binding Banner.WishesTill5Star, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <!--<Label
+                        x:Name="labelNextFourStarRate"
+                        Content="{Binding Banner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
+                    <Label
+                        x:Name="labelNextFiveStarRate"
+                        Content="{Binding Banner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Spacing="12">
+                    <Label
+                        x:Name="labelPrimogemsCount"
+                        Content="{Binding Banner.PrimogemCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="labelCharacterPercent"
+                        Content="{Binding Banner.CharacterPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="label4StarPercent"
+                        Content="{Binding Banner.FourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="label5StarPercent"
+                        Content="{Binding Banner.FiveStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <Label
+                        x:Name="labelwishesTill5StarPrimogems"
+                        Content="{Binding Banner.WishesTill5StarPrimogem, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                    <!--<Label
+                        x:Name="labelNextFourStarPercent"
+                        Content="{Binding Banner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
+                    <Label
+                        x:Name="labelNextFiveStarPercent"
+                        Content="{Binding Banner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                </ui:SimpleStackPanel>
             </Grid>
-        </ui:SimpleStackPanel>
-
-        <StatusBar
-            Height="36"
-            Padding="4,0"
-            VerticalAlignment="Bottom">
-            <StatusBarItem
-                Content="Enter time here:"
-                FontSize="14" />
-            <TextBox
-                Height="20"
-                MinHeight="20"
-                Padding="10,0"
-                VerticalAlignment="Center"
-                VerticalContentAlignment="Center"
-                FontSize="14"
-                Text="{Binding Timer.Duration}" />
-            <Button
-                Padding="12,2"
-                Command="{Binding StartCountdownCommand}"
-                Content="Start"
-                FontSize="14" />
-
-            <StatusBarItem HorizontalAlignment="Right">
-                <DockPanel>
-                    <StatusBarItem
-                        Content="Resin "
-                        FontSize="14" />
-                    <Button
-                        Width="46"
-                        Padding="6,2"
-                        Command="{Binding EditRemainingTimeCommand}"
-                        CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
-                        Content="-20"
-                        FontSize="14">
-                        <Button.ContextMenu>
-                            <ContextMenu
-                                Width="46"
-                                Height="32"
-                                Padding="0">
-                                <MenuItem Header="-10">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction
-                                                Command="{Binding EditRemainingTimeCommand}"
-                                                CommandParameter="-10" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <StatusBarItem
-                        Content="{Binding Timer.TimerService.RemainingTime, Converter={StaticResource timerToResinConverter}}"
-                        ContentStringFormat="({0}/160)"
-                        FontSize="14" />
-                    <Button
-                        Width="46"
-                        Padding="6,2"
-                        Command="{Binding EditRemainingTimeCommand}"
-                        CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
-                        Content="+20"
-                        FontSize="14">
-                        <Button.ContextMenu>
-                            <ContextMenu
-                                Width="46"
-                                Height="32"
-                                Padding="0">
-                                <MenuItem Header="+10">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction
-                                                Command="{Binding EditRemainingTimeCommand}"
-                                                CommandParameter="+10" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </MenuItem>
-                            </ContextMenu>
-                        </Button.ContextMenu>
-                    </Button>
-                    <StatusBarItem
-                        Margin="20,0,0,0"
-                        Content="Fully replenished in"
-                        FontSize="14" />
-                    <StatusBarItem>
-                        <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
-                        <StatusBarItem.ToolTip>
-                            <TextBlock>
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}160 Resin: {0:HH:mm dd/MM/yyyy}&#x0a;120 Resin: {1:HH:mm dd/MM/yyyy}&#x0a;  80 Resin: {2:HH:mm dd/MM/yyyy}&#x0a;  40 Resin: {3:HH:mm dd/MM/yyyy}&#x0a;  20 Resin: {4:HH:mm dd/MM/yyyy}">
-                                        <!--&#x0a;-->
-                                        <Binding Path="Timer.EndTime" Converter="{StaticResource utcToLocalConverter}"/>
-                                        <Binding Path="Timer.EndTime120" Converter="{StaticResource utcToLocalConverter}"/>
-                                        <Binding Path="Timer.EndTime80" Converter="{StaticResource utcToLocalConverter}"/>
-                                        <Binding Path="Timer.EndTime40" Converter="{StaticResource utcToLocalConverter}"/>
-                                        <Binding Path="Timer.EndTime20" Converter="{StaticResource utcToLocalConverter}"/>
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
-                        </StatusBarItem.ToolTip>
-                    </StatusBarItem>
-                </DockPanel>
-            </StatusBarItem>
-        </StatusBar>
-    </Grid>
+        </Grid>
+    </ui:SimpleStackPanel>
 </UserControl>

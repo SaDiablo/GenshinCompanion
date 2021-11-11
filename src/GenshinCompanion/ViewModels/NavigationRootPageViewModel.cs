@@ -45,6 +45,10 @@ namespace GenshinCompanion.ViewModels
                 case "NoviceBannerTag":
                     regionManager.RequestNavigate(RegionNames.BannersRegion, "NoviceBannerView");
                     break;
+
+                case "TimersTag":
+                    regionManager.RequestNavigate(RegionNames.BannersRegion, "TimersView");
+                    break;
             }
         }
     }
