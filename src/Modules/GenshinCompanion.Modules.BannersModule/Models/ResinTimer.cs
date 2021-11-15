@@ -1,6 +1,7 @@
 using GenshinCompanion.CoreStandard;
 using GenshinCompanion.Services;
 using Microsoft.AppCenter.Analytics;
+using Newtonsoft.Json.Linq;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,15 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public DateTime? EndTime
         {
-            get => endTime;
+            get => TimerService != null ? TimerService.EndTime : DateTime.UtcNow;
             set
             {
                 if (SetProperty(ref endTime, value))
                 {
-                    if (TimerService != null) { TimerService.EndTime = value; }
+                    if (TimerService != null)
+                    {
+                        TimerService.EndTime = value;
+                    }
                     Save();
                 }
             }
@@ -56,8 +60,8 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
             if (deserializedData != null)
             {
+                TimerService = new TimerService();
                 EndTime = (DateTime?)deserializedData;
-                TimerService = new TimerService(EndTime);
             }
             else
             {
