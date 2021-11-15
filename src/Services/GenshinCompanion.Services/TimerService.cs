@@ -1,25 +1,24 @@
 ﻿using Prism.Mvvm;
 using System;
+using System.Threading;
 using System.Timers;
 
 namespace GenshinCompanion.Services
 {
     public class TimerService : BindableBase
     {
-        public TimerService(DateTime? endTime, double interval = 500)
+        public TimerService()
+        {
+            timer = new System.Timers.Timer();
+            timer.Interval = 500;
+            timer.Elapsed += OnTimedEvent;
+        }
+
+        public TimerService(DateTime? endTime, double interval = 500) : this()
         {
             EndTime = endTime;
             CalculateRemainingTime();
-            timer = new Timer
-            {
-                Interval = interval,
-                AutoReset = true,
-            };
-
-            // Hook up the Elapsed event for the timer.
-            timer.Elapsed += OnTimedEvent;
-
-            // Start the timer
+            timer.Interval = interval;
             timer.Enabled = true;
         }
 
@@ -39,12 +38,22 @@ namespace GenshinCompanion.Services
             RemainingTime = (EndTime - startTime) ?? TimeSpan.Zero;
         }
 
-        private readonly Timer timer;
+        private readonly System.Timers.Timer timer;
         private DateTime? startTime;
         private TimeSpan remainingTime;
         private DateTime? endTime;
 
-        public DateTime? EndTime { get => endTime; set => SetProperty(ref endTime, value); }
+        public DateTime? EndTime
+        {
+            get => endTime;
+            set
+            {
+                if(SetProperty(ref endTime, value))
+                {
+                    if (endTime > DateTime.Now) SetRunning(true);
+                }
+            }
+        }
         public TimeSpan RemainingTime { get => remainingTime; set => SetProperty(ref remainingTime, value); }
         public double GetInterval() => timer.Interval;
         public void SetInterval(double value) => timer.Interval = value;
