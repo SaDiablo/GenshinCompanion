@@ -1,4 +1,5 @@
 using GenshinCompanion.Core.Mvvm;
+using GenshinCompanion.CoreStandard.Enums;
 using GenshinCompanion.Modules.BannersModule.Models;
 using GenshinCompanion.Services.Interfaces;
 using Microsoft.AppCenter.Analytics;
