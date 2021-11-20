@@ -1,4 +1,4 @@
-﻿namespace GenshinCompanion.Modules.BannersModule
+﻿namespace GenshinCompanion.CoreStandard.Enums
 {
     public enum DropType
     {

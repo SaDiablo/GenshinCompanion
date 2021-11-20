@@ -1,4 +1,5 @@
 using GenshinCompanion.CoreStandard;
+using GenshinCompanion.CoreStandard.Enums;
 using GenshinCompanion.Services;
 using Prism.Mvvm;
 using System;
