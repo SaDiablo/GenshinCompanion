@@ -1,9 +1,7 @@
-name: feature
+name: dev
 
 on:
   push:
-    branches: [ feature/* ]
-  pull_request:
     branches: [ dev ]
 
 jobs:
