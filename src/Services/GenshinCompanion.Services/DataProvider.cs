@@ -27,13 +27,27 @@ namespace GenshinCompanion.Services
             {
                 using (FileStream openStream = File.OpenRead(filePath))
                 {
-                    deserializedData = await JsonSerializer.DeserializeAsync<T>(openStream);
+                    if(openStream.Length != 0) 
+                    {
+                        deserializedData = await JsonSerializer.DeserializeAsync<T>(openStream);
+                        return deserializedData;
+                    }
                 }
-
-                return deserializedData;
             }
 
             return default;
+        }
+
+        public static async Task<T> TryOpen<T>(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
+        {
+            try
+            {
+                return await Open<T>(fileName, folder, format);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public static async Task<bool> Save(object objectToSave, string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
