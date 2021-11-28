@@ -208,13 +208,13 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 string wholeLine = string.Empty;
                 do
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         line = reader.ReadLine();
                         wholeLine += line + "\n";
                     }
 
-                    if (wholeLine != "\n\n\n")
+                    if (wholeLine != "\n\n\n\n")
                     {
                         _wishList.Add(new WishDrop(wholeLine));
                     }
