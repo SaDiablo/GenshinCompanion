@@ -4,6 +4,11 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release'">
+  	<DebugType>none</DebugType>
+  	<DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Autoupdater.NET.Official" Version="1.7.0" />
     <PackageReference Include="Octokit" Version="0.50.0" />
