@@ -9,6 +9,7 @@ using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
 using System.Globalization;
+using GenshinCompanion.ApplicationUpdater;
 
 namespace GenshinCompanion
 {
@@ -37,6 +38,7 @@ namespace GenshinCompanion
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IMessageService, MessageService>();
+            containerRegistry.RegisterSingleton<ApplicationUpdaterService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using GenshinCompanion.ApplicationUpdater;
+using Prism.Mvvm;
 
 namespace GenshinCompanion.ViewModels
 {
@@ -12,7 +13,7 @@ namespace GenshinCompanion.ViewModels
             set => SetProperty(ref _title, value);
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ApplicationUpdaterService applicationUpdaterService)
         {
         }
     }
