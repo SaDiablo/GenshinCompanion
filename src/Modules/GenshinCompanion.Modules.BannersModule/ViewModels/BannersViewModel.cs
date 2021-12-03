@@ -170,12 +170,12 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             NoviceBanner.Save();
         }
 
-        private void _OpenBanners()
+        private async void _OpenBanners()
         {
-            CharacterBanner.Open();
-            WeaponBanner.Open();
-            StandardBanner.Open();
-            NoviceBanner.Open();
+            await CharacterBanner.Open();
+            await WeaponBanner.Open();
+            await StandardBanner.Open();
+            await NoviceBanner.Open();
         }
     }
 }

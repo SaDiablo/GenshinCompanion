@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -42,7 +43,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private DateTime? endTime;
         private TimerService timerService;
 
-        public async void Open()
+        public async Task Open()
         {
             object deserializedData = await DataProvider.Open<DateTime?>(nameof(ParametricTimer), DataFolder.Settings);
 

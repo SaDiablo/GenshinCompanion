@@ -98,5 +98,12 @@ namespace GenshinCompanion.Services
                 folderPath,
                 $"{fileName}.{format.ToString().ToLowerInvariant()}");
         }
+
+        public static string GetFilePath(string fileName, DataFolder folderPath, DataFormat format)
+        {
+            return Path.Combine(
+                GetFolderPath(folderPath),
+                $"{fileName}.{format.ToString().ToLowerInvariant()}");
+        }
     }
 }

@@ -6,6 +6,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -54,7 +55,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private List<EndTime> endTimes;
         private TimerService timerService;
 
-        public async void Open()
+        public async Task Open()
         {
             object deserializedData = await DataProvider.Open<DateTime?>(nameof(ResinTimer), DataFolder.Settings);
 

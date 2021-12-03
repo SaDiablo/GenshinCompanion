@@ -1,14 +1,15 @@
 using GenshinCompanion.CoreStandard;
 using GenshinCompanion.CoreStandard.Enums;
 using GenshinCompanion.Services;
+using LiteDB;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -230,9 +231,16 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
             FiveStarIndex = RecountFiveStarIndexes();
 
-            for (int i = 0; i < _wishList.Count; i++)
+            string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
+            using (var db = new LiteDatabase(filePath))
             {
-                wishList[i].DropIndex = Get5StarIndex(i);
+                var collection = db.GetCollection<WishDrop>($"{BannerType}");
+
+                for (int i = 0; i < _wishList.Count; i++)
+                {
+                    wishList[i].DropIndex = Get5StarIndex(i);
+                    collection.Insert(wishList[i]);
+                }
             }
 
             RefreshCounts();
@@ -258,7 +266,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         private void RefreshCounts()
         {
-            
+
             RaisePropertyChanged(nameof(TotalCount));
             RaisePropertyChanged(nameof(TotalCount));
             RaisePropertyChanged(nameof(PrimogemCount));
@@ -298,7 +306,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             }
         }
 
-        public async void Open()
+        public async Task Open()
         {
             BindingList<WishDrop> deserializedData = await DataProvider.Open<BindingList<WishDrop>>($"{BannerType}{nameof(Banner)}");
 
@@ -308,6 +316,21 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 SetIndexes();
                 RaisePropertyChanged(nameof(WishList));
                 RefreshCounts();
+                //await InitDB(WishList);
+            }
+        }
+
+        public async Task InitDB(BindingList<WishDrop> wishList)
+        {
+            string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
+
+            using (var db = new LiteDatabase(filePath))
+            {
+                var collection = db.GetCollection<WishDrop>($"{BannerType}");
+                foreach (var drop in wishList)
+                {
+                    collection.Insert(drop);
+                }
             }
         }
         #endregion Private Methods

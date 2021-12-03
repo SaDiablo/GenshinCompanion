@@ -3,6 +3,7 @@
     public enum DataFormat
     {
         Json,
-        Txt
+        Txt,
+        Db,
     }
 }

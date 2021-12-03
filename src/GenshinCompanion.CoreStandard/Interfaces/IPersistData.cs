@@ -1,8 +1,10 @@
-﻿namespace GenshinCompanion.CoreStandard
+﻿using System.Threading.Tasks;
+
+namespace GenshinCompanion.CoreStandard
 {
     public interface IPersistData
     {
-        void Open();
+        Task Open();
         void Save();
     }
 }
