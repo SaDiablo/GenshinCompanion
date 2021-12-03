@@ -56,7 +56,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
         public async void Open()
         {
-            object deserializedData = await DataProvider.TryOpen<DateTime?>(nameof(ResinTimer), DataFolder.Settings);
+            object deserializedData = await DataProvider.Open<DateTime?>(nameof(ResinTimer), DataFolder.Settings);
 
             if (deserializedData != null)
             {
