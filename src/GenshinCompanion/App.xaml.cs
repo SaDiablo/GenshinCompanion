@@ -20,6 +20,13 @@ namespace GenshinCompanion
     {
         public App()
         {
+#if RELEASE
+            SetUpAppCenter();
+#endif
+        }
+
+        private static void SetUpAppCenter()
+        {
             var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
             AppCenter.SetCountryCode(countryCode);
             AppCenter.Configure("34c17fce-3c24-41cb-a48a-a570c781ea25");
