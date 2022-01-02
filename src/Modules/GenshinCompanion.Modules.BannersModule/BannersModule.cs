@@ -10,24 +10,24 @@ namespace GenshinCompanion.Modules.BannersModule
 {
     public class BannersModule : IModule
     {
-        private readonly IRegionManager _regionManager;
+        private readonly IRegionManager regionManager;
 
         public BannersModule(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
+            this.regionManager = regionManager;
         }
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager
+            regionManager
                 .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(CharacterBannerView))
                 .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(WeaponBannerView))
                 .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(StandardBannerView))
                 .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(NoviceBannerView))
                 .RegisterViewWithRegion(RegionNames.BannersRegion, nameof(TimersView));
-            _regionManager.RequestNavigate(RegionNames.BannersRegion, nameof(CharacterBannerView));
+            regionManager.RequestNavigate(RegionNames.BannersRegion, nameof(CharacterBannerView));
 
-            _regionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, nameof(StatusBarView));
+            regionManager.RegisterViewWithRegion(RegionNames.StatusBarRegion, nameof(StatusBarView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

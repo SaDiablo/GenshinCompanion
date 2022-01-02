@@ -13,128 +13,55 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
 {
     public class BannersViewModel : RegionViewModelBase
     {
-        public BannersViewModel(IRegionManager regionManager, IMessageService messageService) :
-            base(regionManager)
+        public BannersViewModel(IRegionManager regionManager, IMessageService messageService) : base(regionManager)
         {
-            try
-            {
-                _startCountdownCommand = new DelegateCommand(StartCountdown);
-                _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
-                _addWishesCommand = new DelegateCommand<string>(_AddWishesCommand);
-                _saveBannersCommand = new DelegateCommand(_SaveBanners);
-                _openBannersCommand = new DelegateCommand(_OpenBanners);
-                _minimizeWindowCommand = new DelegateCommand(_MinimizeWindow);
-                _removeWishCommand = new DelegateCommand<WishDrop>(_RemoveWish);
-                _OpenBanners();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            startCountdownCommand = new DelegateCommand(StartCountdown);
+            editRemainingTimeCommand = new DelegateCommand<string>(EditRemainingTime);
+            addWishesCommand = new DelegateCommand<string>(AddWishes);
+            saveBannersCommand = new DelegateCommand(SaveBanners);
+            openBannersCommand = new DelegateCommand(OpenBanners);
+            minimizeWindowCommand = new DelegateCommand(MinimizeWindow);
+            removeWishCommand = new DelegateCommand<WishDrop>(RemoveWish);
+            OpenBanners();
         }
+
+        public ICommand AddWishesCommand => addWishesCommand;
+        public Banner CharacterBanner { get => characterBanner; set => SetProperty(ref characterBanner, value); }
+        public ICommand EditRemainingTimeCommand => editRemainingTimeCommand;
+        public string InputString { get => inputString; set => SetProperty(ref inputString, value); }
+        public bool IsVisible { get => isVisible; set => SetProperty(ref isVisible, value); }
+        public ICommand MinimizeWindowCommand => minimizeWindowCommand;
+        public Banner NoviceBanner { get => noviceBanner; set => SetProperty(ref noviceBanner, value); }
+        public ICommand OpenBannersCommand => openBannersCommand;
+        public ICommand RemoveWishCommand => removeWishCommand;
+        public ICommand SaveBannersCommand => saveBannersCommand;
+        public Banner StandardBanner { get => standardBanner; set => SetProperty(ref standardBanner, value); }
+        public ICommand StartCountdownCommand => startCountdownCommand;
+        public int TabBannersIndex { get => tabBannersIndex; set => SetProperty(ref tabBannersIndex, value); }
+        public ResinTimer Timer { get => timer; set => SetProperty(ref timer, value); }
+        public Banner WeaponBanner { get => weaponBanner; set => SetProperty(ref weaponBanner, value); }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
 
-        private bool _isVisible;
-        public bool IsVisible { get => _isVisible; set => SetProperty(ref _isVisible, value); }
+        private readonly DelegateCommand<string> addWishesCommand;
+        private readonly DelegateCommand<string> editRemainingTimeCommand;
+        private readonly DelegateCommand minimizeWindowCommand;
+        private readonly DelegateCommand openBannersCommand;
+        private readonly DelegateCommand<WishDrop> removeWishCommand;
+        private readonly DelegateCommand saveBannersCommand;
+        private readonly DelegateCommand startCountdownCommand;
+        private Banner characterBanner = new Banner(BannerType.Character);
+        private string inputString;
+        private bool isVisible;
+        private Banner noviceBanner = new Banner(BannerType.Novice);
+        private Banner standardBanner = new Banner(BannerType.Standard);
+        private int tabBannersIndex;
+        private ResinTimer timer = new ResinTimer();
+        private Banner weaponBanner = new Banner(BannerType.Weapon);
 
-        private ResinTimer _timer = new ResinTimer();
-        public ResinTimer Timer { get => _timer; set => SetProperty(ref _timer, value); }
-
-        private Banner _characterBanner = new Banner(BannerType.Character);
-        public Banner CharacterBanner { get => _characterBanner; set => SetProperty(ref _characterBanner, value); }
-
-        private Banner _weaponBanner = new Banner(BannerType.Weapon);
-        public Banner WeaponBanner { get => _weaponBanner; set => SetProperty(ref _weaponBanner, value); }
-
-        private Banner _standardBanner = new Banner(BannerType.Standard);
-        public Banner StandardBanner { get => _standardBanner; set => SetProperty(ref _standardBanner, value); }
-
-        private Banner _noviceBanner = new Banner(BannerType.Novice);
-        public Banner NoviceBanner { get => _noviceBanner; set => SetProperty(ref _noviceBanner, value); }
-
-        private string _inputString;
-        public string InputString { get => _inputString; set => SetProperty(ref _inputString, value); }
-
-        private int _tabBannersIndex;
-        public int TabBannersIndex { get => _tabBannersIndex; set => SetProperty(ref _tabBannersIndex, value); }
-
-        private readonly DelegateCommand _startCountdownCommand;
-        public ICommand StartCountdownCommand => _startCountdownCommand;
-
-        private readonly DelegateCommand<string> _addWishesCommand;
-        public ICommand AddWishesCommand => _addWishesCommand;
-
-        private readonly DelegateCommand _saveBannersCommand;
-        public ICommand SaveBannersCommand => _saveBannersCommand;
-
-        private readonly DelegateCommand _openBannersCommand;
-        public ICommand OpenBannersCommand => _openBannersCommand;
-
-        private readonly DelegateCommand _minimizeWindowCommand;
-        public ICommand MinimizeWindowCommand => _minimizeWindowCommand;
-
-        private readonly DelegateCommand<string> _editRemainingTimeCommand;
-        public ICommand EditRemainingTimeCommand => _editRemainingTimeCommand;
-
-        private readonly DelegateCommand<WishDrop> _removeWishCommand;
-        public ICommand RemoveWishCommand => _removeWishCommand;
-
-        private void _MinimizeWindow()
-        {
-        }
-
-        private void _RemoveWish(WishDrop wish)
-        {
-            string bannerType = "Default";
-            if (CharacterBanner.WishList.Remove(wish)) bannerType = "Character";
-            if (WeaponBanner.WishList.Remove(wish)) bannerType = "Weapon";
-            if (StandardBanner.WishList.Remove(wish)) bannerType = "Standard";
-            if (NoviceBanner.WishList.Remove(wish)) bannerType = "Novice";
-
-            Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Removed" }, { "Category", bannerType } });
-            _SaveBanners();
-        }
-
-        private void _EditRemainingTime(string obj)
-        {
-            if (Timer.EndTime is null || Timer.EndTime.Value < DateTime.UtcNow)
-            {
-                Timer.EndTime = DateTime.UtcNow;
-            }
-
-            // Deal with negative numbers/stopping the timer/reseting it
-            switch (obj)
-            {
-                case "-20":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
-                    break;
-                case "+20":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
-                    break;
-                case "-10":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(80);
-                    break;
-                case "+10":
-                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-80);
-                    break;
-            }
-
-            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
-
-            if (!Timer.Running)
-            {
-                Timer.StartCountdown();
-            }
-
-            Timer.Save();
-        }
-
-        private void StartCountdown() => Timer.StartCountdown();
-
-        private void _AddWishesCommand(string bannerType)
+        private void AddWishes(string bannerType)
         {
             switch (bannerType)
             {
@@ -159,10 +86,71 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             }
             Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Added" }, { "Category", bannerType } });
             InputString = string.Empty;
-            _SaveBanners();
+            SaveBanners();
         }
 
-        private void _SaveBanners()
+        private void EditRemainingTime(string obj)
+        {
+            if (Timer.EndTime is null || Timer.EndTime.Value < DateTime.UtcNow)
+            {
+                Timer.EndTime = DateTime.UtcNow;
+            }
+
+            // Deal with negative numbers/stopping the timer/reseting it
+            switch (obj)
+            {
+                case "-20":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
+                    break;
+
+                case "+20":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
+                    break;
+
+                case "-10":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(80);
+                    break;
+
+                case "+10":
+                    Timer.EndTime = Timer.EndTime.Value.AddMinutes(-80);
+                    break;
+            }
+
+            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
+
+            if (!Timer.Running)
+            {
+                Timer.StartCountdown();
+            }
+
+            Timer.Save();
+        }
+
+        private void MinimizeWindow()
+        {
+        }
+
+        private async void OpenBanners()
+        {
+            await CharacterBanner.Open();
+            await WeaponBanner.Open();
+            await StandardBanner.Open();
+            await NoviceBanner.Open();
+        }
+
+        private void RemoveWish(WishDrop wish)
+        {
+            string bannerType = "Default";
+            if (CharacterBanner.WishList.Remove(wish)) bannerType = "Character";
+            if (WeaponBanner.WishList.Remove(wish)) bannerType = "Weapon";
+            if (StandardBanner.WishList.Remove(wish)) bannerType = "Standard";
+            if (NoviceBanner.WishList.Remove(wish)) bannerType = "Novice";
+
+            Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Removed" }, { "Category", bannerType } });
+            SaveBanners();
+        }
+
+        private void SaveBanners()
         {
             CharacterBanner.Save();
             WeaponBanner.Save();
@@ -170,12 +158,6 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             NoviceBanner.Save();
         }
 
-        private async void _OpenBanners()
-        {
-            await CharacterBanner.Open();
-            await WeaponBanner.Open();
-            await StandardBanner.Open();
-            await NoviceBanner.Open();
-        }
+        private void StartCountdown() => Timer.StartCountdown();
     }
 }

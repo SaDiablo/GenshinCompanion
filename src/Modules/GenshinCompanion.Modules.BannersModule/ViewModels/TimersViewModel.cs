@@ -15,38 +15,32 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         public TimersViewModel(IRegionManager regionManager, IMessageService messageService) :
             base(regionManager)
         {
-            try
-            {
-                _startCountdownCommand = new DelegateCommand(StartCountdown);
-                _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            startCountdownCommand = new DelegateCommand(StartCountdown);
+            editRemainingTimeCommand = new DelegateCommand<string>(EditRemainingTime);
         }
+
+        public ICommand EditRemainingTimeCommand => editRemainingTimeCommand;
+
+        public ICommand StartCountdownCommand => startCountdownCommand;
+
+        public ParametricTimer Timer { get => timer; set => SetProperty(ref timer, value); }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
 
-        private ParametricTimer _timer = new ParametricTimer();
-        public ParametricTimer Timer { get => _timer; set => SetProperty(ref _timer, value); }
+        private readonly DelegateCommand<string> editRemainingTimeCommand;
+        private readonly DelegateCommand startCountdownCommand;
+        private ParametricTimer timer = new ParametricTimer();
 
-        private readonly DelegateCommand _startCountdownCommand;
-        public ICommand StartCountdownCommand => _startCountdownCommand;
-
-        private readonly DelegateCommand<string> _editRemainingTimeCommand;
-        public ICommand EditRemainingTimeCommand => _editRemainingTimeCommand;
-
-        private void _EditRemainingTime(string obj)
+        private void EditRemainingTime(string obj)
         {
             if (Timer.EndTime is null || Timer.EndTime.Value < DateTime.UtcNow)
             {
                 Timer.EndTime = DateTime.UtcNow;
             }
 
-            Analytics.TrackEvent("ParametricTimer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
+            Analytics.TrackEvent(nameof(ParametricTimer), new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
 
             if (!Timer.Running)
             {

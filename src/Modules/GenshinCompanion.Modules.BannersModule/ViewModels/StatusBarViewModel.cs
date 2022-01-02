@@ -15,34 +15,25 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         public StatusBarViewModel(IRegionManager regionManager, IMessageService messageService) :
             base(regionManager)
         {
-            try
-            {
-                _startCountdownCommand = new DelegateCommand(StartCountdown);
-                _editRemainingTimeCommand = new DelegateCommand<string>(_EditRemainingTime);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            startCountdownCommand = new DelegateCommand(StartCountdown);
+            editRemainingTimeCommand = new DelegateCommand<string>(EditRemainingTime);
         }
+
+        public ICommand EditRemainingTimeCommand => editRemainingTimeCommand;
+        public bool IsVisible { get => isVisible; set => SetProperty(ref isVisible, value); }
+        public ICommand StartCountdownCommand => startCountdownCommand;
+        public ResinTimer Timer { get => timer; set => SetProperty(ref timer, value); }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
 
-        private bool _isVisible;
-        public bool IsVisible { get => _isVisible; set => SetProperty(ref _isVisible, value); }
+        private readonly DelegateCommand<string> editRemainingTimeCommand;
+        private readonly DelegateCommand startCountdownCommand;
+        private bool isVisible;
+        private ResinTimer timer = new ResinTimer();
 
-        private ResinTimer _timer = new ResinTimer();
-        public ResinTimer Timer { get => _timer; set => SetProperty(ref _timer, value); }
-
-        private readonly DelegateCommand _startCountdownCommand;
-        public ICommand StartCountdownCommand => _startCountdownCommand;
-
-        private readonly DelegateCommand<string> _editRemainingTimeCommand;
-        public ICommand EditRemainingTimeCommand => _editRemainingTimeCommand;
-
-        private void _EditRemainingTime(string obj)
+        private void EditRemainingTime(string obj)
         {
             if (Timer.EndTime is null || Timer.EndTime.Value < DateTime.UtcNow)
             {
@@ -55,18 +46,21 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 case "-20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(160);
                     break;
+
                 case "+20":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(-160);
                     break;
+
                 case "-10":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(80);
                     break;
+
                 case "+10":
                     Timer.EndTime = Timer.EndTime.Value.AddMinutes(-80);
                     break;
             }
 
-            Analytics.TrackEvent("Timer", new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
+            Analytics.TrackEvent(nameof(ResinTimer), new Dictionary<string, string> { { "Action", "Edited" }, { "Amount", obj } });
 
             if (!Timer.Running)
             {
