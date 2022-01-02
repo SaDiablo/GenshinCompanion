@@ -15,8 +15,9 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         private int _dropIndex;
         private string dropBannerName;
 
+        public int Id { get; set; }
         public string DropName { get => _dropName; set => _dropName = value; }
-        public string DropBannerName { get => dropBannerName; private set => dropBannerName = value; }
+        public string DropBannerName { get => dropBannerName; set => dropBannerName = value; }
         public DropType DropType { get => _dropType; set => _dropType = value; }
         public DateTime DropTime { get => _dropTime; set => _dropTime = value; }
         public int DropRarity { get => _dropRarity; set => _dropRarity = value; }

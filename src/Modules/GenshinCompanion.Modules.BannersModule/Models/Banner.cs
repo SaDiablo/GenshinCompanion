@@ -234,7 +234,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
             using (var db = new LiteDatabase(filePath))
             {
-                var collection = db.GetCollection<WishDrop>($"{BannerType}");
+                var collection = db.GetCollection<WishDrop>($"{BannerType}{nameof(Banner)}");
 
                 for (int i = 0; i < _wishList.Count; i++)
                 {
@@ -251,6 +251,13 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             if (WishList.Remove(wish))
             {
                 RefreshCounts();
+            }
+
+            string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
+            using (var db = new LiteDatabase(filePath))
+            {
+                var collection = db.GetCollection<WishDrop>($"{BannerType}{nameof(Banner)}");
+                var removed = collection.Delete(wish.Id);
             }
         }
 
@@ -300,39 +307,110 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         /// </summary>
         public void Save()
         {
-            if (WishList != null & WishList.Any())
-            {
-                DataProvider.Save(WishList, $"{BannerType}{nameof(Banner)}");
-            }
+            //if (WishList != null && WishList.Any())
+            //{
+            //    DataProvider.Save(WishList, $"{BannerType}{nameof(Banner)}");
+            //}
         }
 
+        /// <summary>
+        /// 1. Check if xBanner.json exist
+        /// 2. Open Json
+        /// 3. Initialize DB
+        /// 4. Remove Json
+        /// 5. Open DB
+        /// </summary>
+        /// <returns></returns>
         public async Task Open()
         {
-            BindingList<WishDrop> deserializedData = await DataProvider.Open<BindingList<WishDrop>>($"{BannerType}{nameof(Banner)}");
-
-            if (deserializedData != null || deserializedData != default)
+            if(IsExistingJsonDatabase())
             {
-                WishList = deserializedData;
-                SetIndexes();
-                RaisePropertyChanged(nameof(WishList));
-                RefreshCounts();
-                //await InitDB(WishList);
+                BindingList<WishDrop> deserializedData = await DataProvider.Open<BindingList<WishDrop>>($"{BannerType}{nameof(Banner)}");
+
+                if (deserializedData != null || deserializedData != default)
+                {
+                    WishList = deserializedData;
+                    SetIndexes();
+                    RaisePropertyChanged(nameof(WishList));
+                    RefreshCounts();
+                    InitDB(WishList);
+                    DataProvider.RemoveFile($"{BannerType}{nameof(Banner)}");
+                }
             }
+
+            var list = OpenDB();
+            WishList = new BindingList<WishDrop>(list);
+            RaisePropertyChanged(nameof(WishList));
+            RefreshCounts();
         }
 
-        public async Task InitDB(BindingList<WishDrop> wishList)
+        private List<WishDrop> OpenDB()
         {
             string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
 
             using (var db = new LiteDatabase(filePath))
             {
-                var collection = db.GetCollection<WishDrop>($"{BannerType}");
-                foreach (var drop in wishList)
+                var collection = db.GetCollection<WishDrop>($"{BannerType}{nameof(Banner)}");
+
+                return collection.FindAll().Reverse().ToList();
+            }
+        }
+
+        /// <summary>
+        /// Used to convert to NoSQL database
+        /// </summary>
+        /// <returns></returns>
+        private bool IsExistingJsonDatabase()
+        {
+            string folderPath = DataProvider.GetFolderPath(DataFolder.Banners);
+            string filePath = DataProvider.GetFilePath($"{BannerType}{nameof(Banner)}", DataFolder.Banners, DataFormat.Json);
+
+            string[] files = null;
+            if (Directory.Exists(folderPath))
+            {
+                files = Directory.GetFiles(folderPath);
+            }
+
+            if (files != null && files.Contains(filePath, StringComparer.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void InitDB(BindingList<WishDrop> wishList)
+        {
+            string filePath = DataProvider.GetFilePath($"{nameof(Banner)}", DataFolder.Banners, DataFormat.Db);
+
+            using (var db = new LiteDatabase(filePath))
+            {
+                var collection = db.GetCollection<WishDrop>($"{BannerType}{nameof(Banner)}");
+                foreach (var drop in wishList.Reverse())
                 {
+                    if(drop.DropBannerName == null)
+                    {
+                        switch (BannerType)
+                        {
+                            case BannerType.Character:
+                                drop.DropBannerName = "Character Event Wish";
+                                break;
+                            case BannerType.Weapon:
+                                break;
+                            case BannerType.Standard:
+                                drop.DropBannerName = "Permanent Wish";
+                                break;
+                            case BannerType.Novice:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    
                     collection.Insert(drop);
                 }
             }
         }
+
         #endregion Private Methods
     }
 }

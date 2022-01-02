@@ -102,6 +102,8 @@
             RowDetailsVisibilityMode="VisibleWhenSelected"
             SelectionMode="Single"
             SelectionUnit="FullRow"
+            VirtualizingPanel.IsVirtualizing="True" 
+            VirtualizingPanel.IsContainerVirtualizable="True"
             VirtualizingPanel.IsVirtualizingWhenGrouping="True"
             VirtualizingPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>

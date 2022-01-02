@@ -141,10 +141,11 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         private void RemoveWish(WishDrop wish)
         {
             string bannerType = "Default";
-            if (CharacterBanner.WishList.Remove(wish)) bannerType = "Character";
-            if (WeaponBanner.WishList.Remove(wish)) bannerType = "Weapon";
-            if (StandardBanner.WishList.Remove(wish)) bannerType = "Standard";
-            if (NoviceBanner.WishList.Remove(wish)) bannerType = "Novice";
+
+            if (CharacterBanner.WishList.Contains(wish)) { CharacterBanner.RemoveItem(wish); bannerType = "Character"; }
+            if (WeaponBanner.WishList.Contains(wish)) { WeaponBanner.RemoveItem(wish); bannerType = "Weapon"; }
+            if (StandardBanner.WishList.Contains(wish)) { StandardBanner.RemoveItem(wish); bannerType = "Standard"; }
+            if (NoviceBanner.WishList.Contains(wish)) { NoviceBanner.RemoveItem(wish); bannerType = "Novice"; }
 
             Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Removed" }, { "Category", bannerType } });
             SaveBanners();

@@ -9,6 +9,21 @@ namespace GenshinCompanion.Services
 {
     public class DataProvider
     {
+        public static string GetFilePath(string fileName, DataFolder folderPath, DataFormat format)
+        {
+            return Path.Combine(
+                GetFolderPath(folderPath),
+                $"{fileName}.{format.ToString().ToLowerInvariant()}");
+        }
+
+        public static string GetFolderPath(DataFolder folder)
+        {
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                PropertyNames.ApplicationName,
+                folder.ToString());
+        }
+
         public static async Task<T> Open<T>(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
         {
             //TODO:
@@ -27,7 +42,7 @@ namespace GenshinCompanion.Services
             {
                 using (FileStream openStream = File.OpenRead(filePath))
                 {
-                    if(openStream.Length != 0) 
+                    if (openStream.Length != 0)
                     {
                         deserializedData = await JsonSerializer.DeserializeAsync<T>(openStream);
                         return deserializedData;
@@ -38,15 +53,20 @@ namespace GenshinCompanion.Services
             return default;
         }
 
-        public static async Task<T> TryOpen<T>(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
+        public static void RemoveFile(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
         {
-            try
+            string folderPath = GetFolderPath(folder);
+            string filePath = GetFilePath(fileName, folderPath, format);
+
+            string[] files = null;
+            if (Directory.Exists(folderPath))
             {
-                return await Open<T>(fileName, folder, format);
+                files = Directory.GetFiles(folderPath);
             }
-            catch (Exception)
+
+            if (files != null && files.Contains(filePath, StringComparer.OrdinalIgnoreCase))
             {
-                throw;
+                File.Delete(filePath);
             }
         }
 
@@ -84,25 +104,22 @@ namespace GenshinCompanion.Services
             return false;
         }
 
-        private static string GetFolderPath(DataFolder folder)
+        public static async Task<T> TryOpen<T>(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
         {
-            return Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                PropertyNames.ApplicationName,
-                folder.ToString());
+            try
+            {
+                return await Open<T>(fileName, folder, format);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private static string GetFilePath(string fileName, string folderPath, DataFormat format)
         {
             return Path.Combine(
                 folderPath,
-                $"{fileName}.{format.ToString().ToLowerInvariant()}");
-        }
-
-        public static string GetFilePath(string fileName, DataFolder folderPath, DataFormat format)
-        {
-            return Path.Combine(
-                GetFolderPath(folderPath),
                 $"{fileName}.{format.ToString().ToLowerInvariant()}");
         }
     }
