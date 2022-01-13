@@ -238,9 +238,10 @@ namespace GenshinCompanion.Modules.BannersModule.Models
 
                 for (int i = 0; i < _wishList.Count; i++)
                 {
-                    wishList[i].DropIndex = Get5StarIndex(i);
-                    collection.Insert(wishList[i]);
+                    _wishList[i].DropIndex = Get5StarIndex(i);
                 }
+                _wishList.Reverse();
+                collection.InsertBulk(_wishList);
             }
 
             RefreshCounts();
