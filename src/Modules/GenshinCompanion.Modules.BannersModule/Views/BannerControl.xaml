@@ -1,4 +1,4 @@
-﻿<UserControl x:Name="BannerUserControl"
+<UserControl x:Name="BannerUserControl"
              x:Class="GenshinCompanion.Modules.BannersModule.Views.BannerControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -140,6 +140,30 @@
                             <Setter Property="Background" Value="Transparent" />
                             <Setter Property="BorderBrush" Value="#FFCFCFCF" />
                         </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsChecked, ElementName=checkBox}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="4" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsChecked, ElementName=checkBox}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="5" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsChecked, ElementName=checkBox}" Value="True" />
+                                <Condition Binding="{Binding DropRarity}" Value="3" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
@@ -147,7 +171,7 @@
         <Grid Grid.Column="1" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="32" MaxHeight="68" />
-                <RowDefinition MinHeight="196" MaxHeight="256" />
+                <RowDefinition MinHeight="230" MaxHeight="256" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" MinWidth="80" />
@@ -171,13 +195,18 @@
                     CommandParameter="{Binding Banner.BannerType, ElementName=BannerUserControl, Converter={StaticResource enumToStringConverter}}"
                     Content="Add" />
             <Grid Grid.Row="1" Grid.ColumnSpan="4" Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="90" MinWidth="80" />
                     <ColumnDefinition Width="0.75*" MinWidth="65" />
                     <ColumnDefinition Width="1*" MinWidth="50" />
                     <ColumnDefinition Width="0.75*" MinWidth="50" />
                 </Grid.ColumnDefinitions>
-                <ui:SimpleStackPanel Grid.Row="1" Spacing="12">
+
+                <ui:SimpleStackPanel Spacing="12">
                     <Label Content="Wish Count" />
                     <Label Content="Characters" />
                     <Label Content="4-Star drops" />
@@ -186,7 +215,7 @@
                     <!--<Label Content="4* Rate" />-->
                     <Label Content="5* Rate" />
                 </ui:SimpleStackPanel>
-                <ui:SimpleStackPanel Grid.Row="1" Grid.Column="1" Spacing="12">
+                <ui:SimpleStackPanel Grid.Column="1" Spacing="12">
                     <Label x:Name="labelWishCount" Content="{Binding Banner.TotalCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
                     <Label x:Name="labelCharacterCount" Content="{Binding Banner.CharacterCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
                     <Label x:Name="label4StarCount" Content="{Binding Banner.FourStarCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
@@ -197,7 +226,7 @@
                         Content="{Binding Banner.NextFourStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
                     <Label x:Name="labelNextFiveStarRate" Content="{Binding Banner.NextFiveStarRate, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
                 </ui:SimpleStackPanel>
-                <ui:SimpleStackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Spacing="12">
+                <ui:SimpleStackPanel Grid.Column="2" Grid.ColumnSpan="2" Spacing="12">
                     <Label x:Name="labelPrimogemsCount" Content="{Binding Banner.PrimogemCount, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
                     <Label x:Name="labelCharacterPercent" Content="{Binding Banner.CharacterPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
                     <Label x:Name="label4StarPercent" Content="{Binding Banner.FourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
@@ -207,6 +236,9 @@
                         x:Name="labelNextFourStarPercent"
                         Content="{Binding Banner.NextFourStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />-->
                     <Label x:Name="labelNextFiveStarPercent" Content="{Binding Banner.NextFiveStarPercent, UpdateSourceTrigger=PropertyChanged, ElementName=BannerUserControl}" />
+                </ui:SimpleStackPanel>
+                <ui:SimpleStackPanel Grid.Row="1" Grid.ColumnSpan="4" Spacing="12" Margin="0,12">
+                    <CheckBox x:Name="checkBox" Content="Show only 4-Star and 5-Star wishes" IsChecked="{Binding ShowOnlyFourAndFiveStar}"  />
                 </ui:SimpleStackPanel>
             </Grid>
         </Grid>

@@ -41,7 +41,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         public ResinTimer Timer { get => timer; set => SetProperty(ref timer, value); }
         public Banner WeaponBanner { get => weaponBanner; set => SetProperty(ref weaponBanner, value); }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext navigationContext) 
         {
         }
 
@@ -60,6 +60,8 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
         private int tabBannersIndex;
         private ResinTimer timer = new ResinTimer();
         private Banner weaponBanner = new Banner(BannerType.Weapon);
+        private bool showOnlyFourAndFiveStar;
+        public bool ShowOnlyFourAndFiveStar { get => showOnlyFourAndFiveStar; set => SetProperty(ref showOnlyFourAndFiveStar, value); }
 
         private void AddWishes(string bannerType)
         {
