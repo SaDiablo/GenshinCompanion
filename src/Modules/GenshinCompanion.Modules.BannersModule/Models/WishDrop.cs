@@ -56,8 +56,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     DropName = line;
 
                     //DropRarity
-                    if (int.TryParse(new string(_dropName.Where(char.IsDigit).ToArray()), out _dropRarity)) { }
-                    else { _dropRarity = 3; };
+                    if (!int.TryParse(new string(_dropName.Where(char.IsDigit).ToArray()), out _dropRarity)) { _dropRarity = 3; }
 
                     //DropBannerName
                     line = reader.ReadLine();
@@ -67,12 +66,9 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     line = reader.ReadLine();
                     DateTime.TryParse(line, out _dropTime);
                 }
-                catch (ArgumentException)
+                catch (Exception exception)
                 {
-                    throw;
-                }
-                catch (Exception)
-                {
+                    Crashes.TrackError(exception);
                     throw;
                 }
             }
