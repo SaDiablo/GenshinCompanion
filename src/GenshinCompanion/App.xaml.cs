@@ -25,6 +25,7 @@ namespace GenshinCompanion
 #endif
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used in Release configuration")]
         private static void SetUpAppCenter()
         {
             string countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
