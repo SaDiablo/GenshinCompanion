@@ -171,7 +171,7 @@
         <Grid Grid.Column="1" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="32" MaxHeight="68" />
-                <RowDefinition MinHeight="196" MaxHeight="256" />
+                <RowDefinition MinHeight="230" MaxHeight="256" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80" MinWidth="80" />
