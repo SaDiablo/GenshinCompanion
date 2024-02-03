@@ -316,7 +316,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         }
 
         /// <summary>
-        /// Pretty printed json in AppData/Local/GenshinCompaion/Banners folder
+        /// Pretty printed json in AppData/Local/GenshinCompanion/Banners folder
         /// </summary>
         public void Save()
         {

@@ -40,7 +40,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 Timer.EndTime = DateTime.UtcNow;
             }
 
-            // Deal with negative numbers/stopping the timer/reseting it
+            // Deal with negative numbers/stopping the timer/resetting it
             switch (obj)
             {
                 case "-20":
