@@ -9,7 +9,7 @@
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.13" />
+    <PackageReference Include="LiteDB" Version="5.0.17" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.4.0" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.4.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.7-preview.2" />
