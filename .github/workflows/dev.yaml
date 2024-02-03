@@ -25,7 +25,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 8.x
 
     - name: Get Project Version
       uses: naminodarie/get-net-sdk-project-versions-action@v1.1.1
@@ -55,7 +55,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: GenshinCompanion-${{steps.get-version.outputs.version}}-${{env.Configuration}}
-        path: src\GenshinCompanion\bin\${{env.Configuration}}\netcoreapp3.1\publish\win-x86\
+        path: src\GenshinCompanion\bin\${{env.Configuration}}\net8.0-windows\publish\win-x86\
         retention-days: 30
       env:
         Configuration: ${{ matrix.configuration }}
