@@ -1,19 +1,17 @@
-﻿<UserControl
-    x:Class="GenshinCompanion.Modules.BannersModule.Views.StatusBarView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:GenshinCompanion.Modules.BannersModule.Views"
-    xmlns:prism="http://prismlibrary.com/"
-    prism:ViewModelLocator.AutoWireViewModel="True"
-    xmlns:converters="clr-namespace:GenshinCompanion.Modules.BannersModule.Converters"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="clr-namespace:System;assembly=System.Runtime"
-    xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DesignHeight="36"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="GenshinCompanion.Modules.BannersModule.Views.StatusBarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:GenshinCompanion.Modules.BannersModule.Converters"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:GenshinCompanion.Modules.BannersModule.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:s="clr-namespace:System;assembly=System.Runtime"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             d:DesignHeight="36" d:DesignWidth="800"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <converters:UtcToLocalConverter x:Key="utcToLocalConverter" />
@@ -23,100 +21,63 @@
         <s:TimeSpan x:Key="timeSpanRoundTo">00:00:01</s:TimeSpan>
     </UserControl.Resources>
 
-    <StatusBar
-        Height="36"
-        Padding="4,0"
-        VerticalAlignment="Bottom">
-        <StatusBarItem
-            Content="Enter time here:"
-            FontSize="14" />
-        <TextBox
-            Height="20"
-            MinHeight="20"
-            Padding="10,0"
-            VerticalAlignment="Center"
-            VerticalContentAlignment="Center"
-            FontSize="14"
-            Text="{Binding Timer.Duration}" />
-        <Button
-            Padding="12,2"
-            Command="{Binding StartCountdownCommand}"
-            Content="Start"
-            FontSize="14" />
+    <StatusBar Height="36" Padding="4,0" VerticalAlignment="Bottom">
+        <StatusBarItem Content="Enter time here:" FontSize="14" />
+        <TextBox Height="20" MinHeight="20" Padding="10,0"
+                 VerticalAlignment="Center" VerticalContentAlignment="Center"
+                 FontSize="14"
+                 Text="{Binding Timer.Duration}" />
+        <Button Padding="12,2" Command="{Binding StartCountdownCommand}" Content="Start" FontSize="14" />
 
         <StatusBarItem HorizontalAlignment="Right">
             <DockPanel>
-                <StatusBarItem
-                    Content="Resin "
-                    FontSize="14" />
-                <Button
-                    Width="46"
-                    Padding="6,2"
-                    Command="{Binding EditRemainingTimeCommand}"
-                    CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
-                    Content="-20"
-                    FontSize="14">
+                <StatusBarItem Content="Resin " FontSize="14" />
+                <Button Width="46" Padding="6,2"
+                        Command="{Binding EditRemainingTimeCommand}"
+                        CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                        Content="-20" FontSize="14">
                     <Button.ContextMenu>
-                        <ContextMenu
-                            Width="46"
-                            Height="32"
-                            Padding="0">
+                        <ContextMenu Width="46" Height="32" Padding="0">
                             <MenuItem Header="-10">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction
-                                            Command="{Binding EditRemainingTimeCommand}"
-                                            CommandParameter="-10" />
+                                        <i:InvokeCommandAction Command="{Binding EditRemainingTimeCommand}" CommandParameter="-10" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <StatusBarItem
-                    Content="{Binding Timer.TimerService.RemainingTime, Converter={StaticResource timerToResinConverter}}"
-                    ContentStringFormat="({0}/160)"
-                    FontSize="14" />
-                <Button
-                    Width="46"
-                    Padding="6,2"
-                    Command="{Binding EditRemainingTimeCommand}"
-                    CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
-                    Content="+20"
-                    FontSize="14">
+                <StatusBarItem Content="{Binding Timer.TimerService.RemainingTime, Converter={StaticResource timerToResinConverter}}" ContentStringFormat="({0}/160)" FontSize="14" />
+                <Button Width="46" Padding="6,2"
+                        Command="{Binding EditRemainingTimeCommand}"
+                        CommandParameter="{Binding Content, RelativeSource={RelativeSource Self}}"
+                        Content="+20" FontSize="14">
                     <Button.ContextMenu>
-                        <ContextMenu
-                            Width="46"
-                            Height="32"
-                            Padding="0">
+                        <ContextMenu Width="46" Height="32" Padding="0">
                             <MenuItem Header="+10">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction
-                                            Command="{Binding EditRemainingTimeCommand}"
-                                            CommandParameter="+10" />
+                                        <i:InvokeCommandAction Command="{Binding EditRemainingTimeCommand}" CommandParameter="+10" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </MenuItem>
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <StatusBarItem
-                    Margin="20,0,0,0"
-                    Content="Fully replenished in"
-                    FontSize="14" />
+                <StatusBarItem Margin="20,0,0,0" Content="Fully replenished in" FontSize="14" />
                 <StatusBarItem>
-                    <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}"/>
+                    <TextBlock FontSize="14" Text="{Binding Timer.TimerService.RemainingTime, StringFormat={}{0:hh}:{0:mm}:{0:ss}}" />
                     <StatusBarItem.ToolTip>
                         <TextBlock>
                             <TextBlock.Text>
                                 <MultiBinding StringFormat="{}160 Resin: {0:HH:mm dd/MM/yyyy}&#x0a;120 Resin: {1:HH:mm dd/MM/yyyy}&#x0a;  80 Resin: {2:HH:mm dd/MM/yyyy}&#x0a;  40 Resin: {3:HH:mm dd/MM/yyyy}&#x0a;  20 Resin: {4:HH:mm dd/MM/yyyy}">
-                                    <!--&#x0a;-->
-                                    <Binding Path="Timer.EndTime" Converter="{StaticResource utcToLocalConverter}"/>
-                                    <Binding Path="Timer.EndTime120" Converter="{StaticResource utcToLocalConverter}"/>
-                                    <Binding Path="Timer.EndTime80" Converter="{StaticResource utcToLocalConverter}"/>
-                                    <Binding Path="Timer.EndTime40" Converter="{StaticResource utcToLocalConverter}"/>
-                                    <Binding Path="Timer.EndTime20" Converter="{StaticResource utcToLocalConverter}"/>
+                                    <!--  &#x0a;  -->
+                                    <Binding Converter="{StaticResource utcToLocalConverter}" Path="Timer.EndTime" />
+                                    <Binding Converter="{StaticResource utcToLocalConverter}" Path="Timer.EndTime120" />
+                                    <Binding Converter="{StaticResource utcToLocalConverter}" Path="Timer.EndTime80" />
+                                    <Binding Converter="{StaticResource utcToLocalConverter}" Path="Timer.EndTime40" />
+                                    <Binding Converter="{StaticResource utcToLocalConverter}" Path="Timer.EndTime20" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
