@@ -1,8 +1,9 @@
-﻿using AutoUpdaterDotNET;
-using Octokit;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoUpdaterDotNET;
+using Octokit;
 
 namespace GenshinCompanion.ApplicationUpdater
 {
@@ -21,17 +22,17 @@ namespace GenshinCompanion.ApplicationUpdater
 
         private async Task GetLatestRelease()
         {
-            var owner = "SaDiablo";
-            var repositoryName = "GenshinCompanion";
+            string owner = "SaDiablo";
+            string repositoryName = "GenshinCompanion";
 
             var client = new GitHubClient(new ProductHeaderValue($"{owner}.{repositoryName}"));
-            var releases = await client.Repository.Release.GetAll(owner, repositoryName);
-            var latestrelease = releases.First(r => r.Draft == false);
-            var assets = await client.Repository.Release.GetAllAssets(owner, repositoryName, latestrelease.Id);
-            var latestreleaseassetid = assets.First(a => a.Name.Contains(repositoryName)).Id;
-            var asset = await client.Repository.Release.GetAsset(owner, repositoryName, latestreleaseassetid);
+            IReadOnlyList<Release> releases = await client.Repository.Release.GetAll(owner, repositoryName);
+            Release latestRelease = releases.First(r => r.Draft);
+            IReadOnlyList<ReleaseAsset> assets = await client.Repository.Release.GetAllAssets(owner, repositoryName, latestRelease.Id);
+            int latestReleaseAssetId = assets.First(a => a.Name.Contains(repositoryName)).Id;
+            ReleaseAsset asset = await client.Repository.Release.GetAsset(owner, repositoryName, latestReleaseAssetId);
 
-            currentVersion = latestrelease.TagName.Substring(1);
+            currentVersion = latestRelease.TagName.Substring(1);
             downloadURL = asset.BrowserDownloadUrl;
             ManifestReady.Invoke(this, EventArgs.Empty);
         }

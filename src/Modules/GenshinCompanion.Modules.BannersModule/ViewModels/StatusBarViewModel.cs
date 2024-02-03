@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Input;
 using GenshinCompanion.Core.Mvvm;
 using GenshinCompanion.Modules.BannersModule.Models;
 using GenshinCompanion.Services.Interfaces;
 using Microsoft.AppCenter.Analytics;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace GenshinCompanion.Modules.BannersModule.ViewModels
 {
@@ -40,7 +40,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 Timer.EndTime = DateTime.UtcNow;
             }
 
-            // Deal with negative numbers/stopping the timer/reseting it
+            // Deal with negative numbers/stopping the timer/resetting it
             switch (obj)
             {
                 case "-20":
@@ -70,6 +70,9 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             Timer.Save();
         }
 
-        private void StartCountdown() => Timer.StartCountdown();
+        private void StartCountdown()
+        {
+            Timer.StartCountdown();
+        }
     }
 }

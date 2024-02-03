@@ -1,9 +1,9 @@
-﻿using GenshinCompanion.Core;
+﻿using System.Windows.Input;
+using GenshinCompanion.Core;
 using ModernWpf.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Windows.Input;
 
 namespace GenshinCompanion.ViewModels
 {

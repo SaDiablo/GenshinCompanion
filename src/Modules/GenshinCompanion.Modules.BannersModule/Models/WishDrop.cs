@@ -1,8 +1,9 @@
-using GenshinCompanion.CoreStandard.Enums;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
+using GenshinCompanion.CoreStandard.Enums;
+using Microsoft.AppCenter.Crashes;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -42,7 +43,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             // Add better Exception handling
             string line = string.Empty;
-            using (StringReader reader = new StringReader(drop))
+            using (var reader = new StringReader(drop))
             {
                 try
                 {
@@ -55,8 +56,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     DropName = line;
 
                     //DropRarity
-                    if (int.TryParse(new string(_dropName.Where(char.IsDigit).ToArray()), out _dropRarity)) { }
-                    else { _dropRarity = 3; };
+                    if (!int.TryParse(new string(_dropName.Where(char.IsDigit).ToArray()), out _dropRarity)) { _dropRarity = 3; }
 
                     //DropBannerName
                     line = reader.ReadLine();
@@ -66,19 +66,18 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     line = reader.ReadLine();
                     DateTime.TryParse(line, out _dropTime);
                 }
-                catch (ArgumentException)
+                catch (Exception exception)
                 {
-                    throw;
-                }
-                catch (Exception)
-                {
+                    Crashes.TrackError(exception);
                     throw;
                 }
             }
         }
-        
+
         [JsonConstructor]
-        public WishDrop(string dropName, DropType dropType, DateTime dropTime, int dropRarity, string dropBannerName) =>
+        public WishDrop(string dropName, DropType dropType, DateTime dropTime, int dropRarity, string dropBannerName)
+        {
             (DropName, DropType, DropTime, DropRarity, DropBannerName) = (dropName, dropType, dropTime, dropRarity, dropBannerName);
+        }
     }
 }

@@ -1,9 +1,10 @@
-using GenshinCompanion.CoreStandard;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GenshinCompanion.CoreStandard;
+using GenshinCompanion.Services.Enums;
 
 namespace GenshinCompanion.Services
 {
@@ -106,14 +107,7 @@ namespace GenshinCompanion.Services
 
         public static async Task<T> TryOpen<T>(string fileName, DataFolder folder = DataFolder.Banners, DataFormat format = DataFormat.Json)
         {
-            try
-            {
-                return await Open<T>(fileName, folder, format);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await Open<T>(fileName, folder, format);
         }
 
         private static string GetFilePath(string fileName, string folderPath, DataFormat format)

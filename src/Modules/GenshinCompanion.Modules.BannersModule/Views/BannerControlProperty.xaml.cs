@@ -1,6 +1,6 @@
-﻿using GenshinCompanion.Modules.BannersModule.Models;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using GenshinCompanion.Modules.BannersModule.Models;
 
 namespace GenshinCompanion.Modules.BannersModule.Views
 {

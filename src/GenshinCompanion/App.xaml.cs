@@ -1,15 +1,15 @@
-﻿using GenshinCompanion.Modules.BannersModule;
+﻿using System.Globalization;
+using System.Windows;
+using GenshinCompanion.ApplicationUpdater;
+using GenshinCompanion.Modules.BannersModule;
 using GenshinCompanion.Services;
 using GenshinCompanion.Services.Interfaces;
 using GenshinCompanion.Views;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.AppCenter;
 using Prism.Ioc;
 using Prism.Modularity;
-using System.Windows;
-using System.Globalization;
-using GenshinCompanion.ApplicationUpdater;
 
 namespace GenshinCompanion
 {
@@ -25,9 +25,10 @@ namespace GenshinCompanion
 #endif
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used in Release configuration")]
         private static void SetUpAppCenter()
         {
-            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+            string countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
             AppCenter.SetCountryCode(countryCode);
             AppCenter.Configure("34c17fce-3c24-41cb-a48a-a570c781ea25");
             if (AppCenter.Configured)

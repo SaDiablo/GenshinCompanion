@@ -1,7 +1,6 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Threading;
+﻿using System;
 using System.Timers;
+using Prism.Mvvm;
 
 namespace GenshinCompanion.Services
 {
@@ -9,8 +8,10 @@ namespace GenshinCompanion.Services
     {
         public TimerService()
         {
-            timer = new System.Timers.Timer();
-            timer.Interval = 500;
+            timer = new System.Timers.Timer
+            {
+                Interval = 500
+            };
             timer.Elapsed += OnTimedEvent;
         }
 
@@ -48,16 +49,34 @@ namespace GenshinCompanion.Services
             get => endTime;
             set
             {
-                if(SetProperty(ref endTime, value))
+                if (SetProperty(ref endTime, value))
                 {
-                    if (endTime > DateTime.Now) SetRunning(true);
+                    if (endTime > DateTime.Now)
+                    {
+                        SetRunning(true);
+                    }
                 }
             }
         }
         public TimeSpan RemainingTime { get => remainingTime; set => SetProperty(ref remainingTime, value); }
-        public double GetInterval() => timer.Interval;
-        public void SetInterval(double value) => timer.Interval = value;
-        public bool GetRunning() => timer.Enabled;
-        public void SetRunning(bool value) => timer.Enabled = value;
+        public double GetInterval()
+        {
+            return timer.Interval;
+        }
+
+        public void SetInterval(double value)
+        {
+            timer.Interval = value;
+        }
+
+        public bool GetRunning()
+        {
+            return timer.Enabled;
+        }
+
+        public void SetRunning(bool value)
+        {
+            timer.Enabled = value;
+        }
     }
 }
