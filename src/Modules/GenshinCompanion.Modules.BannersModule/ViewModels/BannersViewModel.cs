@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Windows.Input;
 using GenshinCompanion.Core.Mvvm;
 using GenshinCompanion.CoreStandard.Enums;
 using GenshinCompanion.Modules.BannersModule.Models;
@@ -5,9 +8,6 @@ using GenshinCompanion.Services.Interfaces;
 using Microsoft.AppCenter.Analytics;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Windows.Input;
 
 namespace GenshinCompanion.Modules.BannersModule.ViewModels
 {
@@ -84,6 +84,7 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
                 default:
                     break;
             }
+
             Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Added" }, { "Category", bannerType } });
             InputString = string.Empty;
             SaveBanners();
@@ -143,8 +144,11 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             string bannerType = "Default";
 
             if (CharacterBanner.WishList.Contains(wish)) { CharacterBanner.RemoveItem(wish); bannerType = "Character"; }
+
             if (WeaponBanner.WishList.Contains(wish)) { WeaponBanner.RemoveItem(wish); bannerType = "Weapon"; }
+
             if (StandardBanner.WishList.Contains(wish)) { StandardBanner.RemoveItem(wish); bannerType = "Standard"; }
+
             if (NoviceBanner.WishList.Contains(wish)) { NoviceBanner.RemoveItem(wish); bannerType = "Novice"; }
 
             Analytics.TrackEvent("Wish", new Dictionary<string, string> { { "Action", "Removed" }, { "Category", bannerType } });
@@ -159,6 +163,9 @@ namespace GenshinCompanion.Modules.BannersModule.ViewModels
             NoviceBanner.Save();
         }
 
-        private void StartCountdown() => Timer.StartCountdown();
+        private void StartCountdown()
+        {
+            Timer.StartCountdown();
+        }
     }
 }

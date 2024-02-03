@@ -8,7 +8,10 @@ namespace GenshinCompanion.Modules.BannersModule.Converters
     {
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
+            if (value == null)
+            {
+                return null;
+            }
 
             if (value is DateTime dateTime)
             {
@@ -20,7 +23,10 @@ namespace GenshinCompanion.Modules.BannersModule.Converters
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return null;
+            if (value == null)
+            {
+                return null;
+            }
 
             if (value is DateTime dateTime)
             {

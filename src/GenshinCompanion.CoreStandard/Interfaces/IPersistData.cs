@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace GenshinCompanion.CoreStandard
+namespace GenshinCompanion.CoreStandard.Interfaces
 {
     public interface IPersistData
     {

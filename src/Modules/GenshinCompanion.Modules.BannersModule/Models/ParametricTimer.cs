@@ -1,17 +1,20 @@
-using GenshinCompanion.CoreStandard;
-using GenshinCompanion.Services;
-using Microsoft.AppCenter.Analytics;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using GenshinCompanion.CoreStandard.Interfaces;
+using GenshinCompanion.Services;
+using GenshinCompanion.Services.Enums;
+using Microsoft.AppCenter.Analytics;
+using Prism.Mvvm;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
     public class ParametricTimer : BindableBase, IPersistData
     {
-        public ParametricTimer() => Open();
+        public ParametricTimer()
+        {
+            Open();
+        }
 
         public TimeSpan Duration
         {
@@ -32,6 +35,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 if (SetProperty(ref endTime, value))
                 {
                     if (TimerService != null) { TimerService.EndTime = value; }
+
                     Save();
                 }
             }

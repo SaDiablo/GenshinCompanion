@@ -18,7 +18,10 @@ namespace GenshinCompanion.Modules.BannersModule.Converters
 
         private static TimeSpan RoundUpTimeSpan(TimeSpan value, TimeSpan roundTo)
         {
-            if (value < TimeSpan.Zero) return RoundUpTimeSpan(-value, roundTo);
+            if (value < TimeSpan.Zero)
+            {
+                return RoundUpTimeSpan(-value, roundTo);
+            }
 
             double quantization = roundTo.TotalMilliseconds, input = value.TotalMilliseconds;
             double normalized = input / quantization;

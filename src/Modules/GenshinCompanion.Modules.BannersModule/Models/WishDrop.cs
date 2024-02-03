@@ -1,8 +1,9 @@
-using GenshinCompanion.CoreStandard.Enums;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
+using GenshinCompanion.CoreStandard.Enums;
+using Microsoft.AppCenter.Crashes;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
@@ -42,7 +43,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
         {
             // Add better Exception handling
             string line = string.Empty;
-            using (StringReader reader = new StringReader(drop))
+            using (var reader = new StringReader(drop))
             {
                 try
                 {
@@ -76,9 +77,11 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                 }
             }
         }
-        
+
         [JsonConstructor]
-        public WishDrop(string dropName, DropType dropType, DateTime dropTime, int dropRarity, string dropBannerName) =>
+        public WishDrop(string dropName, DropType dropType, DateTime dropTime, int dropRarity, string dropBannerName)
+        {
             (DropName, DropType, DropTime, DropRarity, DropBannerName) = (dropName, dropType, dropTime, dropRarity, dropBannerName);
+        }
     }
 }

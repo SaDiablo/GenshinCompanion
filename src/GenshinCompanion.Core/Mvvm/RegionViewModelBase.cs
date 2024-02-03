@@ -1,9 +1,9 @@
-﻿using Prism.Regions;
-using System;
+﻿using System;
+using Prism.Regions;
 
 namespace GenshinCompanion.Core.Mvvm
 {
-    public class RegionViewModelBase : ViewModelBase, INavigationAware, IConfirmNavigationRequest
+    public class RegionViewModelBase : ViewModelBase, IConfirmNavigationRequest
     {
         protected IRegionManager RegionManager { get; private set; }
 

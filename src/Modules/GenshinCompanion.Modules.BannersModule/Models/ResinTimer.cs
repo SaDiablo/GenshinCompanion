@@ -1,18 +1,21 @@
-using GenshinCompanion.CoreStandard;
-using GenshinCompanion.Services;
-using Microsoft.AppCenter.Analytics;
-using Newtonsoft.Json.Linq;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GenshinCompanion.CoreStandard.Interfaces;
+using GenshinCompanion.Services;
+using GenshinCompanion.Services.Enums;
+using Microsoft.AppCenter.Analytics;
+using Prism.Mvvm;
 
 namespace GenshinCompanion.Modules.BannersModule.Models
 {
     public class ResinTimer : BindableBase, IPersistData
     {
-        public ResinTimer() => Open();
+        public ResinTimer()
+        {
+            Open();
+        }
 
         public TimeSpan Duration
         {
@@ -37,6 +40,7 @@ namespace GenshinCompanion.Modules.BannersModule.Models
                     {
                         TimerService.EndTime = value;
                     }
+
                     Save();
                 }
             }
@@ -84,14 +88,20 @@ namespace GenshinCompanion.Modules.BannersModule.Models
             TimerService.SetRunning(true);
         }
 
-        private EndTime GetEndTime(int resin) => EndTimes.Find((s) => s.Resin == resin);
+        private EndTime GetEndTime(int resin)
+        {
+            return EndTimes.Find((s) => s.Resin == resin);
+        }
 
         private void SetEndTime(DateTime? time, int Resin)
         {
             if (EndTimes.Exists((s) => s.Resin == Resin))
             {
-                var endTime = EndTimes.FirstOrDefault((s) => s.Resin == Resin);
-                if (endTime != null) endTime.Time = time;
+                EndTime endTime = EndTimes.FirstOrDefault((s) => s.Resin == Resin);
+                if (endTime != null)
+                {
+                    endTime.Time = time;
+                }
             }
             else
             {

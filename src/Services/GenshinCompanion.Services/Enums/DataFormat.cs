@@ -1,4 +1,4 @@
-﻿namespace GenshinCompanion.Services
+﻿namespace GenshinCompanion.Services.Enums
 {
     public enum DataFormat
     {

@@ -8,8 +8,8 @@ namespace GenshinCompanion.Modules.BannersModule.Tests.ViewModels
 {
     public class CharacterBannerViewModelFixture
     {
-        private Mock<IMessageService> _messageServiceMock;
-        private Mock<IRegionManager> _regionManagerMock;
+        private readonly Mock<IMessageService> _messageServiceMock;
+        private readonly Mock<IRegionManager> _regionManagerMock;
         //private const string MessageServiceDefaultMessage = "Some Value";
 
         public CharacterBannerViewModelFixture()
