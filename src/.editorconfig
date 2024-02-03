@@ -17,6 +17,10 @@ insert_final_newline = false
 
 #### .NET Coding Conventions ####
 
+# Supress warnings
+dotnet_diagnostic.S1144.severity = none # Remove the unused private method
+dotnet_diagnostic.S1186.severity = none	# Add a nested comment explaining why this method is empty, throw a 'NotSupportedException' or complete the implementation
+
 # Organize usings
 dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
